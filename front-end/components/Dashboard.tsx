@@ -1,15 +1,18 @@
 /*
 Main dashboard for the application, when signed in.
-
-What do we need to see here:
-- Edit decision engine rules
-- Set up a new device
-    - get an API key for the device
-    - instructions on how to configure the library on the device
-- traffic stats
-- 
 */
 
 export const Dashboard = () => {
-    return <p>Dashboard</p>;
+    return (
+        <div>
+            <h2 className="text-xl">Dashboard</h2>
+            <p>
+                <a href="/decision-engine">TODO Decision Engine</a> |
+                <a href="/devices">Device Management</a>
+            </p>
+            <p>TODO traffic statistics vis</p>
+            <p>TODO Message type statistics vis</p>
+            <p>TODO Device status</p>
+        </div>
+    );
 };

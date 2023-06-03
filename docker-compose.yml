@@ -13,6 +13,7 @@ services:
 
   mailhog:
     image: mailhog/mailhog
+    platform: linux/amd64
     ports:
       - 25:1025
       - 8025:8025

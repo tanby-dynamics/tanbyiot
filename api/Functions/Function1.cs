@@ -14,7 +14,7 @@ namespace Functions
         }
 
         [Function("Function1")]
-        public void Run([QueueTrigger("swish-queue-items", Connection = "StorageConnectionString")] string myQueueItem)
+        public void Run([QueueTrigger("edgeiot-queue-items", Connection = "StorageConnectionString")] string myQueueItem)
         {
             _logger.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
         }

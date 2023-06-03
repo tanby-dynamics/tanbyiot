@@ -9,7 +9,7 @@ services:
     environment:
       ACCEPT_EULA: "Y"
     networks:
-      - swish
+      - edgeiot
 
   mailhog:
     image: mailhog/mailhog
@@ -18,7 +18,7 @@ services:
       - 25:1025
       - 8025:8025
     networks:
-      - swish
+      - edgeiot
 
   azurite:
     ports:
@@ -29,7 +29,7 @@ services:
       - ./data/azurite:/data
     image: mcr.microsoft.com/azure-storage/azurite
     networks:
-      - swish
+      - edgeiot
 
 networks:
-  swish:
+  edgeiot:

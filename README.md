@@ -1,5 +1,5 @@
-# pretty-swish
-Pretty Swish IoT intelligence platform
+# Edge IoT
+IoT intelligence platform
 
 ## Developing
 

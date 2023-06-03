@@ -9,7 +9,7 @@ export const SiteHeader = () => {
   
     return (
         <div>
-            <h1 className="text-2xl">Pretty Swish</h1>
+            <h1 className="text-2xl">Edge IoT</h1>
             <p>Expressive IoT Platform by <a href="https://tanbydynamics.co">Tanby Dynamics</a></p>
             { !user && <p><a href="/sign-in">Sign in</a> or <a href="/sign-up">Create an account</a></p> }
             { !user && <p><button onClick={signIn}>Sign in as becdetat</button></p> }

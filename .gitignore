@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 data/
 front-end/.yarn/cache
+.DS_Store

@@ -22,4 +22,16 @@ public class DevicesController : ControllerBase
         
         return Ok(apiKey);
     }
+
+    [HttpPost("connect")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Connect([FromBody] ConnectRequestDto request)
+    {
+        return Ok();
+    }
+}
+
+public record ConnectRequestDto
+{
+    public string ApiKey { get; init; }
 }

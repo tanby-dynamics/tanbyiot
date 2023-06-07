@@ -34,4 +34,6 @@ IoT intelligence platform
 - [ ] Action to send instruction to device
 - [ ] Device libs should be able to register for instructions
 - [ ] Device libs should poll for instructions; array, execute all in order
+- [ ] ESP8266 library
+- [ ] Particle.io library
 - [ ] 

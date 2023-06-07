@@ -13,6 +13,7 @@ IoT intelligence platform
 ## Backlog
 - [ ] Web API endpoint that can receive telemetry
 - [ ] Mock device testbench
+- [ ] Use CommandLineParser for mock device testbench
 - [ ] Azure Functions app that receives a telemetry event, just marks it as processed
 - [ ] Write telemetry to Cosmos DB
 - [ ] ESP32 library that can register

@@ -24,14 +24,21 @@ public class DevicesController : ControllerBase
     }
 
     [HttpPost("connect")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectResponseDto))]
     public async Task<IActionResult> Connect([FromBody] ConnectRequestDto request)
     {
-        return Ok();
+        var response = new ConnectResponseDto { Token = "deadbeef" };
+
+        return Ok(response);
     }
 }
 
 public record ConnectRequestDto
 {
     public string ApiKey { get; init; }
+}
+
+public record ConnectResponseDto
+{
+    public string Token { get; init; }
 }

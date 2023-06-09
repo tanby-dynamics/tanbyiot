@@ -6,19 +6,26 @@ const string baseApiUrl = "https://localhost:7128";
 Console.WriteLine("Edge IoT Mock Device");
 Console.Write("What is the API key for this device? ");
 var apiKey = Console.ReadLine();
+string token;
 
 Console.WriteLine("Connecting...");
 using (var client = new HttpClient())
 {
     var payload = JsonSerializer.Serialize(new { ApiKey = apiKey });
-    var content = new StringContent(payload, Encoding.UTF8, "application/json");
+    var postContent = new StringContent(payload, Encoding.UTF8, "application/json");
     var url = $"{baseApiUrl}/api/devices/connect";
 
-    var response = await client.PostAsync(url, content);
+    var response = await client.PostAsync(url, postContent);
 
     if (response.IsSuccessStatusCode)
     {
         Console.WriteLine("Success");
+        Console.WriteLine("Reading device token...");
+        
+        var contentJson = await response.Content.ReadAsStringAsync();
+        dynamic content = JsonSerializer.Deserialize<dynamic>(contentJson);
+        
+        token = content.Token;
     }
     else
     {
@@ -46,7 +53,7 @@ async Task SendPayload()
     var payloadJson = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(payloadJson)) return;
 
-    var payload = JsonSerializer.Serialize(new { ApiKey = apiKey, payload = payloadJson});
+    var payload = JsonSerializer.Serialize(new { ApiKey = apiKey, Token = token, Payload = payloadJson});
     var content = new StringContent(payload, Encoding.UTF8, "application/json");
     var url = $"{baseApiUrl}/api/telementry";
 
@@ -73,7 +80,7 @@ async Task PollForActions()
     var response = await client.PostAsync(url, content);
     if (response.IsSuccessStatusCode)
     {
-        Console.Write("Success");
+        Console.WriteLine("Success");
         // write response
     }
     else

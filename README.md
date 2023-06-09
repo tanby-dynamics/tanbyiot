@@ -37,4 +37,5 @@ IoT intelligence platform
 - [ ] ESP8266 library
 - [ ] Particle.io library
 - [ ] SignalR for live updates to the management portal
-- [ ] 
+- [ ] Python library
+

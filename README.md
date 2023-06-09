@@ -36,4 +36,5 @@ IoT intelligence platform
 - [ ] Device libs should poll for instructions; array, execute all in order
 - [ ] ESP8266 library
 - [ ] Particle.io library
+- [ ] SignalR for live updates to the management portal
 - [ ] 

@@ -64,7 +64,7 @@ async Task SendPayload()
 
     var payload = JsonSerializer.Serialize(new { Token = token, Payload = payloadJson});
     var content = new StringContent(payload, Encoding.UTF8, "application/json");
-    var url = $"{baseApiUrl}/api/telementry";
+    var url = $"{baseApiUrl}/api/telemetry";
 
     Console.Write("Sending...");
     var response = await client.PostAsync(url, content);

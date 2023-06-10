@@ -1,12 +1,13 @@
 ﻿using System.Text.Json;
 using System.Text;
+using System.Text.Json.Serialization;
 
 const string baseApiUrl = "https://localhost:7128";
 
 Console.WriteLine("Edge IoT Mock Device");
 Console.Write("What is the API key for this device? ");
 var apiKey = Console.ReadLine();
-string token;
+string token = string.Empty;
 
 Console.WriteLine("Connecting...");
 using (var client = new HttpClient())
@@ -23,9 +24,17 @@ using (var client = new HttpClient())
         Console.WriteLine("Reading device token...");
         
         var contentJson = await response.Content.ReadAsStringAsync();
-        dynamic content = JsonSerializer.Deserialize<dynamic>(contentJson);
+        var content = JsonSerializer.Deserialize<ConnectResponse>(contentJson);
         
+        if (content is null) 
+        {
+            Console.WriteLine($"Response is invalid: {contentJson}");
+            return;
+        }
+
         token = content.Token;
+
+        Console.WriteLine($"Token: {token}");
     }
     else
     {
@@ -35,7 +44,7 @@ using (var client = new HttpClient())
 }
 
 // Ok we've got a working API key, now loop for input
-Console.WriteLine("Looping for inputs and polling for actions. Press CTRL-C to exit");
+Console.WriteLine("Looping for inputs and polling for actions. Press control-c to exit");
 while (true) {
     await SendPayload();
     Console.WriteLine("Waiting...");
@@ -53,7 +62,7 @@ async Task SendPayload()
     var payloadJson = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(payloadJson)) return;
 
-    var payload = JsonSerializer.Serialize(new { ApiKey = apiKey, Token = token, Payload = payloadJson});
+    var payload = JsonSerializer.Serialize(new { Token = token, Payload = payloadJson});
     var content = new StringContent(payload, Encoding.UTF8, "application/json");
     var url = $"{baseApiUrl}/api/telementry";
 
@@ -73,7 +82,7 @@ async Task PollForActions()
 {
     Console.Write("Polling for actions...");
     using var client = new HttpClient();
-    var payload = JsonSerializer.Serialize(new { ApiKey = apiKey });
+    var payload = JsonSerializer.Serialize(new { Token = token });
     var content= new StringContent(payload, Encoding.UTF8, "application/json");
     var url = $"{baseApiUrl}/api/action-poll";
 
@@ -88,3 +97,5 @@ async Task PollForActions()
         Console.WriteLine($"Error: {response.StatusCode}");
     }
 }
+
+public class ConnectResponse  { [JsonPropertyName("token")] public string Token { get;set;} }

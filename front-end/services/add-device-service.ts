@@ -1,8 +1,11 @@
 import { AxiosResponse } from "axios";
 import api from "./api";
 
-export default {
+const addDeviceService = {
     getNewApiKey: (): Promise<AxiosResponse<string>> => {
         return api.get<string>('api/devices/get-new-api-key');
     }
 };
+
+export default addDeviceService;
+

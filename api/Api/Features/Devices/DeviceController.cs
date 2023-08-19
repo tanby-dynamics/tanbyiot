@@ -4,12 +4,12 @@ using Services;
 namespace Api.Features.Devices;
 
 [ApiController]
-[Route("/api/devices")]
-public class DevicesController : ControllerBase
+[Route("/api/device")]
+public class DeviceController : ControllerBase
 {
     private IDeviceService _deviceService;
 
-    public DevicesController(IDeviceService deviceService)
+    public DeviceController(IDeviceService deviceService)
     {
         _deviceService = deviceService;
     }

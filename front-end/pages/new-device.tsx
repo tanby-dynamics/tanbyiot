@@ -36,18 +36,16 @@ export default function NewDevice() {
                     <a href="/">Dashboard</a> | <a href="/devices">Device Management</a> | New device
                 </h2>
                 <br/>
-                {newApiKeyLoading && <p>Loading...</p>}
+                {newApiKeyLoading && <p>Loading API key...</p>}
                 {!newApiKeyLoading && apiKey != 'ERROR' && (
                     <>
-                        <ol>
-                        <li>
-                            Here's an API key for the device: 
+                        <p>
+                            Here is the new API key for the device:<br/>
                             <code>{apiKey}</code>
-                        </li>
-                        <li>TODO instructions on how to configure the device</li>
-                        </ol>
+                        </p>
+                        <p>TODO instructions on how to configure the device</p>
                         {connected && <p>Connected!</p>}
-                        {!connected && <p>Not connected</p>}
+                        {!connected && <p>Waiting on device to connect...</p>}
                     </>
                 )}
                 {apiKey === 'ERROR' && <p>Error getting new API key</p>}

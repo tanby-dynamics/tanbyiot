@@ -1,5 +1,12 @@
-﻿namespace Functions.Services;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-public class ConfigureFunctionsServices
+namespace Functions.Services;
+
+public static class ConfigureFunctionsServices
 {
+    public static void Configure(IServiceCollection services, IConfiguration configuration)
+    {
+        
+    }
 }

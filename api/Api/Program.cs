@@ -1,6 +1,7 @@
 using Api.Services;
 using Data;
 using Serilog;
+using Shared.Services;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -48,6 +49,7 @@ builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 ConfigureApiServices.Configure(builder.Services);
 ConfigureData.Configure(builder.Services, builder.Configuration);
+ConfigureSharedServices.Configure(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

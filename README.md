@@ -1,9 +1,11 @@
 # Edge IoT
+
 IoT intelligence platform
 
 ## Developing
 
 ### Front-end
+
 1. Install node 20.0.0
 2. Install yarn and next: `npm install -g yarn next`
 3. Start a powershelll and enable unsigned scripts (it's cool trust me just don't read about reverse shell attacks...): `Set-ExecutionPolicy -ExecutionPolicy Unrestricted`
@@ -11,11 +13,12 @@ IoT intelligence platform
 5. Start development server: `yarn dev`
 
 ## Backlog
+
 - [ ] Web API endpoint that can receive telemetry
 - [ ] Mock device testbench
 - [ ] Use CommandLineParser for mock device testbench
 - [ ] Azure Functions app that receives a telemetry event, just marks it as processed
-- [ ] Write telemetry to Cosmos DB
+- [ ] Write telemetry to database
 - [ ] ESP32 library that can register
 - [ ] ESP32 function to send telemetry
 - [ ] Instead of continuing to use the device ApiKey, get a token

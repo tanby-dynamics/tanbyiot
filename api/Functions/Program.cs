@@ -7,7 +7,9 @@ using Shared.Services;
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", true)
+#if DEBUG
     .AddJsonFile("appsettings.development.json", true)
+#endif
     .AddEnvironmentVariables()
     .Build();
 

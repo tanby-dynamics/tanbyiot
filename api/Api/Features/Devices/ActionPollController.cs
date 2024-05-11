@@ -12,7 +12,7 @@ public class ActionPollController : ControllerBase
 	}
 
 	[HttpPost]
-	[ProducesResponseType(StatusCodes.Status200OK, Type=typeof(ActionPollResponseDto))]
+	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActionPollResponseDto))]
 	public async Task<IActionResult> Post(
 		[FromBody] ActionPollRequestDto request,
 		CancellationToken cancellationToken)
@@ -35,7 +35,8 @@ public class ActionPollRequestDto
 
 public class ActionPollResponseDto
 {
-	public ActionDto[] Actions { get; set; }
+	public IEnumerable<ActionDto> Actions { get; set; }
+	
 	public class ActionDto
 	{ }
 }

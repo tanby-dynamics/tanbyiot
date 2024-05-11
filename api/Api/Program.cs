@@ -12,11 +12,13 @@ Log.Information("Starting up API");
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ConfigureAppConfiguration(configBuilder => configBuilder
+builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json")
+#if DEBUG
     .AddJsonFile("appsettings.Development.json")
-    .AddEnvironmentVariables());
+#endif
+    .AddEnvironmentVariables();
 
 builder.Host.UseSerilog(
     (context, services, loggerConfiguration) =>

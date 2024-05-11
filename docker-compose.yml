@@ -1,9 +1,8 @@
-version: "3"
 services:
   seq:
     image: datalust/seq:latest
     ports:
-      - ${SEQ_PORT:-5341}:80
+      - 5341:80
     environment:
       ACCEPT_EULA: "Y"
     networks:

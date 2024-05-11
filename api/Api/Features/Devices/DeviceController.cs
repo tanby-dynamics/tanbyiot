@@ -37,10 +37,10 @@ public class DeviceController : ControllerBase
 
 public record ConnectRequestDto
 {
-    public string ApiKey { get; init; }
+    public string ApiKey { get; set; }
 }
 
 public record ConnectResponseDto
 {
-    public string Token { get; init; }
+    public string Token { get; set; }
 }

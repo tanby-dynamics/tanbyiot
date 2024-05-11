@@ -14,6 +14,7 @@ IoT intelligence platform
 
 ## Backlog
 
+- [ ] Ditch management portal using Blazor, go back to React app and API
 - [ ] Web API endpoint that can receive telemetry
 - [ ] Mock device testbench
 - [ ] Use CommandLineParser for mock device testbench

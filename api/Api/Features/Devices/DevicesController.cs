@@ -4,12 +4,12 @@ using Services;
 namespace Api.Features.Devices;
 
 [ApiController]
-[Route("/api/device")]
-public class DeviceController : ControllerBase
+[Route("/api/devices")]
+public class DevicesController : ControllerBase
 {
-    private IDeviceService _deviceService;
+    private readonly IDeviceService _deviceService;
 
-    public DeviceController(IDeviceService deviceService)
+    public DevicesController(IDeviceService deviceService)
     {
         _deviceService = deviceService;
     }
@@ -37,10 +37,10 @@ public class DeviceController : ControllerBase
 
 public record ConnectRequestDto
 {
-    public string ApiKey { get; set; }
+    public string ApiKey { get; set; } = string.Empty;
 }
 
 public record ConnectResponseDto
 {
-    public string Token { get; set; }
+    public string Token { get; set; } = string.Empty;
 }

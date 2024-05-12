@@ -1,9 +1,8 @@
 using Data;
-using Functions.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Shared.Services;
+using Services;
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", true)
@@ -29,9 +28,8 @@ var host = new HostBuilder()
     .UseSerilog()
     .ConfigureServices(services =>
     {
-        ConfigureFunctionsServices.Configure(services, configuration);
         ConfigureData.Configure(services, configuration);
-        ConfigureSharedServices.Configure(services, configuration);
+        ConfigureServices.Configure(services, configuration);
     })
     .Build();
 

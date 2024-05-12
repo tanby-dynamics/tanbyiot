@@ -1,7 +1,6 @@
-using Api.Services;
 using Data;
 using Serilog;
-using Shared.Services;
+using Services;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -48,10 +47,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-
-ConfigureApiServices.Configure(builder.Services);
 ConfigureData.Configure(builder.Services, builder.Configuration);
-ConfigureSharedServices.Configure(builder.Services, builder.Configuration);
+ConfigureServices.Configure(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

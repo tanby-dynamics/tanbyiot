@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
-    <ProjectReference Include="..\Functions.Services\Functions.Services.csproj" />
-    <ProjectReference Include="..\Shared.Services\Shared.Services.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 </Project>

@@ -397,6 +397,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-data/
 front-end/.yarn/cache
 .DS_Store

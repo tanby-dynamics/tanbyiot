@@ -25,13 +25,13 @@ public class DevicesController : ControllerBase
 
     [HttpPost("connect")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectResponseDto))]
-    public async Task<IActionResult> Connect(
+    public Task<IActionResult> Connect(
         [FromBody] ConnectRequestDto request,
         CancellationToken cancellationToken)
     {
         var response = new ConnectResponseDto { Token = "deadbeef" };
 
-        return Ok(response);
+        return Task.FromResult<IActionResult>(Ok(response));
     }
 }
 

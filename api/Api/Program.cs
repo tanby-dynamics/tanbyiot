@@ -35,11 +35,12 @@ builder.Host.UseSerilog(
 
 builder.Services.AddCors(options =>
     {
-        options.AddDefaultPolicy(builder =>
+        options.AddDefaultPolicy(configurePolicy =>
         {
-            builder.WithOrigins("http://localhost:3000")
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
+            configurePolicy
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
         });
     });
 

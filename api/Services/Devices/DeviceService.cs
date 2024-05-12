@@ -2,13 +2,13 @@
 
 public interface IDeviceService
 {
-    Task<string> GetNewApiKey(string tenant, CancellationToken cancellationToken = default(CancellationToken));
+    Task<string> GetNewApiKey(string tenant, CancellationToken cancellationToken);
 }
 
 public class DeviceService : IDeviceService
 {
-    public async Task<string> GetNewApiKey(string tenant, CancellationToken cancellationToken = default(CancellationToken))
+    public Task<string> GetNewApiKey(string tenant, CancellationToken cancellationToken)
     {
-        return "ABCDEF";
+        return Task.FromResult("ABCDEF");
     }
 }

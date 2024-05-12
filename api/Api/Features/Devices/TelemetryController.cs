@@ -14,7 +14,7 @@ public class TelemetryController : ControllerBase
 
 	[HttpPost]
 	[ProducesResponseType(StatusCodes.Status200OK)]
-	public async Task<IActionResult> PostTelemetry(
+	public Task<IActionResult> PostTelemetry(
 		[FromBody] PostTelemetryRequest request,
 		CancellationToken cancellationToken)
 	{
@@ -24,12 +24,12 @@ public class TelemetryController : ControllerBase
 		// TODO store telemetry
 		// TODO put telemetry processing on the queue
 
-		return Ok();
+		return Task.FromResult<IActionResult>(Ok());
 	}
 }
 
 public class PostTelemetryRequest
 {
-	public string Token { get; set; }
+	public string Token { get; set; } = string.Empty;
 	public JsonElement Payload { get; set; }
 }

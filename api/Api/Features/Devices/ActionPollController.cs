@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Features.Devices;
 
@@ -13,7 +12,7 @@ public class ActionPollController : ControllerBase
 
 	[HttpPost]
 	[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActionPollResponseDto))]
-	public async Task<IActionResult> Post(
+	public Task<IActionResult> Post(
 		[FromBody] ActionPollRequestDto request,
 		CancellationToken cancellationToken)
 	{
@@ -24,18 +23,18 @@ public class ActionPollController : ControllerBase
 			}
 		};
 
-		return Ok(response);
+		return Task.FromResult<IActionResult>(Ok(response));
 	}
 }
 
 public class ActionPollRequestDto
 {
-	public string Token { get; set; }
+	public string Token { get; set; } = string.Empty;
 }
 
 public class ActionPollResponseDto
 {
-	public IEnumerable<ActionDto> Actions { get; set; }
+	public IEnumerable<ActionDto> Actions { get; set; } = Enumerable.Empty<ActionDto>();
 	
 	public class ActionDto
 	{ }

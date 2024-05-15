@@ -1,10 +1,13 @@
-﻿import {Mail, MoveToInbox } from "@mui/icons-material";
+﻿import {DeveloperMode, Mail, MoveToInbox, OpenInNew, Dashboard } from "@mui/icons-material";
 import {AppBar, Box,
-    CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+    CssBaseline, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
 export function AppTemplate(props: {children: any}) {
+    var location = useLocation();
+    
     return (
         <>
             <CssBaseline/>
@@ -13,7 +16,9 @@ export function AppTemplate(props: {children: any}) {
                         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Toolbar>
                         <Typography variant={"h6"} noWrap component={"div"}>
-                            Edge IoT
+                            <Link color={"inherit"} underline={"none"} href={"/"}>
+                                edgeiot portal
+                            </Link>
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -31,14 +36,14 @@ export function AppTemplate(props: {children: any}) {
                     <Toolbar/>
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton href={"/"}>
-                                <ListItemIcon><MoveToInbox/></ListItemIcon>
+                            <ListItemButton href={"/"} selected={location.pathname === "/"}>
+                                <ListItemIcon><Dashboard/></ListItemIcon>
                                 <ListItemText primary={"Dashboard"}/>
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemButton href="/devices" selected={true}> {/* TODO hook up to route */}
-                                <ListItemIcon><Mail/></ListItemIcon>
+                            <ListItemButton href="/devices" selected={location.pathname === "/devices"}>
+                                <ListItemIcon><DeveloperMode/></ListItemIcon>
                                 <ListItemText primary={"Devices"}/>
                             </ListItemButton>
                         </ListItem>
@@ -55,6 +60,19 @@ export function AppTemplate(props: {children: any}) {
                             <ListItemButton>
                                 <ListItemIcon><Mail/></ListItemIcon>
                                 <ListItemText primary={"Thing 4"}/>
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                    <Divider/>
+                    <List>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"https://tanbydynamics.co"} target={"_blank"}>
+                                <small>Tanby Dynamics <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton disabled>
+                                <small>0.1.0</small>
                             </ListItemButton>
                         </ListItem>
                     </List>

@@ -1,46 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Services;
+using Services.Devices;
 
 namespace edgeiot.Server.Features;
 
 [ApiController]
 [Route("/api/devices")]
-public class DevicesController : ControllerBase
+public class DevicesController(IGetAllDevicesForTenant getAllDevicesForTenant) : ControllerBase
 {
-    private readonly IDeviceService _deviceService;
-
-    public DevicesController(IDeviceService deviceService)
+    [HttpGet]
+    [ProducesResponseType<IEnumerable<DeviceDto>>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllDevices(CancellationToken cancellationToken)
     {
-        _deviceService = deviceService;
-    }
-
-    [HttpGet("get-new-api-key")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-    public async Task<IActionResult> GetNewApiKey(CancellationToken cancellationToken)
-    {
-        var apiKey = await _deviceService.GetNewApiKey("TENANT", cancellationToken);
+        // TODO take tenant ID from request, check for authorization
         
-        return Ok(apiKey);
+        var devices = await getAllDevicesForTenant.ExecuteAsync(
+            Guid.Parse("de37f1e6-70a1-4c69-bdbc-317ff86b5267"), // Hard-coded to our single initial test tenant
+            cancellationToken);
+        
+        return Ok(devices);
     }
-
-    [HttpPost("connect")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ConnectResponseDto))]
-    public Task<IActionResult> Connect(
-        [FromBody] ConnectRequestDto request,
-        CancellationToken cancellationToken)
-    {
-        var response = new ConnectResponseDto { Token = "deadbeef" };
-
-        return Task.FromResult<IActionResult>(Ok(response));
-    }
-}
-
-public record ConnectRequestDto
-{
-    public string ApiKey { get; set; } = string.Empty;
-}
-
-public record ConnectResponseDto
-{
-    public string Token { get; set; } = string.Empty;
 }

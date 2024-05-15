@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Services.Devices;
 using Shared.Services.Options;
 using Shared.Services.Queueing;
 
@@ -13,6 +14,6 @@ public static class ConfigureServices
             .AddOptions<AzureStorageOptions>()
             .Configure(o => configuration.GetSection(AzureStorageOptions.Key));
         services.AddScoped<IQueueManager, QueueManager>();
-        services.AddScoped<IDeviceService, DeviceService>();
+        services.AddScoped<IGetAllDevicesForTenant, GetAllDevicesForTenant>();
     }
 }

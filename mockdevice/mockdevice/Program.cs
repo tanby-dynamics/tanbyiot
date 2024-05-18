@@ -28,23 +28,33 @@ while (true)
 async Task SendPayload()
 {
     Console.WriteLine();
-    Console.Write("Enter payload JSON (empty to skip): ");
-    var payloadJson = Console.ReadLine();
-    if (string.IsNullOrWhiteSpace(payloadJson)) return;
-
-    var payload = JsonSerializer.Serialize(new
+    Console.Write("Telemetry type (empty to skip): ");
+    var type = Console.ReadLine();
+    if (string.IsNullOrWhiteSpace(type)) return;
+    Console.Write("Value: ");
+    var value = Console.ReadLine();
+    Console.Write("Payload: ");
+    var payload = Console.ReadLine();
+    
+    var body = JsonSerializer.Serialize(new
     {
         TenantId = tenantId,
         DeviceId = deviceId,
-        Payload = payloadJson
+        Type = type,
+        Value = value,
+        Payload = payload
     });
-    var content = new StringContent(payload, Encoding.UTF8, "application/json");
+    var content = new StringContent(body, Encoding.UTF8, "application/json");
 
     Console.Write("Sending...");
     using var client = new HttpClient();
     var response = await client.PostAsync(telemetryUrl, content);
 
     Console.WriteLine(response.IsSuccessStatusCode ? "Success" : $"Error: {response.StatusCode}");
+    if (!response.IsSuccessStatusCode)
+    {
+        Console.WriteLine(await response.Content.ReadAsStringAsync());
+    }
 }
 
 async Task PollForActions()

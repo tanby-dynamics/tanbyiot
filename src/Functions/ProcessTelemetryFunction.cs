@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Functions.Worker;
+//using Microsoft.Azure.WebJobs;
 using Newtonsoft.Json;
 using Serilog;
 using Services.Queueing;
@@ -9,7 +10,7 @@ namespace Functions;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class ProcessTelemetryFunction(IProcessTelemetry processTelemetry)
 {
-    [Function("ProcessTelemetry")]
+    [Function(nameof(ProcessTelemetryFunction))]
     public async Task ProcessTelemetryAsync(
         [QueueTrigger(Queues.ProcessTelemetry)]
         string messageJson,

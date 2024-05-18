@@ -24,7 +24,6 @@ var host = new HostBuilder()
         .AddEnvironmentVariables()
     )
     .ConfigureFunctionsWorkerDefaults()
-    
     .UseSerilog()
     .ConfigureServices((context, services) =>
     {

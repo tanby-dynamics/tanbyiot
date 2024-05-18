@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Devices;
 using Services.Telemetries;
 
@@ -12,16 +11,16 @@ public class TelemetryController(IValidateDevice validateDevice, IAddTelemetry a
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> AddTelemetry(AddTelemetryDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddTelemetry(AddTelemetryRequestDto requestDto, CancellationToken cancellationToken)
     {
-        var isDeviceValidated = await validateDevice.ExecuteAsync(dto.TenantId, dto.DeviceId, cancellationToken);
+        var isDeviceValidated = await validateDevice.ExecuteAsync(requestDto.TenantId, requestDto.DeviceId, cancellationToken);
 
         if (!isDeviceValidated)
         {
             return BadRequest("Device is invalid");
         }
         
-        await addTelemetry.ExecuteAsync(dto, cancellationToken);
+        await addTelemetry.ExecuteAsync(requestDto, cancellationToken);
 
         return Ok();
     }

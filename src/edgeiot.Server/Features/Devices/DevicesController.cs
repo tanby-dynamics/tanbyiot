@@ -5,7 +5,11 @@ namespace edgeiot.Server.Features.Devices;
 
 [ApiController]
 [Route("/api/devices")]
-public class DevicesController(IGetAllDevicesForTenant getAllDevicesForTenant, IAddDevice addDevice) : ControllerBase
+public class DevicesController(
+    IGetAllDevicesForTenant getAllDevicesForTenant, 
+    IAddDevice addDevice,
+    IValidateDevice validateDevice,
+    IConnectDevice connectDevice) : ControllerBase
 {
     private static Guid TenantId => Guid.Parse("de37f1e6-70a1-4c69-bdbc-317ff86b5267"); // Hard-coded to our single initial test tenant
     
@@ -29,5 +33,22 @@ public class DevicesController(IGetAllDevicesForTenant getAllDevicesForTenant, I
         var device = await addDevice.ExecuteAsync(TenantId, request.Name, request.GroupName, cancellationToken);
 
         return Ok(device);
+    }
+    
+    [HttpPost("connect")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ConnectDevice(ConnectDeviceRequestDto requestDto, CancellationToken cancellationToken)
+    {
+        var isDeviceValidated = await validateDevice.ExecuteAsync(requestDto.TenantId, requestDto.DeviceId, cancellationToken);
+
+        if (!isDeviceValidated)
+        {
+            return BadRequest("Device is invalid");
+        }
+        
+        await connectDevice.ExecuteAsync(requestDto.TenantId, requestDto.DeviceId, cancellationToken);
+
+        return Ok();
     }
 }

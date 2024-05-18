@@ -1,9 +1,10 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-const string baseApiUrl = "https://localhost:7061";
-const string telemetryUrl = $"{baseApiUrl}/api/telemetry";
-const string actionPollUrl = $"{baseApiUrl}/api/action-poll";
+const string baseUrl = "https://localhost:7061";
+const string telemetryUrl = $"{baseUrl}/api/telemetry";
+const string actionPollUrl = $"{baseUrl}/api/action-poll";
+const string connectUrl = $"{baseUrl}/api/devices/connect";
 
 Console.WriteLine("edgeiot mock device");
 Console.WriteLine("-------------------");
@@ -15,6 +16,8 @@ var tenantId = Guid.Parse(Console.ReadLine()!);
 Console.Write("Enter device ID: ");
 var deviceId = Guid.Parse(Console.ReadLine()!);
 
+await Connect();
+
 Console.WriteLine();
 Console.WriteLine("Entering loop, press control-c to exit");
 
@@ -23,6 +26,20 @@ while (true)
     await SendPayload();
     Thread.Sleep(TimeSpan.FromSeconds(2));
     await PollForActions();
+}
+
+async Task Connect()
+{
+    Console.Write("Connecting...");
+    var body = JsonSerializer.Serialize(new
+    {
+        TenantId = tenantId,
+        DeviceId = deviceId
+    });
+    var content = new StringContent(body, Encoding.UTF8, "application/json");
+    using var client = new HttpClient();
+    var response = await client.PostAsync(connectUrl, content);
+    Console.WriteLine(response.IsSuccessStatusCode ? "Success" : $"Error: {response.StatusCode}");
 }
 
 async Task SendPayload()

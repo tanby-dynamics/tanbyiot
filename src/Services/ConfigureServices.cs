@@ -21,5 +21,6 @@ public static class ConfigureServices
         services.AddScoped<IAddTelemetry, AddTelemetry>();
         services.AddScoped<IValidateDevice, ValidateDevice>();
         services.AddScoped<ISystemClock, SystemClock>();
+        services.AddScoped<IConnectDevice, ConnectDevice>();
     }
 }

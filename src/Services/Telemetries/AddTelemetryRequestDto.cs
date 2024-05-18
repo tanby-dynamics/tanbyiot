@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Services.Telemetries;
 
-public class AddTelemetryDto
+public class AddTelemetryRequestDto
 {
     public Guid TenantId { get; set; }
     public Guid DeviceId { get; set; }

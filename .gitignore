@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 front-end/.yarn/cache
 .DS_Store
+.idea
+.idea
+.idea

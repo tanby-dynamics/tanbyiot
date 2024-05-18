@@ -15,5 +15,6 @@ public static class ConfigureServices
             .Configure(o => configuration.GetSection(AzureStorageOptions.Key));
         services.AddScoped<IQueueManager, QueueManager>();
         services.AddScoped<IGetAllDevicesForTenant, GetAllDevicesForTenant>();
+        services.AddScoped<IAddDevice, AddDevice>();
     }
 }

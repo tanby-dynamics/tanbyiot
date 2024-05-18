@@ -14,15 +14,8 @@ public class GetAllDevicesForTenant(AppDbContext dbContext) : IGetAllDevicesForT
     {
         var devices = await dbContext.Devices
             .Where(x => x.TenantId == tenantId)
-            .Select(x => new DeviceDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                GroupName = x.GroupName,
-                LastConnected = x.LastConnected
-            })
             .ToListAsync(cancellationToken);
 
-        return devices;
+        return devices.Select(DeviceDto.FromEntity);
     }
 }

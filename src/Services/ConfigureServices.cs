@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
 using Services.Devices;
+using Services.Options;
 using Services.Telemetries;
-using Shared.Services.Options;
-using Shared.Services.Queueing;
+using Services.Queueing;
 
 namespace Services;
 
@@ -12,9 +12,7 @@ public static class ConfigureServices
 {
     public static void Configure(IServiceCollection services, IConfiguration configuration)
     {
-        services
-            .AddOptions<AzureStorageOptions>()
-            .Configure(o => configuration.GetSection(AzureStorageOptions.Key));
+        services.Configure<AzureStorageOptions>(options => configuration.GetSection("AzureStorage").Bind(options));
         services.AddScoped<IQueueManager, QueueManager>();
         services.AddScoped<IGetAllDevicesForTenant, GetAllDevicesForTenant>();
         services.AddScoped<IAddDevice, AddDevice>();
@@ -22,5 +20,6 @@ public static class ConfigureServices
         services.AddScoped<IValidateDevice, ValidateDevice>();
         services.AddScoped<ISystemClock, SystemClock>();
         services.AddScoped<IConnectDevice, ConnectDevice>();
+        services.AddScoped<IProcessTelemetry, ProcessTelemetry>();
     }
 }

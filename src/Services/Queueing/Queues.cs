@@ -1,6 +1,6 @@
-﻿namespace Shared.Services;
+﻿namespace Services.Queueing;
 
 public static class Queues
 {
-    public const string AddTelemetry = "add-telementry";
+    public const string ProcessTelemetry = "process-telementry";
 }

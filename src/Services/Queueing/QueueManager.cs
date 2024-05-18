@@ -2,9 +2,9 @@ using System.Text;
 using System.Text.Json;
 using Azure.Storage.Queues;
 using Microsoft.Extensions.Options;
-using Shared.Services.Options;
+using Services.Options;
 
-namespace Shared.Services.Queueing;
+namespace Services.Queueing;
 
 public interface IQueueManager
 {

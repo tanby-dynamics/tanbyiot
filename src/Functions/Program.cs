@@ -1,19 +1,11 @@
 using Data;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Services;
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", true)
-#if DEBUG
-    .AddJsonFile("appsettings.development.json", true)
-#endif
-    .AddEnvironmentVariables()
-    .Build();
-
 var loggerConfiguration = new LoggerConfiguration()
-        .ReadFrom.Configuration(configuration)
         .Enrich.WithProperty("Application", "Functions")
 #if DEBUG
         .WriteTo.Console()
@@ -24,12 +16,20 @@ var loggerConfiguration = new LoggerConfiguration()
 Log.Logger = loggerConfiguration.CreateLogger();
 
 var host = new HostBuilder()
+    .ConfigureAppConfiguration(configurationBuilder => configurationBuilder
+        .AddJsonFile("appsettings.json")
+#if DEBUG
+        .AddJsonFile("appsettings.Development.json")
+#endif
+        .AddEnvironmentVariables()
+    )
     .ConfigureFunctionsWorkerDefaults()
+    
     .UseSerilog()
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
     {
-        ConfigureData.Configure(services, configuration);
-        ConfigureServices.Configure(services, configuration);
+        ConfigureData.Configure(services, context.Configuration);
+        ConfigureServices.Configure(services, context.Configuration);
     })
     .Build();
 

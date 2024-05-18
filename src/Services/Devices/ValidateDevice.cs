@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Services.Devices;
 
@@ -18,11 +19,13 @@ public class ValidateDevice(AppDbContext dbContext) : IValidateDevice
 
         if (device is null)
         {
+            Log.Warning("Cannot validate device, {DeviceId} not found", deviceId);
             return false;
         }
 
         if (device.Tenant.Id != tenantId)
         {
+            Log.Warning("Cannot validate device {DeviceId}, does not belong to {TenantId}", deviceId, tenantId);
             return false;
         }
 

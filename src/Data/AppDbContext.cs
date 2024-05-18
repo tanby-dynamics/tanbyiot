@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Device> Devices { get; set; }
     public DbSet<Telemetry> Telemetries { get; set; }
+    public DbSet<Instruction> Instructions { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -29,5 +30,9 @@ public class AppDbContext : DbContext
             .Entity<Telemetry>()
             .HasOne(x => x.Device)
             .WithMany(x => x.Telemetries);
+        modelBuilder
+            .Entity<Instruction>()
+            .HasOne(x => x.Device)
+            .WithMany(x => x.Instructions);
     }
 }

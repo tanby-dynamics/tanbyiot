@@ -1,4 +1,5 @@
 ﻿using Data;
+using Serilog;
 
 namespace Services.Devices;
 
@@ -19,6 +20,8 @@ public class AddDevice(AppDbContext dbContext) : IAddDevice
         }, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
+        
+        Log.Information("Added device {DeviceId} for {TenantId}", result.Entity.Id, tenantId);
         
         return DeviceDto.FromEntity(result.Entity);
     }

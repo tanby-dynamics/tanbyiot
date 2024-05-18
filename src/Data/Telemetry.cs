@@ -2,6 +2,7 @@
 
 namespace Data;
 
+// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
 public class Telemetry
 {
     public Guid Id { get; init; }
@@ -14,6 +15,6 @@ public class Telemetry
     [MaxLength(128)]
     public string Value { get; set; } = string.Empty;
     [MaxLength(4000)]
-    public string Payload { get; set; } = string.Empty;
+    public string? Payload { get; set; } = string.Empty;
     public DateTimeOffset ReceivedAt { get; set; }
 }

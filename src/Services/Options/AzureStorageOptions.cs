@@ -1,4 +1,4 @@
-namespace Shared.Services.Options;
+namespace Services.Options;
 
 public class AzureStorageOptions
 {

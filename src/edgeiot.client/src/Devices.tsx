@@ -34,6 +34,10 @@ function renderIdCell(device: Device) {
     );
 }
 
+async function copyTenantId() {
+    await navigator.clipboard.writeText("de37f1e6-70a1-4c69-bdbc-317ff86b5267");
+}
+
 export function Devices() {
     const queryClient = useQueryClient();
     const [ openAddDeviceDialog, setOpenAddDeviceDialog ] = useState(false);
@@ -118,6 +122,12 @@ export function Devices() {
     return (
         <>
             <h3>Devices</h3>
+            
+            <Button variant={"contained"}
+                    onClick={() => copyTenantId()}>
+                Copy tenant ID
+            </Button>
+            
             {devices && devices.length === 0 && (
                 <Alert severity={"warning"}>You have no devices. You should create one now!</Alert>
             )}

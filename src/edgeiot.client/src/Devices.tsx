@@ -131,12 +131,19 @@ export function Devices() {
             {newDeviceId && (
                 <Alert icon={<Check/>}
                        severity={"success"}
-                        style={{ marginTop: "1em" }}>
+                       style={{ marginBottom: "1em" }}
+                       onClose={() => alert("TODO implement me")}>
                     Your new device has been added.<br/>
-                    The next step is to set up your device using:<br/>
+                    Configure your device with these details:<br/>
                     <ul>
-                        <li>Tenant ID: <code>de37f1e6-70a1-4c69-bdbc-317ff86b5267</code></li>
-                        <li>Device ID: <code>{newDeviceId}</code></li>
+                        <li>
+                            Tenant ID:{" "}
+                            <code>de37f1e6-70a1-4c69-bdbc-317ff86b5267</code> <CopyValueButton value={"de37f1e6-70a1-4c69-bdbc-317ff86b5267"}/>
+                        </li>
+                        <li>
+                            Device ID:{" "}
+                            <code>{newDeviceId}</code> <CopyValueButton value={newDeviceId}/>
+                        </li>
                     </ul>
                 </Alert>
             )}
@@ -150,8 +157,8 @@ export function Devices() {
 
             <DataGrid columns={devicesTableColumns}
                       rows={devices}
+                      autoHeight
                       style={{
-                          height: 500,
                           width: '100%',
                           marginTop: "1em"
                       }}/>            

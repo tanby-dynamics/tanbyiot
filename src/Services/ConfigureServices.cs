@@ -21,5 +21,8 @@ public static class ConfigureServices
         services.AddScoped<ISystemClock, SystemClock>();
         services.AddScoped<IConnectDevice, ConnectDevice>();
         services.AddScoped<IProcessTelemetry, ProcessTelemetry>();
+        services.AddScoped<IGetTelemetryForDevice, GetTelemetryForDevice>();
+        services.AddScoped<IGetInstructionsForDevice, GetInstructionsForDevice>();
+        services.AddScoped<IGetDevice, GetDevice>();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Azure.Functions.Worker;
-//using Microsoft.Azure.WebJobs;
 using Newtonsoft.Json;
 using Serilog;
 using Services.Queueing;

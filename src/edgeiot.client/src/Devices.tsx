@@ -1,45 +1,18 @@
-﻿import {Alert, Button, CircularProgress, IconButton, LinearProgress, Tooltip } from "@mui/material";
+﻿import {Alert, Button, CircularProgress, LinearProgress, Tooltip } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {devicesApi, getAllDevices} from "./api/DevicesApi.ts";
-import { AddCircleOutlined, Check, ContentCopy, Delete, Edit, HistoryOutlined } from "@mui/icons-material";
-import { useState } from "react";
+import { AddCircleOutlined, Check, Delete, Edit, HistoryOutlined } from "@mui/icons-material";
+import {useEffect, useState } from "react";
 import {AddDeviceDialog} from "./components/devices/AddDeviceDialog.tsx";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import {Device} from "./api/DevicesApi.t.ts";
+import {Device} from "./api/types.t.ts";
 import {formatRelativeTimestamp} from "./helpers/formatting.ts";
-
-function renderIdCell(device: Device) {
-    const [didCopy, setDidCopy] = useState(false);
-    
-    async function copyToClipboard(value: string) {
-        try {
-            await navigator.clipboard.writeText(value);
-            setDidCopy(true);
-            setTimeout(() => setDidCopy(false), 2000);
-        } catch (error) {
-            console.error("Couldn't copy to clipboard", error);
-            setDidCopy(false);
-            alert("Couldn't copy to clipboard");
-        }
-    }
-    return(
-        <>
-            <code>{device.id}</code>
-            <Tooltip title={didCopy ? "Copied!" : "Copy"}>
-                <IconButton onClick={() => copyToClipboard(device.id)}>
-                    <ContentCopy/>
-                </IconButton>
-            </Tooltip>
-        </>
-    );
-}
-
-async function copyTenantId() {
-    await navigator.clipboard.writeText("de37f1e6-70a1-4c69-bdbc-317ff86b5267");
-}
+import { useNavigate } from 'react-router-dom';
+import {CopyValueButton} from "./components/shared/CopyValueButton.tsx";
 
 export function Devices() {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const [ openAddDeviceDialog, setOpenAddDeviceDialog ] = useState(false);
     const [ isAddingDevice, setIsAddingDevice ] = useState(false);
     const [ newDeviceId, setNewDeviceId ] = useState<string>();
@@ -49,7 +22,12 @@ export function Devices() {
             field: "id",
             headerName: "ID",
             width: 350,
-            renderCell: (params) => renderIdCell(params.row)
+            renderCell: (params) => (
+                <>
+                    <code><a href={`/device/${params.row.id}`}>{params.row.id}</a></code>
+                    <CopyValueButton value={params.row.id} tooltip={"Copy device ID"}/>
+                </>
+            )
         },
         {
             field: "name",
@@ -72,14 +50,14 @@ export function Devices() {
             headerName: "Actions",
             type: "actions",
             getActions: (rowParams) => [
-                <GridActionsCellItem icon={<HistoryOutlined/>}
-                                     label={"View device"}
-                                     onClick={() => alert(`View device ${rowParams.row.id}`)}/>,
-                <GridActionsCellItem icon={<Edit/>}
-                                     label={"Edit"}
+                <GridActionsCellItem icon={<Tooltip title={"View device details"}><HistoryOutlined/></Tooltip>}
+                                     label={"View device history"}
+                                     onClick={() => navigate(`/device/${rowParams.row.id}`)}/>,
+                <GridActionsCellItem icon={<Tooltip title={"Edit device"}><Edit/></Tooltip>}
+                                     label={"Edit device"}
                                      onClick={() => alert(`Edit ${rowParams.row.id}`)}/>,
-                <GridActionsCellItem icon={<Delete/>}
-                                     label={"Delete"}
+                <GridActionsCellItem icon={<Tooltip title={"Delete device"}><Delete/></Tooltip>}
+                                     label={"Delete device"}
                                      onClick={() => alert(`delete ${rowParams.row.id}`)}/>
             ]
         }
@@ -94,10 +72,14 @@ export function Devices() {
         queryKey: ["devices"],
         queryFn: getAllDevices
     })
-    
-    setInterval(() => queryClient.invalidateQueries({
-        queryKey: ["devices"]
-    }), 5000);
+
+    useEffect(() => {
+        const refreshTimer = setInterval(() => queryClient.invalidateQueries({
+            queryKey: ["devices"]
+        }), 5000);
+        
+        return () => clearInterval(refreshTimer);
+    }, []);    
     
     async function addDevice(name: string, groupName: string) {
         setIsAddingDevice(true);
@@ -112,7 +94,7 @@ export function Devices() {
     }
     
     if (isError) {
-        return <Alert severity={"error"}>Error getting devices: {error.name}, {error.message}</Alert>
+        return <Alert severity={"error"}>Error getting devices: {error.name}, {error.message}</Alert>;
     }
     
     if (isPending) {
@@ -122,11 +104,6 @@ export function Devices() {
     return (
         <>
             <h3>Devices</h3>
-            
-            <Button variant={"contained"}
-                    onClick={() => copyTenantId()}>
-                Copy tenant ID
-            </Button>
             
             {devices && devices.length === 0 && (
                 <Alert severity={"warning"}>You have no devices. You should create one now!</Alert>
@@ -143,9 +120,14 @@ export function Devices() {
             {isAddingDevice && <CircularProgress/>}
             {newDeviceId && (
                 <Alert icon={<Check/>}
-                       severity={"success"}>
+                       severity={"success"}
+                        style={{ marginTop: "1em" }}>
                     Your new device has been added.<br/>
-                    Next step is to set up your device using this device ID: <code>{newDeviceId}</code>
+                    The next step is to set up your device using:<br/>
+                    <ul>
+                        <li>Tenant ID: <code>de37f1e6-70a1-4c69-bdbc-317ff86b5267</code></li>
+                        <li>Device ID: <code>{newDeviceId}</code></li>
+                    </ul>
                 </Alert>
             )}
             
@@ -153,7 +135,8 @@ export function Devices() {
                       rows={devices}
                       style={{
                           height: 500,
-                          width: '100%'
+                          width: '100%',
+                          marginTop: "1em"
                       }}/>            
         </>
     );

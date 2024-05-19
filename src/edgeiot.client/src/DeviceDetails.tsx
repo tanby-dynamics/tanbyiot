@@ -43,9 +43,13 @@ export function DeviceDetails() {
                         <Link underline={"hover"} color={"inherit"} href={"/devices"}>Devices</Link>
                         <Typography color={"text.primary"}>{device.name}</Typography>
                     </Breadcrumbs>
-                    <TableContainer sx={{ width: 500, paddingTop: "1em" }} component={Paper}>
+                    <TableContainer sx={{ width: 500, marginTop: "1em" }} component={Paper}>
                         <Table size={"small"} aria-label={"Device details"}>
                             <TableBody>
+                                <TableRow>
+                                    <TableCell>Tenant ID</TableCell>
+                                    <TableCell><code>{"de37f1e6-70a1-4c69-bdbc-317ff86b5267"}</code> <CopyValueButton value={"de37f1e6-70a1-4c69-bdbc-317ff86b5267"}/></TableCell>
+                                </TableRow>
                                 <TableRow>
                                     <TableCell>Device ID</TableCell>
                                     <TableCell><code>{device.id}</code> <CopyValueButton value={device.id}/></TableCell>

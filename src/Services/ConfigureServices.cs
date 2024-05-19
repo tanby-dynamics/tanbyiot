@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
 using Services.Devices;
+using Services.Instructions;
 using Services.Options;
 using Services.Telemetries;
 using Services.Queueing;
@@ -24,5 +25,6 @@ public static class ConfigureServices
         services.AddScoped<IGetTelemetryForDevice, GetTelemetryForDevice>();
         services.AddScoped<IGetInstructionsForDevice, GetInstructionsForDevice>();
         services.AddScoped<IGetDevice, GetDevice>();
+        services.AddScoped<IPollForInstructions, PollForInstructions>();
     }
 }

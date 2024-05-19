@@ -3,7 +3,7 @@ using System.Text.Json;
 
 const string baseUrl = "https://localhost:7061";
 const string telemetryUrl = $"{baseUrl}/api/telemetry";
-const string actionPollUrl = $"{baseUrl}/api/action-poll";
+const string instructionsPollUrl = $"{baseUrl}/api/instructions/poll";
 const string connectUrl = $"{baseUrl}/api/devices/connect";
 
 Console.WriteLine("edgeiot mock device");
@@ -25,7 +25,7 @@ while (true)
 {
     await SendPayload();
     Thread.Sleep(TimeSpan.FromSeconds(2));
-    await PollForActions();
+    await PollForInstructions();
 }
 
 async Task Connect()
@@ -74,9 +74,9 @@ async Task SendPayload()
     }
 }
 
-async Task PollForActions()
+async Task PollForInstructions()
 {
-    Console.Write("Polling for actions...");
+    Console.Write("Polling for instructions...");
     var payload = JsonSerializer.Serialize(new
     {
         TenantId = tenantId,
@@ -85,7 +85,7 @@ async Task PollForActions()
     var content = new StringContent(payload, Encoding.UTF8, "application/json");
 
     using var client = new HttpClient();
-    var response = await client.PostAsync(actionPollUrl, content);
+    var response = await client.PostAsync(instructionsPollUrl, content);
     var responseContent = await response.Content.ReadAsStringAsync();
 
     Console.WriteLine(response.IsSuccessStatusCode ? "Success, response content:" : $"Error: {response.StatusCode}");

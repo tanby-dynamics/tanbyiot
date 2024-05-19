@@ -85,7 +85,7 @@ public class DevicesController(
     }
 
     [HttpGet("instructions/{deviceId}")]
-    [ProducesResponseType<IEnumerable<InstructionDto>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IEnumerable<GetInstructionsForDeviceResponseDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetInstructionsForDevice(Guid deviceId, CancellationToken cancellationToken)
     {

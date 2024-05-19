@@ -1,4 +1,4 @@
-﻿import {Alert, Button, CircularProgress, LinearProgress, Tooltip } from "@mui/material";
+﻿import {Alert, Breadcrumbs, Button, CircularProgress, LinearProgress, Tooltip, Typography } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {devicesApi, getAllDevices} from "./api/DevicesApi.ts";
 import { AddCircleOutlined, Check, Delete, Edit, HistoryOutlined } from "@mui/icons-material";
@@ -72,11 +72,16 @@ export function Devices() {
         queryKey: ["devices"],
         queryFn: getAllDevices
     })
-
-    useEffect(() => {
-        const refreshTimer = setInterval(() => queryClient.invalidateQueries({
+    
+    async function refresh() {
+        await queryClient.invalidateQueries({
             queryKey: ["devices"]
-        }), 5000);
+        })
+    }
+
+    // Refresh devices every 10 seconds
+    useEffect(() => {
+        const refreshTimer = setInterval(refresh, 10000);
         
         return () => clearInterval(refreshTimer);
     }, []);    
@@ -103,17 +108,22 @@ export function Devices() {
     
     return (
         <>
-            <h3>Devices</h3>
-            
+            <Breadcrumbs aria-label={"Breadcrumbs"}>
+                <Typography color={"text.primary"}>Devices</Typography>
+            </Breadcrumbs>
+
             {devices && devices.length === 0 && (
                 <Alert severity={"warning"}>You have no devices. You should create one now!</Alert>
             )}
             
-            <Button variant={"contained"} 
-                    startIcon={<AddCircleOutlined/>}
-                    onClick={() => setOpenAddDeviceDialog(true)}>
-                New device
-            </Button>
+            <Typography align={"right"} style={{ paddingBottom: "1em" }}>
+                <Button variant={"contained"}
+                        startIcon={<AddCircleOutlined/>}
+                        onClick={() => setOpenAddDeviceDialog(true)}>
+                    New device
+                </Button>
+            </Typography>
+           
             <AddDeviceDialog open={openAddDeviceDialog}
                              onClose={() => setOpenAddDeviceDialog(false)}
                              onSubmit={addDevice}/>
@@ -130,7 +140,14 @@ export function Devices() {
                     </ul>
                 </Alert>
             )}
-            
+
+            <Typography align={"right"}>
+                <Button onClick={refresh}>Refresh</Button>
+            </Typography>
+            <Typography align={"right"} variant={"subtitle2"}>
+                Automatically refreshes every 10 seconds
+            </Typography>
+
             <DataGrid columns={devicesTableColumns}
                       rows={devices}
                       style={{

@@ -43,6 +43,7 @@ export function DeviceDetails() {
                         <Link underline={"hover"} color={"inherit"} href={"/devices"}>Devices</Link>
                         <Typography color={"text.primary"}>{device.name}</Typography>
                     </Breadcrumbs>
+                    
                     <TableContainer sx={{ width: 500, marginTop: "1em" }} component={Paper}>
                         <Table size={"small"} aria-label={"Device details"}>
                             <TableBody>

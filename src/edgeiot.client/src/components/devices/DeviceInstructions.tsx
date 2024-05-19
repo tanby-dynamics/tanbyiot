@@ -95,8 +95,10 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
             )}
 
             <Typography align={"right"}>
-                <Button onClick={refresh}>Refresh</Button><br/>
-                <Typography variant={"subtitle2"}>Automatically refreshes every 10 seconds</Typography>
+                <Button onClick={refresh}>Refresh</Button>
+            </Typography>
+            <Typography align={"right"} variant={"subtitle2"}>
+                Automatically refreshes every 10 seconds
             </Typography>
 
             {instructions && instructions.length > 0 && (

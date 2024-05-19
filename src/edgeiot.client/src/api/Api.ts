@@ -6,3 +6,10 @@ export function useApi() {
         baseURL: "https://localhost:7061/"
     });
 }
+
+export async function getVersion(): Promise<string> {
+    const api = useApi();
+    const response = await api.get<string>("/api/version");
+    
+    return response.data;
+}

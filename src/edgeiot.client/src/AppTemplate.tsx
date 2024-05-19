@@ -1,12 +1,33 @@
-﻿import {DeveloperMode, Mail, MoveToInbox, OpenInNew, Dashboard } from "@mui/icons-material";
+﻿import {DeveloperMode, OpenInNew, Dashboard, Gavel, Settings, ManageAccounts } from "@mui/icons-material";
 import {AppBar, Box,
-    CssBaseline, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+    CssBaseline, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar,
+    Tooltip, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
-
-const drawerWidth = 240;
+import {getVersion} from "./api/Api.ts";
+import { formatTimestamp } from "./helpers/formatting.ts";
+import moment from "moment";
+import { useEffect, useState } from "react";
 
 export function AppTemplate(props: {children: any}) {
-    var location = useLocation();
+    const location = useLocation();
+    const [ nowTimestamp, setNowTimestamp ] = useState(moment);
+    
+    // Refresh nowTimestamp every second
+    useEffect(() => {
+        const timer = setInterval(() => setNowTimestamp(moment()), 1000);
+        
+        return () => clearInterval(timer);
+    }, []);
+    
+    const {
+        isError: isVersionError,
+        error: versionError,
+        data: version
+    } = useQuery({
+        queryKey: ["version"],
+        queryFn: getVersion
+    });
     
     return (
         <>
@@ -26,10 +47,10 @@ export function AppTemplate(props: {children: any}) {
                 <Drawer variant={"permanent"}
                         anchor={"left"}
                         sx={{
-                            width: drawerWidth,
+                            width: 240,
                             flexShrink: 0,
                             "& .MuiDrawer-paper": {
-                                width: drawerWidth,
+                                width: 240,
                                 boxSizing: "border-box"
                             }
                         }}>
@@ -42,27 +63,55 @@ export function AppTemplate(props: {children: any}) {
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemButton href="/devices" selected={location.pathname === "/devices"}>
+                            <ListItemButton href="/devices" selected={ location.pathname.startsWith("/device")}>
                                 <ListItemIcon><DeveloperMode/></ListItemIcon>
                                 <ListItemText primary={"Devices"}/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href="/rules" selected={location.pathname === "/rules"}>
+                                <ListItemIcon><Gavel/></ListItemIcon>
+                                <ListItemText primary={"Rules"}/>
                             </ListItemButton>
                         </ListItem>
                     </List>
                     <Divider/>
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon><MoveToInbox/></ListItemIcon>
-                                <ListItemText primary={"Thing 3"}/>
+                            <ListItemButton href="/manage-tenant" selected={location.pathname.startsWith("/manage-tenant")}>
+                                <ListItemIcon><Settings/></ListItemIcon>
+                                <ListItemText primary={"Manage tenant"}/>
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon><Mail/></ListItemIcon>
-                                <ListItemText primary={"Thing 4"}/>
+                            <ListItemButton href="/manage-account" selected={location.pathname === "/manage-account"}>
+                                <ListItemIcon><ManageAccounts/></ListItemIcon>
+                                <ListItemText primary={"Account settings"}/>
                             </ListItemButton>
                         </ListItem>
                     </List>
+                    <Divider/>
+                    <Typography variant={"subtitle2"} style={{ padding: "1em"}}>
+                        <small>
+                            Tenant:{" "}
+                            <strong>
+                                <Tooltip title={"Manage tenant"}>
+                                    <Link underline={"hover"} href={"/manage-tenant"}>
+                                        The Greenhaus
+                                    </Link>
+                                </Tooltip>
+                            </strong>
+                            <br/>
+                            User:{" "}
+                            <strong>
+                                <Tooltip title={"Manage account settings"}>
+                                    <Link underline={"hover"} href={"/manage-account"}>
+                                        admin@thegreenhaus.com.au
+                                    </Link>
+                                </Tooltip>                                
+                            </strong>
+                        </small>
+                    </Typography>
                     <Divider/>
                     <List>
                         <ListItem disablePadding>
@@ -72,7 +121,11 @@ export function AppTemplate(props: {children: any}) {
                         </ListItem>
                         <ListItem disablePadding>
                             <ListItemButton disabled>
-                                <small>0.1.0</small>
+                                <small>
+                                    {isVersionError && `Error getting version: ${versionError.name}, ${versionError.message}`}
+                                    {version && `v${version}`}<br/>
+                                    {formatTimestamp(nowTimestamp)}
+                                </small>
                             </ListItemButton>
                         </ListItem>
                     </List>

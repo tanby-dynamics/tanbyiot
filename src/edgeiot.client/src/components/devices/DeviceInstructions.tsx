@@ -90,16 +90,16 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
 
     return (
         <>
-            {instructions && instructions.length === 0 && (
-                <Alert severity={"warning"}>There are no instructions recorded for this device.</Alert>
-            )}
-
             <Typography align={"right"}>
                 <Button onClick={refresh}>Refresh</Button>
             </Typography>
             <Typography align={"right"} variant={"subtitle2"}>
                 Automatically refreshes every 10 seconds
             </Typography>
+
+            {instructions && instructions.length === 0 && (
+                <Alert severity={"warning"}>There are no instructions recorded for this device.</Alert>
+            )}
 
             {instructions && instructions.length > 0 && (
                 <DataGrid columns={columns}

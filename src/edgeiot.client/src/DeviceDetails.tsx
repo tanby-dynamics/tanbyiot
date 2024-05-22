@@ -85,20 +85,18 @@ export function DeviceDetails() {
             </Tabs>
             <div role={"tabpanel"}
                  hidden={selectedTab !== 0}
-                 aria-labelledby={"telemetry-tabpanel"}>
+                 aria-labelledby={"telemetry-tabpanel"}
+                 style={{paddingTop: "1em"}}>
                 {selectedTab === 0 && (
-                    <Box sx={{ p: 3 }}>
-                        <DeviceTelemetry deviceId={deviceId}/>
-                    </Box>
+                    <DeviceTelemetry deviceId={deviceId}/>
                 )}
             </div>
             <div role={"tabpanel"}
                  hidden={selectedTab !== 1}
-                 aria-labelledby={"instructions-tabpanel"}>
+                 aria-labelledby={"instructions-tabpanel"}
+                 style={{paddingTop: "1em"}}>
                 {selectedTab === 1 && (
-                    <Box sx={{ p: 3 }}>
-                        <DeviceInstructions deviceId={deviceId}/>
-                    </Box>
+                    <DeviceInstructions deviceId={deviceId}/>
                 )}
             </div>
         </>

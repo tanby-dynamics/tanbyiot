@@ -35,7 +35,7 @@ export async function addDevice(name: string, groupName: string): Promise<Device
 
 export async function getDeviceTelemetries(deviceId: string) {
     const api= useApi();
-    const response = await api.get<Telemetry[]>(`/api/devices/telemetry/${deviceId}`);
+    const response = await api.get<Telemetry[]>(`/api/devices/${deviceId}/telemetry`);
 
     return response.data.map<Telemetry>(x => ({
         ...x,
@@ -44,7 +44,7 @@ export async function getDeviceTelemetries(deviceId: string) {
 }
 export async function getDeviceInstructions(deviceId: string) {
     const api= useApi();
-    const response = await api.get<Instruction[]>(`/api/devices/instructions/${deviceId}`);
+    const response = await api.get<Instruction[]>(`/api/devices/${deviceId}/instructions`);
 
     return response.data.map<Instruction>(x => ({
         ...x,

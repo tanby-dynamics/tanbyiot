@@ -85,16 +85,16 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
 
     return (
         <>
-            {telemetries && telemetries.length === 0 && (
-                <Alert severity={"warning"}>There is no telemetry data recorded for this device.</Alert>
-            )}
-
             <Typography align={"right"}>
                 <Button onClick={refresh}>Refresh</Button>
             </Typography>
             <Typography align={"right"} variant={"subtitle2"}>
                 Automatically refreshes every 10 seconds
             </Typography>
+
+            {telemetries && telemetries.length === 0 && (
+                <Alert severity={"warning"}>There is no telemetry data recorded for this device.</Alert>
+            )}
 
             {telemetries && telemetries.length > 0 && (
                 <DataGrid columns={columns}

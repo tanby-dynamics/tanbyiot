@@ -28,7 +28,7 @@ public class DevicesController(
         return Ok(devices);
     }
 
-    [HttpGet("{deviceId}")]
+    [HttpGet("{deviceId:guid}")]
     [ProducesResponseType<DeviceDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetDevice(Guid deviceId, CancellationToken cancellationToken)
     {
@@ -65,7 +65,7 @@ public class DevicesController(
         return Ok();
     }
 
-    [HttpGet("telemetry/{deviceId}")]
+    [HttpGet("{deviceId:guid}/telemetry")]
     [ProducesResponseType<IEnumerable<TelemetryDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetTelemetryForDevice(Guid deviceId, CancellationToken cancellationToken)
@@ -84,7 +84,7 @@ public class DevicesController(
         return Ok(results);
     }
 
-    [HttpGet("instructions/{deviceId}")]
+    [HttpGet("{deviceId:guid}/instructions")]
     [ProducesResponseType<IEnumerable<GetInstructionsForDeviceResponseDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetInstructionsForDevice(Guid deviceId, CancellationToken cancellationToken)

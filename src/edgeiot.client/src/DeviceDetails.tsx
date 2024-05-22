@@ -1,4 +1,4 @@
-import {Alert, Box,
+import {Alert,
     Breadcrumbs,
     LinearProgress, Link, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableRow, Tabs,
     Typography} from "@mui/material";
@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import {getDevice} from "./api/DevicesApi.ts";
 import {CopyValueButton} from "./components/shared/CopyValueButton.tsx";
 import {formatRelativeTimestamp} from "./helpers/formatting.ts";
+import { Helmet } from "react-helmet";
 
 export function DeviceDetails() {
     const {
@@ -33,6 +34,10 @@ export function DeviceDetails() {
     
     return (
         <>
+            <Helmet>
+                <title>{device ? device.name : "Device details"} - edgeiot</title>
+            </Helmet>
+
             {isPending && <LinearProgress/>}
             {isError && (
                 <Alert severity={"error"}>Error getting device details: {error.name}, {error.message}</Alert>
@@ -88,7 +93,7 @@ export function DeviceDetails() {
                  aria-labelledby={"telemetry-tabpanel"}
                  style={{paddingTop: "1em"}}>
                 {selectedTab === 0 && (
-                    <DeviceTelemetry deviceId={deviceId}/>
+                    <DeviceTelemetry device={device!}/>
                 )}
             </div>
             <div role={"tabpanel"}
@@ -96,7 +101,7 @@ export function DeviceDetails() {
                  aria-labelledby={"instructions-tabpanel"}
                  style={{paddingTop: "1em"}}>
                 {selectedTab === 1 && (
-                    <DeviceInstructions deviceId={deviceId}/>
+                    <DeviceInstructions device={device!}/>
                 )}
             </div>
         </>

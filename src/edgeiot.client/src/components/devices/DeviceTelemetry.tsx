@@ -1,15 +1,16 @@
 import {DataGrid, GridColDef } from "@mui/x-data-grid";
 import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {Telemetry} from "../../api/types.t.ts";
+import {Device, Telemetry} from "../../api/types.t.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
 import {getDeviceTelemetries} from "../../api/DevicesApi.ts";
 import { Alert, Button, LinearProgress, Typography } from "@mui/material";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 export type DeviceTelemetryProps = {
-    deviceId: string
+    device: Device
 }
 
 export function DeviceTelemetry(props: DeviceTelemetryProps) {
@@ -22,7 +23,7 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
         data: telemetries
     } = useQuery({
         queryKey: ["device-telemetries"],
-        queryFn: () => getDeviceTelemetries(props.deviceId)
+        queryFn: () => getDeviceTelemetries(props.device.id)
     });
 
     async function refresh() {
@@ -85,6 +86,10 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
 
     return (
         <>
+            <Helmet>
+                <title>Telemetry - {props.device.name} - edgeiot</title>
+            </Helmet>
+            
             <Typography align={"right"}>
                 <Button onClick={refresh}>Refresh</Button>
             </Typography>

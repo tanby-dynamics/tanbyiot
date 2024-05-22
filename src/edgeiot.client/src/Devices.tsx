@@ -9,6 +9,7 @@ import {Device} from "./api/types.t.ts";
 import {formatRelativeTimestamp} from "./helpers/formatting.ts";
 import { useNavigate } from 'react-router-dom';
 import {CopyValueButton} from "./components/shared/CopyValueButton.tsx";
+import { Helmet } from "react-helmet";
 
 export function Devices() {
     const queryClient = useQueryClient();
@@ -108,6 +109,9 @@ export function Devices() {
     
     return (
         <>
+            <Helmet>
+                <title>Devices - edgeiot</title>
+            </Helmet>
             <Breadcrumbs aria-label={"Breadcrumbs"}>
                 <Typography color={"text.primary"}>Devices</Typography>
             </Breadcrumbs>

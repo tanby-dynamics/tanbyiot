@@ -1,5 +1,5 @@
 import {DataGrid, GridColDef } from "@mui/x-data-grid";
-import {Instruction} from "../../api/types.t.ts";
+import {Device, Instruction} from "../../api/types.t.ts";
 import {Alert, Button, LinearProgress, Typography } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {getDeviceInstructions} from "../../api/DevicesApi.ts";
@@ -7,9 +7,10 @@ import {formatTimestamp} from "../../helpers/formatting.ts";
 import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
 import {useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 export type DeviceInstructionsProps = {
-    deviceId: string
+    device: Device
 }
 
 export function DeviceInstructions(props: DeviceInstructionsProps) {
@@ -22,7 +23,7 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
         data: instructions
     } = useQuery({
         queryKey: ["device-instructions"],
-        queryFn: () =>  getDeviceInstructions(props.deviceId)
+        queryFn: () =>  getDeviceInstructions(props.device.id)
     });
     
     async function refresh() {
@@ -90,6 +91,9 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
 
     return (
         <>
+            <Helmet>
+                <title>Instructions - {props.device.name} - edgeiot</title>
+            </Helmet>
             <Typography align={"right"}>
                 <Button onClick={refresh}>Refresh</Button>
             </Typography>

@@ -10,6 +10,7 @@ import {Dashboard} from "./Dashboard.tsx";
 import {Devices} from "./Devices.tsx";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {DeviceDetails} from "./DeviceDetails.tsx";
+import {Rules} from "./Rules.tsx";
 
 const router = createBrowserRouter([
     {
@@ -21,8 +22,12 @@ const router = createBrowserRouter([
         element: <AppTemplate><Devices/></AppTemplate>
     },
     {
-        path: "/device/:id",
+        path: "/devices/:id",
         element: <AppTemplate><DeviceDetails/></AppTemplate>
+    },
+    {
+        path: "/rules",
+        element: <AppTemplate><Rules/></AppTemplate>
     }
 ]);
 

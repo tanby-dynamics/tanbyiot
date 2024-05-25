@@ -6,6 +6,7 @@ using Services.Instructions;
 using Services.Options;
 using Services.Telemetries;
 using Services.Queueing;
+using Services.Rules;
 
 namespace Services;
 
@@ -26,5 +27,6 @@ public static class ConfigureServices
         services.AddScoped<IGetInstructionsForDevice, GetInstructionsForDevice>();
         services.AddScoped<IGetDevice, GetDevice>();
         services.AddScoped<IPollForInstructions, PollForInstructions>();
+        services.AddScoped<IGetAllRulesForTenant, GetAllRulesForTenant>();
     }
 }

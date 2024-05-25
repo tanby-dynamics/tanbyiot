@@ -128,6 +128,18 @@ export function AppTemplate(props: {children: any}) {
                                 </small>
                             </ListItemButton>
                         </ListItem>
+
+                        {/* Dev tools, TODO remove me */}
+                        <ListItem disablePadding>
+                            <ListItemButton href={"http://localhost:8025"} target={"_blank"}>
+                                <small>Mailhog <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"http://localhost:5341"} target={"_blank"}>
+                                <small>Seq <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
                     </List>
                 </Drawer>
                 

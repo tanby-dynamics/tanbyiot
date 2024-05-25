@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Migrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240525053011_AddRule")]
+    partial class AddRule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,12 +103,7 @@ namespace Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
 
                     b.ToTable("Rules");
                 });
@@ -184,17 +182,6 @@ namespace Migrations.Migrations
                     b.Navigation("Device");
                 });
 
-            modelBuilder.Entity("Data.Rule", b =>
-                {
-                    b.HasOne("Data.Tenant", "Tenant")
-                        .WithMany("Rules")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tenant");
-                });
-
             modelBuilder.Entity("Data.Telemetry", b =>
                 {
                     b.HasOne("Data.Device", "Device")
@@ -224,8 +211,6 @@ namespace Migrations.Migrations
             modelBuilder.Entity("Data.Tenant", b =>
                 {
                     b.Navigation("Devices");
-
-                    b.Navigation("Rules");
 
                     b.Navigation("Telemetries");
                 });

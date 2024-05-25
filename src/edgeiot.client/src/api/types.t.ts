@@ -25,3 +25,10 @@ export type Instruction = {
     createdAt: string | Moment;
     sentAt: string | Moment | null;
 }
+
+export type Rule = {
+    id: string;
+    name: string;
+    enabled: boolean;
+    createdAt: string | Moment;
+}

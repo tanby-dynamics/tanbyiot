@@ -14,7 +14,7 @@ public class DevicesController(
     IGetInstructionsForDevice getInstructionsForDevice,
     IGetDevice getDevice) : ControllerBase
 {
-    private static Guid TenantId => Guid.Parse("de37f1e6-70a1-4c69-bdbc-317ff86b5267"); // Hard-coded to our single initial test tenant
+    public static Guid TenantId => Guid.Parse("de37f1e6-70a1-4c69-bdbc-317ff86b5267"); // Hard-coded to our single initial test tenant
     
     [HttpGet]
     [ProducesResponseType<IEnumerable<DeviceDto>>(StatusCodes.Status200OK)]

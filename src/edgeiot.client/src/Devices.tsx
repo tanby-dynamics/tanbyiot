@@ -25,7 +25,7 @@ export function Devices() {
             width: 350,
             renderCell: (params) => (
                 <>
-                    <code><a href={`/device/${params.row.id}`}>{params.row.id}</a></code>
+                    <code><a href={`/devices/${params.row.id}`}>{params.row.id}</a></code>
                     <CopyValueButton value={params.row.id} tooltip={"Copy device ID"}/>
                 </>
             )
@@ -50,16 +50,16 @@ export function Devices() {
             field: "actions",
             headerName: "Actions",
             type: "actions",
-            getActions: (rowParams) => [
+            getActions: (params) => [
                 <GridActionsCellItem icon={<Tooltip title={"View device details"}><HistoryOutlined/></Tooltip>}
-                                     label={"View device history"}
-                                     onClick={() => navigate(`/device/${rowParams.row.id}`)}/>,
+                                     label={"View device details"}
+                                     onClick={() => navigate(`/devices/${params.row.id}`)}/>,
                 <GridActionsCellItem icon={<Tooltip title={"Edit device"}><Edit/></Tooltip>}
                                      label={"Edit device"}
-                                     onClick={() => alert(`Edit ${rowParams.row.id}`)}/>,
+                                     onClick={() => alert(`Edit ${params.row.id}`)}/>,
                 <GridActionsCellItem icon={<Tooltip title={"Delete device"}><Delete/></Tooltip>}
                                      label={"Delete device"}
-                                     onClick={() => alert(`delete ${rowParams.row.id}`)}/>
+                                     onClick={() => alert(`delete ${params.row.id}`)}/>
             ]
         }
     ];

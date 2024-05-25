@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
     public DbSet<Device> Devices { get; set; }
     public DbSet<Telemetry> Telemetries { get; set; }
     public DbSet<Instruction> Instructions { get; set; }
+    public DbSet<Rule> Rules { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -17,11 +18,9 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .Entity<Tenant>()
-            .HasMany(x => x.Devices);
-        modelBuilder
             .Entity<Device>()
-            .HasOne(x => x.Tenant);
+            .HasOne(x => x.Tenant)
+            .WithMany(x => x.Devices);
         modelBuilder
             .Entity<Telemetry>()
             .HasOne(x => x.Tenant)
@@ -34,5 +33,9 @@ public class AppDbContext : DbContext
             .Entity<Instruction>()
             .HasOne(x => x.Device)
             .WithMany(x => x.Instructions);
+        modelBuilder
+            .Entity<Rule>()
+            .HasOne(x => x.Tenant)
+            .WithMany(x => x.Rules);
     }
 }

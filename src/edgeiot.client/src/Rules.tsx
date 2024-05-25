@@ -1,14 +1,20 @@
-﻿import {DataGrid, GridActionsCellItem, GridColDef, GridRowParams } from "@mui/x-data-grid";
+﻿import {DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import {Rule} from "./api/types.t.ts";
-import {Alert, Breadcrumbs, Button, LinearProgress, Tooltip, Typography } from "@mui/material";
+import {Alert, Breadcrumbs, Button, CircularProgress, LinearProgress, Tooltip, Typography } from "@mui/material";
 import {AddCircleOutlined, Edit } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
-import {getAllRules} from "./api/RulesApi.ts";
+import {getAllRules, rulesApi} from "./api/RulesApi.ts";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {AddRuleDialog} from "./components/rules/AddRuleDialog.tsx";
+import {formatTimestamp} from "./helpers/formatting.ts";
 
 export function Rules() {
     const navigate = useNavigate();
+    const [ openAddRuleDialog, setOpenAddRuleDialog ] = useState(false);
+    const [ isAddingRule, setIsAddingRule ] = useState(false);
+    const [ addRuleError, setAddRuleError] = useState<Error>();
     
     const rulesTableColumns: GridColDef<Rule>[] = [
         {
@@ -24,19 +30,19 @@ export function Rules() {
         {
             field: "enabled",
             headerName: "Enabled",
-            width: 100,
-            renderCell: (params) => (
-                <input type={"checkbox"} disabled checked={params.row.enabled}/>
-            )
+            type: "boolean"
         },
         {
             field: "createdAt",
-            headerName: "Created"
+            headerName: "Created",
+            width: 200,
+            valueGetter: (_, rule) => formatTimestamp(rule.createdAt)
         },
         {
             field: "actions",
             headerName: "Actions",
-            getActions: (params: GridRowParams<Rule>) => [
+            type: "actions",
+            getActions: (params) => [
                 <GridActionsCellItem icon={<Tooltip title={"Edit rule"}><Edit/></Tooltip>}
                                      label={"Edit rule"}
                                      onClick={() => navigate(`/rules/${params.row.id}`)}/>
@@ -45,14 +51,29 @@ export function Rules() {
     ];
     
     const {
-        isPending,
-        isError,
-        error,
+        isPending: isGetRulesPending,
+        isError: isGetRulesError,
+        error: getRulesError,
         data: rules
     } = useQuery({
         queryKey: ["rules"],
         queryFn: getAllRules
     });
+    
+    async function addRule(name: string) {
+        setIsAddingRule(true);
+        
+        try {
+            const response = await rulesApi.addRule(name);
+
+            navigate(`/rules/${response.id}`);
+        } catch (error) {
+            setAddRuleError(error as Error);
+            console.error("Error adding rule", error);
+        }
+
+        setIsAddingRule(false);
+    }
     
     return (
         <>
@@ -63,12 +84,12 @@ export function Rules() {
                 <Typography color={"text.primary"}>Rules</Typography>
             </Breadcrumbs>
             
-            {isPending && <LinearProgress/>}
+            {isGetRulesPending && <LinearProgress/>}
             
-            {isError && (
+            {isGetRulesError && (
                 <Alert severity={"error"}
                        style={{ marginBottom: "1em" }}>
-                    Error getting rules: {error.name}, {error.message}
+                    Error getting rules: {getRulesError.name}, {getRulesError.message}
                 </Alert>
             )}
 
@@ -79,13 +100,24 @@ export function Rules() {
                 </Alert>
             )}
             
-            <Typography align={"right"}>
+            <Typography align={"right"}
+                        style={{ marginBottom: "1em" }}>
                 <Button variant={"contained"}
                         startIcon={<AddCircleOutlined/>}
-                        onClick={() => navigate(`/rules/new`)}>
+                        onClick={() => setOpenAddRuleDialog(true)}>
                     New rule
                 </Button>
             </Typography>
+            <AddRuleDialog open={openAddRuleDialog}
+                           onClose={() => setOpenAddRuleDialog(false)}
+                           onSubmit={addRule}/>
+            {isAddingRule && <CircularProgress/>}
+            {addRuleError && (
+                <Alert severity={"error"}
+                       style={{ marginBottom: "1em" }}>
+                    Error adding rule: {addRuleError.name}, {addRuleError.message}
+                </Alert>
+            )}
 
             {rules && (
                 <DataGrid columns={rulesTableColumns}

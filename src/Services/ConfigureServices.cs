@@ -28,5 +28,6 @@ public static class ConfigureServices
         services.AddScoped<IGetDevice, GetDevice>();
         services.AddScoped<IPollForInstructions, PollForInstructions>();
         services.AddScoped<IGetAllRulesForTenant, GetAllRulesForTenant>();
+        services.AddScoped<IAddRule, AddRule>();
     }
 }

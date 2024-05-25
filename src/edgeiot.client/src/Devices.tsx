@@ -17,6 +17,7 @@ export function Devices() {
     const [ openAddDeviceDialog, setOpenAddDeviceDialog ] = useState(false);
     const [ isAddingDevice, setIsAddingDevice ] = useState(false);
     const [ newDeviceId, setNewDeviceId ] = useState<string>();
+    const [ addDeviceError, setAddDeviceError ] = useState<Error>();
 
     const devicesTableColumns: GridColDef<Device>[] = [
         {
@@ -90,13 +91,19 @@ export function Devices() {
     async function addDevice(name: string, groupName: string) {
         setIsAddingDevice(true);
         
-        const response = await devicesApi.addDevice(name, groupName);
-        
+        try {
+            const response = await devicesApi.addDevice(name, groupName);
+
+            setNewDeviceId(response.id);
+            await queryClient.invalidateQueries({
+                queryKey: ["devices"]
+            })
+        } catch (error) {
+            setAddDeviceError(error as Error);
+            console.error("Error adding device", error);
+        }
+
         setIsAddingDevice(false);
-        setNewDeviceId(response.id);
-        await queryClient.invalidateQueries({
-            queryKey: ["devices"]
-        })
     }
     
     if (isError) {
@@ -132,6 +139,12 @@ export function Devices() {
                              onClose={() => setOpenAddDeviceDialog(false)}
                              onSubmit={addDevice}/>
             {isAddingDevice && <CircularProgress/>}
+            {addDeviceError && (
+                <Alert severity={"error"}
+                       style={{ marginBottom: "1em" }}>
+                    Error adding device: {addDeviceError.name}, {addDeviceError.message}
+                </Alert>
+            )}
             {newDeviceId && (
                 <Alert icon={<Check/>}
                        severity={"success"}

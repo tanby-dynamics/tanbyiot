@@ -32,3 +32,18 @@ export type Rule = {
     enabled: boolean;
     createdAt: string | Moment;
 }
+
+export type RuleDetail = Rule & {
+    conditions: RuleCondition[];
+    actions: RuleAction[];
+}
+
+export type RuleCondition = {
+    id: string;
+    createdAt: string | Moment;
+}
+
+export type RuleAction = {
+    id: string;
+    createdAt: string | Moment;
+}

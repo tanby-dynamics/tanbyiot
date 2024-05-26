@@ -41,9 +41,26 @@ export type RuleDetail = Rule & {
 export type RuleCondition = {
     id: string;
     createdAt: string | Moment;
+    type: RuleConditionType;
+}
+
+export enum RuleConditionType {
+    telemetryType = "TelemetryType",
+    value = "Value",
+    payload = "Payload",
+    deviceId = "DeviceId",
+    group = "Group"
 }
 
 export type RuleAction = {
     id: string;
     createdAt: string | Moment;
+    type: RuleActionType;
+}
+
+export enum RuleActionType {
+    sendInstruction = "SendInstruction",
+    triggerWebhook = "TriggerWebhook",
+    sendEmail = "SendEmail",
+    sendSMS = "SendSMS"
 }

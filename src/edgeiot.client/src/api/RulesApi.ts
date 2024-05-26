@@ -1,4 +1,4 @@
-﻿import {Rule, RuleDetail} from "./types.t.ts";
+﻿import {Rule, RuleCondition, RuleConditionType, RuleDetail} from "./types.t.ts";
 import {useApi} from "./Api.ts";
 import moment from "moment";
 
@@ -43,8 +43,18 @@ export async function getRule(id: string): Promise<RuleDetail> {
     };
 }
 
+export async function addCondition(ruleId: string, type: RuleConditionType): Promise<RuleCondition> {
+    const api = useApi();
+    const response = await api.post<RuleCondition>(`/api/rules/${ruleId}/conditions`, {
+        type
+    });
+    
+    return response.data;
+}
+
 export const rulesApi = {
     getAllRules,
     addRule,
-    getRule
+    getRule,
+    addCondition
 }

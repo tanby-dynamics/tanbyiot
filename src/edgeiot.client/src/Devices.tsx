@@ -17,7 +17,7 @@ export function Devices() {
     const [ openAddDeviceDialog, setOpenAddDeviceDialog ] = useState(false);
     const [ isAddingDevice, setIsAddingDevice ] = useState(false);
     const [ newDeviceId, setNewDeviceId ] = useState<string>();
-    const [ addDeviceError, setAddDeviceError ] = useState<Error>();
+    const [ addDeviceError, setAddDeviceError ] = useState<Error | null>();
 
     const devicesTableColumns: GridColDef<Device>[] = [
         {
@@ -90,6 +90,7 @@ export function Devices() {
     
     async function addDevice(name: string, groupName: string) {
         setIsAddingDevice(true);
+        setAddDeviceError(null);
         
         try {
             const response = await devicesApi.addDevice(name, groupName);

@@ -1,12 +1,12 @@
 ﻿import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
 
-export type AddDeviceModalProps = {
+export type AddDeviceDialogProps = {
     open: boolean;
     onClose: () => void;
     onSubmit: (name: string, groupName: string) => void;
 }
 
-export function AddDeviceDialog(props: AddDeviceModalProps) {
+export function AddDeviceDialog(props: AddDeviceDialogProps) {
     function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         

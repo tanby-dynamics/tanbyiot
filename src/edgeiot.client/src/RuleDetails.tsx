@@ -1,6 +1,6 @@
 ﻿import { Helmet } from "react-helmet";
 import {getRule} from "./api/RulesApi.ts";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { Alert, Breadcrumbs, LinearProgress, Link, Paper, Table, TableBody,
     TableCell, TableContainer, TableRow, Typography } from "@mui/material";
@@ -12,6 +12,7 @@ export function RuleDetails() {
     const {
         id: ruleId
     } = useParams<{ id: string}>();
+    const queryClient = useQueryClient();
     
     if (ruleId === undefined) {
         return <Alert severity={"error"}>No rule ID provided in path</Alert>;
@@ -25,6 +26,12 @@ export function RuleDetails() {
         queryKey: ["rule"],
         queryFn: () => getRule(ruleId)
     });
+    
+    async function refresh() {
+        await queryClient.invalidateQueries({
+            queryKey: ["rule"]
+        });
+    }
     
     return (
         <>
@@ -58,8 +65,8 @@ export function RuleDetails() {
                         </Table>
                     </TableContainer>
 
-                    <RuleConditions rule={rule}/>
-                    <RuleActions rule={rule}/>
+                    <RuleConditions rule={rule} onConditionChanged={refresh}/>
+                    <RuleActions rule={rule} onActionChanged={refresh}/>
                 </>
             )}
         </>

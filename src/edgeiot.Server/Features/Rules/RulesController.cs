@@ -9,7 +9,9 @@ namespace edgeiot.Server.Features.Rules;
 public class RulesController(
     IGetAllRulesForTenant getAllRulesForTenant,
     IAddRule addRule,
-    IGetRuleDetail getRuleDetail) : ControllerBase
+    IGetRuleDetail getRuleDetail,
+    IAddRuleCondition addRuleCondition,
+    IAddRuleAction addRuleAction) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<RuleDto>>(StatusCodes.Status200OK)]
@@ -39,5 +41,27 @@ public class RulesController(
         var rule = await getRuleDetail.ExecuteAsync(DevicesController.TenantId, ruleId, cancellationToken);
         
         return Ok(rule);
+    }
+
+    [HttpPost("{ruleId:guid}/conditions")]
+    [ProducesResponseType<RuleConditionDto>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddCondition(Guid ruleId, AddRuleConditionRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        // TODO take tenant ID from request, check for authorization
+        var condition = await addRuleCondition.ExecuteAsync(ruleId, request.Type, cancellationToken);
+
+        return Ok(condition);
+    }
+
+    [HttpPost("{ruleId:guid}/actions")]
+    [ProducesResponseType<RuleActionDto>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddAction(Guid ruleId, AddRuleActionRequestDto request,
+        CancellationToken cancellationToken)
+    {
+        // TODO take tenant ID from request, check for authorization
+        var action = await addRuleAction.ExecuteAsync(ruleId, request.Type, cancellationToken);
+
+        return Ok(action);
     }
 }

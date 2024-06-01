@@ -49,7 +49,7 @@ export function AddActionDialog(props: AddActionDialogProps) {
                     <FormLabel id={"typeLabel"}></FormLabel>
                     <RadioGroup aria-labelledby={"typeLabel"}
                                 defaultValue={RuleActionType.sendInstruction}
-                                name={"type-group"}>
+                                name={"type"}>
                         <FormControlLabel value={RuleActionType.sendInstruction}
                                           control={<Radio/>}
                                           label={

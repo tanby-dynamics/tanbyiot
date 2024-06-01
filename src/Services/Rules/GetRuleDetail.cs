@@ -13,6 +13,8 @@ public class GetRuleDetail(AppDbContext dbContext) : IGetRuleDetail
     public async Task<RuleDetailDto> ExecuteAsync(Guid tenantId, Guid ruleId, CancellationToken cancellationToken)
     {
         var rule = await dbContext.Rules
+            .Include(x => x.Conditions)
+            .Include(x => x.Actions)
             .SingleAsync(x => x.TenantId == tenantId && x.Id == ruleId, cancellationToken);
 
         return new RuleDetailDto
@@ -21,24 +23,8 @@ public class GetRuleDetail(AppDbContext dbContext) : IGetRuleDetail
             Name = rule.Name,
             Enabled = rule.Enabled,
             CreatedAt = rule.CreatedAt,
-            Conditions = Array.Empty<RuleConditionDto>(),
-            Actions = Array.Empty<RuleActionDto>()
+            Conditions = rule.Conditions.Select(RuleConditionDto.FromEntity),
+            Actions = rule.Actions.Select(RuleActionDto.FromEntity)
         };
     }
-}
-
-public class RuleDetailDto : RuleDto
-{
-    public IEnumerable<RuleConditionDto> Conditions { get; set; } = Array.Empty<RuleConditionDto>();
-    public IEnumerable<RuleActionDto> Actions { get; set; } = Array.Empty<RuleActionDto>();
-}
-
-public class RuleConditionDto
-{
-    public Guid Id { get; set; }
-}
-
-public class RuleActionDto
-{
-    public Guid Id { get; set; }
 }

@@ -4,8 +4,8 @@ import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { AddCircleOutlined, DeleteOutlined, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { AddConditionDialog } from "./AddConditionDialog.tsx";
-import moment from "moment";
 import {EditConditionDialog} from "./EditConditionDialog.tsx";
+import {rulesApi} from "../../api/RulesApi.ts";
 
 export type RuleConditionsProps = {
     rule: RuleDetail,
@@ -53,12 +53,10 @@ export function RuleConditions(props: RuleConditionsProps) {
         setAddConditionError(null);
         
         try {
-            //const response = await rulesApi.addCondition(rule.id, type);
-            editCondition({
-                id: "an id",
-                createdAt: moment(),
-                type
-            });
+            const newCondition = await rulesApi.addCondition(rule.id, type);
+            
+            props.onConditionChanged();            
+            editCondition(newCondition);
         } catch (error) {
             setAddConditionError(error as Error);
             console.error("Error adding condition", error)
@@ -76,6 +74,7 @@ export function RuleConditions(props: RuleConditionsProps) {
         setIsEditingCondition(false);
         setConditionBeingEdited(null);
         // TODO update conditionBeingEdited
+        // await rulesApi.updateCondition(...
         props.onConditionChanged();
     }
     

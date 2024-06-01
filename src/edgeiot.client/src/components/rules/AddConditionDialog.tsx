@@ -48,7 +48,7 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
                     <FormLabel id={"typeLabel"}></FormLabel>
                     <RadioGroup aria-labelledby={"typeLabel"}
                                 defaultValue={RuleConditionType.telemetryType}
-                                name={"type-group"}>
+                                name={"type"}>
                         <FormControlLabel value={RuleConditionType.telemetryType}
                                           control={<Radio/>}
                                           label={

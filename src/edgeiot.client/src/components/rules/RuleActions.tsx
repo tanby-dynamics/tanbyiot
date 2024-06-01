@@ -3,9 +3,9 @@ import {RuleAction, RuleActionType, RuleDetail} from "../../api/types.t.ts";
 import {DataGrid, GridActionsCellItem, GridColDef} from "@mui/x-data-grid";
 import {AddCircleOutlined, DeleteOutlined, Edit} from "@mui/icons-material";
 import {useState} from "react";
-import moment from "moment";
 import {EditActionDialog} from "./EditActionDialog.tsx";
 import {AddActionDialog} from "./AddActionDialog.tsx";
+import {rulesApi} from "../../api/RulesApi.ts";
 
 export type RuleActionProps = {
     rule: RuleDetail,
@@ -53,12 +53,10 @@ export function RuleActions(props: RuleActionProps) {
         setAddActionError(null);
 
         try {
-            //const response = await rulesApi.addAction(rule.id, type);
-            editAction({
-                id: "an id",
-                createdAt: moment(),
-                type
-            });
+            const newAction = await rulesApi.addAction(rule.id, type);
+            
+            props.onActionChanged();            
+            editAction(newAction);
         } catch (error) {
             setAddActionError(error as Error);
             console.error("Error adding action", error)
@@ -76,6 +74,7 @@ export function RuleActions(props: RuleActionProps) {
         setIsEditingAction(false);
         setActionBeingEdited(null);
         // TODO update actionBeingEdited
+        // await rulesApi.updateAction(...
         props.onActionChanged();
     }
 

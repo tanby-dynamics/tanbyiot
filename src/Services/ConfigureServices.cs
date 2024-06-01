@@ -30,5 +30,7 @@ public static class ConfigureServices
         services.AddScoped<IGetAllRulesForTenant, GetAllRulesForTenant>();
         services.AddScoped<IAddRule, AddRule>();
         services.AddScoped<IGetRuleDetail, GetRuleDetail>();
+        services.AddScoped<IAddRuleCondition, AddRuleCondition>();
+        services.AddScoped<IAddRuleAction, AddRuleAction>();
     }
 }

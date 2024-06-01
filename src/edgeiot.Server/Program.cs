@@ -38,7 +38,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(configurePolicy =>
     {
         configurePolicy
-            .WithOrigins("https://localhost:5173")
+            .WithOrigins("http://localhost:5173", "http://omv:3097", "https://portal.edgeiot.app")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });

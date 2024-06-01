@@ -60,6 +60,11 @@ export async function addCondition(ruleId: string, type: RuleConditionType): Pro
     return transformRuleConditionFromServer(response.data);
 }
 
+export async function deleteCondition(ruleId: string, ruleConditionId: string) {
+    const api = useApi();
+    await api.delete(`/api/rules/${ruleId}/conditions/${ruleConditionId}`);
+}
+
 export async function addAction(ruleId: string, type: RuleActionType): Promise<RuleAction> {
     const api = useApi();
     const response = await api.post<RuleAction>(`/api/rules/${ruleId}/actions`, {
@@ -69,10 +74,17 @@ export async function addAction(ruleId: string, type: RuleActionType): Promise<R
     return transformRuleActionFromServer(response.data);
 }
 
+export async function deleteAction(ruleId: string, ruleActionId: string) {
+    const api = useApi();
+    await api.delete(`/api/rules/${ruleId}/actions/${ruleActionId}`);
+}
+
 export const rulesApi = {
     getAllRules,
     addRule,
     getRule,
     addCondition,
-    addAction
+    deleteCondition,
+    addAction,
+    deleteAction
 }

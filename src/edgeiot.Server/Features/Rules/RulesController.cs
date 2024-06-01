@@ -11,7 +11,9 @@ public class RulesController(
     IAddRule addRule,
     IGetRuleDetail getRuleDetail,
     IAddRuleCondition addRuleCondition,
-    IAddRuleAction addRuleAction) : ControllerBase
+    IAddRuleAction addRuleAction,
+    IDeleteRuleCondition deleteRuleCondition,
+    IDeleteRuleAction deleteRuleAction) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<RuleDto>>(StatusCodes.Status200OK)]
@@ -54,6 +56,17 @@ public class RulesController(
         return Ok(condition);
     }
 
+    [HttpDelete("{ruleId:guid}/conditions/{ruleConditionId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteCondition(Guid ruleId, Guid ruleConditionId,
+        CancellationToken cancellationToken)
+    {
+        // TODO take tenant ID from request, check for authorization
+        await deleteRuleCondition.ExecuteAsync(ruleId, ruleConditionId, cancellationToken);
+
+        return Ok();
+    }
+
     [HttpPost("{ruleId:guid}/actions")]
     [ProducesResponseType<RuleActionDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> AddAction(Guid ruleId, AddRuleActionRequestDto request,
@@ -63,5 +76,15 @@ public class RulesController(
         var action = await addRuleAction.ExecuteAsync(ruleId, request.Type, cancellationToken);
 
         return Ok(action);
+    }
+
+    [HttpDelete("{ruleId:guid}/actions/{ruleActionId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteAction(Guid ruleId, Guid ruleActionId, CancellationToken cancellationToken)
+    {
+        // TODO take tenant ID from request, check for authorization
+        await deleteRuleAction.ExecuteAsync(ruleId, ruleActionId, cancellationToken);
+
+        return Ok();
     }
 }

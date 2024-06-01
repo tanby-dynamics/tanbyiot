@@ -43,7 +43,7 @@ export function RuleConditions(props: RuleConditionsProps) {
                                      onClick={() => editCondition(params.row)}/>,
                 <GridActionsCellItem icon={<Tooltip title={"Delete condition"}><DeleteOutlined/></Tooltip>}
                                      label={"Delete condition"}
-                                     onClick={() => alert("delete condition")}/>
+                                     onClick={() => deleteCondition(params.row)}/>
             ]
         }
     ];
@@ -63,6 +63,14 @@ export function RuleConditions(props: RuleConditionsProps) {
         }
         
         setIsAddingCondition(false);
+    }
+    
+    async function deleteCondition(condition: RuleCondition) {
+        //TODO confirm
+        if (confirm("Are you sure you want to delete this condition?")) {
+            await rulesApi.deleteCondition(rule.id, condition.id);
+            props.onConditionChanged();
+        }
     }
     
     function editCondition(condition: RuleCondition) {

@@ -43,7 +43,7 @@ export function RuleActions(props: RuleActionProps) {
                                      onClick={() => editAction(params.row)}/>,
                 <GridActionsCellItem icon={<Tooltip title={"Delete action"}><DeleteOutlined/></Tooltip>}
                                      label={"Delete action"}
-                                     onClick={() => alert("delete action")}/>
+                                     onClick={() => deleteAction(params.row)}/>
             ]
         }
     ];
@@ -64,6 +64,14 @@ export function RuleActions(props: RuleActionProps) {
 
         setIsAddingAction(false);
     }
+    
+    async function deleteAction(action: RuleAction) {
+        // TODO confirm
+        if (confirm("Are you sure you want to delete this action?")) {
+            await rulesApi.deleteAction(rule.id, action.id);
+            props.onActionChanged();
+        }
+    }
 
     function editAction(action: RuleAction) {
         setIsEditingAction(true);
@@ -82,7 +90,7 @@ export function RuleActions(props: RuleActionProps) {
         <>
             <Typography variant={"h6"} style={{marginTop: "1em"}}>Actions</Typography>
 
-            {rule.conditions.length == 0 && (
+            {rule.actions.length == 0 && (
                 <Alert severity={"warning"}
                        style={{marginBottom: "1em"}}>
                     This rule has no actions. Add an action that will be performed when the rule is executed.

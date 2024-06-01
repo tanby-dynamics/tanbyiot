@@ -39,8 +39,7 @@ export function AddRuleDialog(props: AddRuleDialogProps) {
                                name={"name"}
                                label={"Rule name"}
                                type={"text"}
-                               fullWidth
-                               variant={"standard"}/>
+                               fullWidth/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.onClose}>Cancel</Button>

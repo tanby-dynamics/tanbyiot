@@ -1,10 +1,15 @@
-﻿namespace Data;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data;
 
 public class Tenant
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public ICollection<Device> Devices { get; set; }
-    public ICollection<Telemetry> Telemetries { get; set; }
-    public ICollection<Rule> Rules { get; set; }
+    public Guid Id { get; init; }
+    [MaxLength(128)] public string Name { get; init; } = string.Empty;
+    // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
+    public ICollection<Device> Devices { get; init; } = default!;
+    // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
+    public ICollection<Telemetry> Telemetries { get; init; } = default!;
+    // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
+    public ICollection<Rule> Rules { get; init; } = default!;
 }

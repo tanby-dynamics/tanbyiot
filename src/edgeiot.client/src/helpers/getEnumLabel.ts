@@ -2,7 +2,7 @@
 
 export function getLabelForRuleConditionType(type: RuleConditionType) {
     switch (type) {
-        case RuleConditionType.telemetryType:
+        case RuleConditionType.telemetryTypes:
             return "Telemetry type";
         case RuleConditionType.value:
             return "Value";

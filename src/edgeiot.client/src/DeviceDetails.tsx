@@ -49,7 +49,7 @@ export function DeviceDetails() {
                         <Typography color={"text.primary"}>{device.name}</Typography>
                     </Breadcrumbs>
                     
-                    <TableContainer sx={{ width: 500, marginTop: "1em" }} component={Paper}>
+                    <TableContainer sx={{ width: 500, marginTop: 1 }} component={Paper}>
                         <Table size={"small"} aria-label={"Device details"}>
                             <TableBody>
                                 <TableRow>

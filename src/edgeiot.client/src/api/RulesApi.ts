@@ -1,4 +1,12 @@
-﻿import {Rule, RuleAction, RuleActionType, RuleCondition, RuleConditionType, RuleDetail} from "./types.t.ts";
+﻿import {
+    Rule,
+    RuleAction,
+    RuleActionType,
+    RuleCondition,
+    RuleConditionType,
+    RuleDetail,
+    UpdateRuleConditionArgs
+} from "./types.t.ts";
 import {useApi} from "./Api.ts";
 import moment from "moment";
 
@@ -12,7 +20,8 @@ function transformRuleFromServer(rule: Rule): Rule {
 function transformRuleConditionFromServer(condition: RuleCondition): RuleCondition {
     return {
         ...condition,
-        createdAt: moment(condition.createdAt)
+        createdAt: moment(condition.createdAt),
+        updatedAt: moment(condition.updatedAt)
     };
 }
 
@@ -51,7 +60,7 @@ export async function getRule(id: string): Promise<RuleDetail> {
     };
 }
 
-export async function addCondition(ruleId: string, type: RuleConditionType): Promise<RuleCondition> {
+export async function addRuleCondition(ruleId: string, type: RuleConditionType): Promise<RuleCondition> {
     const api = useApi();
     const response = await api.post<RuleCondition>(`/api/rules/${ruleId}/conditions`, {
         type
@@ -60,12 +69,19 @@ export async function addCondition(ruleId: string, type: RuleConditionType): Pro
     return transformRuleConditionFromServer(response.data);
 }
 
-export async function deleteCondition(ruleId: string, ruleConditionId: string) {
+export async function updateRuleCondition(ruleId: string, ruleConditionId: string, args: UpdateRuleConditionArgs): Promise<RuleCondition> {
+    const api = useApi();
+    const response = await api.put(`/api/rules/${ruleId}/conditions/${ruleConditionId}`, args);
+    
+    return transformRuleConditionFromServer(response.data);
+}
+
+export async function deleteRuleCondition(ruleId: string, ruleConditionId: string) {
     const api = useApi();
     await api.delete(`/api/rules/${ruleId}/conditions/${ruleConditionId}`);
 }
 
-export async function addAction(ruleId: string, type: RuleActionType): Promise<RuleAction> {
+export async function addRuleAction(ruleId: string, type: RuleActionType): Promise<RuleAction> {
     const api = useApi();
     const response = await api.post<RuleAction>(`/api/rules/${ruleId}/actions`, {
         type
@@ -74,7 +90,7 @@ export async function addAction(ruleId: string, type: RuleActionType): Promise<R
     return transformRuleActionFromServer(response.data);
 }
 
-export async function deleteAction(ruleId: string, ruleActionId: string) {
+export async function deleteRuleAction(ruleId: string, ruleActionId: string) {
     const api = useApi();
     await api.delete(`/api/rules/${ruleId}/actions/${ruleActionId}`);
 }
@@ -83,8 +99,9 @@ export const rulesApi = {
     getAllRules,
     addRule,
     getRule,
-    addCondition,
-    deleteCondition,
-    addAction,
-    deleteAction
+    addRuleCondition: addRuleCondition,
+    updateRuleCondition: updateRuleCondition,
+    deleteRuleCondition: deleteRuleCondition,
+    addRuleAction: addRuleAction,
+    deleteRuleAction: deleteRuleAction
 }

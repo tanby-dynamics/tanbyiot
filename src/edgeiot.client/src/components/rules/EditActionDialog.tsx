@@ -1,4 +1,4 @@
-﻿import { Drawer, Typography } from "@mui/material";
+﻿import {Container, Drawer, Typography } from "@mui/material";
 import {RuleAction} from "../../api/types.t.ts";
 
 export type EditActionDialogProps = {
@@ -8,14 +8,23 @@ export type EditActionDialogProps = {
     onSubmit: () => void;
 }
 export function EditActionDialog(props: EditActionDialogProps) {
+    
+    function onSubmit() {        
+    }
+    
     return (
         <>
             <Drawer anchor={"right"}
-                    style={{ width: 500 }}
+                    sx={{ zIndex: 1202 }}
                     open={props.open}
-                    onClose={props.onClose}>
-                <Typography variant={"h1"}>Editing action</Typography>
-                {props.action?.id || "action not set"}
+                    onClose={props.onClose}
+                    PaperProps={{
+                        component: "form",
+                        onSubmit
+                    }}>
+                <Container sx={{ p: 2, width: 500 }}>
+                    <Typography variant={"h4"}>Editing action</Typography>                    
+                </Container>
             </Drawer>
 
         </>

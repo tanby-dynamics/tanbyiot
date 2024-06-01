@@ -53,7 +53,7 @@ export function RuleActions(props: RuleActionProps) {
         setAddActionError(null);
 
         try {
-            const newAction = await rulesApi.addAction(rule.id, type);
+            const newAction = await rulesApi.addRuleAction(rule.id, type);
             
             props.onActionChanged();            
             editAction(newAction);
@@ -68,7 +68,7 @@ export function RuleActions(props: RuleActionProps) {
     async function deleteAction(action: RuleAction) {
         // TODO confirm
         if (confirm("Are you sure you want to delete this action?")) {
-            await rulesApi.deleteAction(rule.id, action.id);
+            await rulesApi.deleteRuleAction(rule.id, action.id);
             props.onActionChanged();
         }
     }

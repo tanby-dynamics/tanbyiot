@@ -100,7 +100,7 @@ export function AddActionDialog(props: AddActionDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose}>Cancel</Button>
-                <Button type={"submit"}>Add action</Button>
+                <Button variant={"contained"} type={"submit"}>Add action</Button>
             </DialogActions>
         </Dialog>
     );

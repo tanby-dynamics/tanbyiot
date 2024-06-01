@@ -47,13 +47,13 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
                 <FormControl>
                     <FormLabel id={"typeLabel"}></FormLabel>
                     <RadioGroup aria-labelledby={"typeLabel"}
-                                defaultValue={RuleConditionType.telemetryType}
+                                defaultValue={RuleConditionType.telemetryTypes}
                                 name={"type"}>
-                        <FormControlLabel value={RuleConditionType.telemetryType}
+                        <FormControlLabel value={RuleConditionType.telemetryTypes}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleConditionType(RuleConditionType.telemetryType)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.telemetryTypes)}
                                                   {" "}
                                                   <Tooltip title={"Passes when the telemetry type matches the specified type"}>
                                                       <InfoOutlined fontSize={"small"}/>
@@ -109,7 +109,7 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose}>Cancel</Button>
-                <Button type={"submit"}>Add</Button>
+                <Button variant={"contained"} type={"submit"}>Add condition</Button>
             </DialogActions>
         </Dialog>
     );

@@ -3,11 +3,10 @@
 namespace Data;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum RuleConditionType
+public enum RuleConditionComparisonOperationType
 {
-    TelemetryTypes,
-    Value,
-    Payload,
-    DeviceId,
-    Group
+    Equals,
+    NotEquals,
+    LessThan,
+    // TODO
 }

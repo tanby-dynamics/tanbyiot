@@ -12,6 +12,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {DeviceDetails} from "./DeviceDetails.tsx";
 import {Rules} from "./Rules.tsx";
 import {RuleDetails} from "./RuleDetails.tsx";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
     {
@@ -41,6 +43,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>      
         <QueryClientProvider client={queryClient}>
+            <ToastContainer autoClose={2000}/>
             <RouterProvider router={router}/>
         </QueryClientProvider>
     </React.StrictMode>,

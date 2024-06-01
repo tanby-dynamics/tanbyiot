@@ -1,14 +1,17 @@
-﻿namespace Data;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace Data;
+
+// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
 public class Device : ISoftDelete
 {
     public Guid Id { get; init; }
     public Guid TenantId { get; init; }
-    public virtual Tenant Tenant { get; init; }
-    public string Name { get; set; } = string.Empty;
-    public string GroupName { get; set; } = string.Empty;
+    public virtual Tenant Tenant { get; init; } = default!;
+    [MaxLength(128)] public string Name { get; init; } = string.Empty;
+    [MaxLength(128)] public string GroupName { get; init; } = string.Empty;
     public DateTimeOffset? LastConnected { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
-    public virtual ICollection<Telemetry> Telemetries { get; set; }
-    public virtual ICollection<Instruction> Instructions { get; set; }
+    public virtual ICollection<Telemetry> Telemetries { get; init; } = default!;
+    public virtual ICollection<Instruction> Instructions { get; init; } = default!;
 }

@@ -42,10 +42,15 @@ export type RuleCondition = {
     id: string;
     createdAt: string | Moment;
     type: RuleConditionType;
+    comparisonValue: string | null;
+    comparisonOperation: RuleConditionComparisonOperationType | null;
+    payloadPath: string | null;
+    conversion: RuleConditionConversionType | null;
+    updatedAt: string | Moment | null;
 }
 
 export enum RuleConditionType {
-    telemetryType = "TelemetryType",
+    telemetryTypes = "TelemetryTypes",
     value = "Value",
     payload = "Payload",
     deviceId = "DeviceId",
@@ -63,4 +68,24 @@ export enum RuleActionType {
     triggerWebhook = "TriggerWebhook",
     sendEmail = "SendEmail",
     sendSMS = "SendSMS"
+}
+
+export enum RuleConditionComparisonOperationType {
+    equals = "Equals",
+    notEquals = "NotEquals",
+    lessThan = "LessThan",
+    // TODO
+}
+
+export enum RuleConditionConversionType {
+    number = "Number",
+    string = "String",
+    boolean = "Boolean"
+}
+
+export type UpdateRuleConditionArgs = {
+    comparisonValue: string;
+    comparisonOperation: RuleConditionComparisonOperationType | null;
+    payloadPath: string | null;
+    conversionType: RuleConditionConversionType | null;
 }

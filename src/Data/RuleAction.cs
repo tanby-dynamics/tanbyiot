@@ -1,5 +1,6 @@
 ﻿namespace Data;
 
+// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
 public class RuleAction : ISoftDelete
 {
     public Guid Id { get; init; }
@@ -7,5 +8,5 @@ public class RuleAction : ISoftDelete
     public RuleActionType Type { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? DeletedAt { get; set; }
-    public virtual Rule Rule { get; init; }
+    public virtual Rule Rule { get; init; } = default!;
 }

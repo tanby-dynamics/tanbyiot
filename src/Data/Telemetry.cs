@@ -7,14 +7,13 @@ public class Telemetry
 {
     public Guid Id { get; init; }
     public Guid TenantId { get; init; }
-    public virtual Tenant Tenant { get; set; }
+    // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
+    public virtual Tenant Tenant { get; init; } = default!;
     public Guid DeviceId { get; init; }
-    public virtual Device Device { get; set; }
-    [MaxLength(128)]
-    public string Type { get; set; } = string.Empty;
-    [MaxLength(128)]
-    public string? Value { get; set; }
-    [MaxLength(4000)]
-    public string? Payload { get; set; } = string.Empty;
-    public DateTimeOffset ReceivedAt { get; set; }
+    // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
+    public virtual Device Device { get; init; } = default!;
+    [MaxLength(128)] public string Type { get; init; } = string.Empty;
+    [MaxLength(128)] public string? Value { get; init; }
+    [MaxLength(4000)]  public string? Payload { get; init; } = string.Empty;
+    public DateTimeOffset ReceivedAt { get; init; }
 }

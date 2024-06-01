@@ -5,12 +5,12 @@ namespace Data;
 // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
 public class Instruction
 {
-    public Guid Id { get; set; }
-    public Guid DeviceId { get; set; }
-    public virtual Device Device { get; set; }
-    [MaxLength(128)] public string Type { get; set; } = string.Empty;
-    [MaxLength(128)] public string? Value { get; set; }
-    [MaxLength(4000)] public string? Payload { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
+    public Guid Id { get; init; }
+    public Guid DeviceId { get; init; }
+    public virtual Device Device { get; init; } = default!;
+    [MaxLength(128)] public string Type { get; init; } = string.Empty;
+    [MaxLength(128)] public string? Value { get; init; }
+    [MaxLength(4000)] public string? Payload { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? SentAt { get; set; }
 }

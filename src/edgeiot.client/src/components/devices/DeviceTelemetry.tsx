@@ -104,11 +104,7 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
             {telemetries && telemetries.length > 0 && (
                 <DataGrid columns={columns}
                           rows={telemetries}
-                          autoHeight
-                          style={{
-                              width: "100%",
-                              marginTop: "1em"
-                          }}/>
+                          autoHeight/>
             )}
             
         </>

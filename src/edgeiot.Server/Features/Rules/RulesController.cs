@@ -13,7 +13,8 @@ public class RulesController(
     IAddRuleCondition addRuleCondition,
     IAddRuleAction addRuleAction,
     IDeleteRuleCondition deleteRuleCondition,
-    IDeleteRuleAction deleteRuleAction) : ControllerBase
+    IDeleteRuleAction deleteRuleAction,
+    IUpdateRuleCondition updateRuleCondition) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<RuleDto>>(StatusCodes.Status200OK)]
@@ -52,6 +53,18 @@ public class RulesController(
     {
         // TODO take tenant ID from request, check for authorization
         var condition = await addRuleCondition.ExecuteAsync(ruleId, request.Type, cancellationToken);
+
+        return Ok(condition);
+    }
+
+    [HttpPut("{ruleId:guid}/conditions/{ruleConditionId:guid}")]
+    [ProducesResponseType<RuleConditionDto>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateCondition(Guid ruleId, Guid ruleConditionId,
+        UpdateRuleConditionRequestDto request, CancellationToken cancellationToken)
+    {
+        // TODO take tenant ID from request, check for authorization
+        var condition = await updateRuleCondition.ExecuteAsync(ruleId, ruleConditionId, request.ComparisonValue,
+            request.ComparisonOperation, request.PayloadPath, request.Conversion, cancellationToken);
 
         return Ok(condition);
     }

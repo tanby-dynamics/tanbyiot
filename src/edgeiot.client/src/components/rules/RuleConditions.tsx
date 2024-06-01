@@ -1,11 +1,13 @@
 ﻿import {Alert, Button, CircularProgress, Tooltip, Typography } from "@mui/material";
-import {RuleCondition, RuleConditionType, RuleDetail} from "../../api/types.t.ts";
+import {RuleCondition, RuleConditionType, RuleDetail, UpdateRuleConditionArgs} from "../../api/types.t.ts";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { AddCircleOutlined, DeleteOutlined, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { AddConditionDialog } from "./AddConditionDialog.tsx";
 import {EditConditionDialog} from "./EditConditionDialog.tsx";
 import {rulesApi} from "../../api/RulesApi.ts";
+import {formatRuleConditionType} from "../../helpers/helpers.ts";
+import { toast } from "react-toastify";
 
 export type RuleConditionsProps = {
     rule: RuleDetail,
@@ -26,6 +28,7 @@ export function RuleConditions(props: RuleConditionsProps) {
         {
             field: "type",
             headerName: "Type",
+            valueGetter: (_, condition) => formatRuleConditionType(condition.type),
             width: 200
         },
         {
@@ -53,7 +56,7 @@ export function RuleConditions(props: RuleConditionsProps) {
         setAddConditionError(null);
         
         try {
-            const newCondition = await rulesApi.addCondition(rule.id, type);
+            const newCondition = await rulesApi.addRuleCondition(rule.id, type);
             
             props.onConditionChanged();            
             editCondition(newCondition);
@@ -68,7 +71,8 @@ export function RuleConditions(props: RuleConditionsProps) {
     async function deleteCondition(condition: RuleCondition) {
         //TODO confirm
         if (confirm("Are you sure you want to delete this condition?")) {
-            await rulesApi.deleteCondition(rule.id, condition.id);
+            await rulesApi.deleteRuleCondition(rule.id, condition.id);
+            toast.success("Deleted rule condition");
             props.onConditionChanged();
         }
     }
@@ -78,11 +82,14 @@ export function RuleConditions(props: RuleConditionsProps) {
         setConditionBeingEdited(condition);
     }
     
-    async function updateCondition() {
+    async function updateCondition(args: UpdateRuleConditionArgs) {
+        const condition = conditionBeingEdited!;
+        
         setIsEditingCondition(false);
-        setConditionBeingEdited(null);
-        // TODO update conditionBeingEdited
-        // await rulesApi.updateCondition(...
+        setConditionBeingEdited(null);       
+
+        await rulesApi.updateRuleCondition(rule.id, condition.id, args);
+        toast.success("Saved rule condition");
         props.onConditionChanged();
     }
     

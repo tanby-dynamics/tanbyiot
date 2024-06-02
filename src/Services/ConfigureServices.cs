@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Data;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
 using Services.Devices;
 using Services.Instructions;
 using Services.Options;
+using Services.Processing;
 using Services.Telemetries;
 using Services.Queueing;
 using Services.Rules;
@@ -36,5 +38,9 @@ public static class ConfigureServices
         services.AddScoped<IDeleteRuleAction, DeleteRuleAction>();
         services.AddScoped<IUpdateRuleCondition, UpdateRuleCondition>();
         services.AddScoped<IUpdateRuleAction, UpdateRuleAction>();
+        services.AddScoped<ITenantContextFactory, TenantContextFactory>();
+        services.AddScoped<IProcessRule, ProcessRule>();
+        services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
+        services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
     }
 }

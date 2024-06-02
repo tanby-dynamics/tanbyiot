@@ -16,4 +16,5 @@ public class Telemetry
     [MaxLength(128)] public string? Value { get; init; }
     [MaxLength(4000)]  public string? Payload { get; init; } = string.Empty;
     public DateTimeOffset ReceivedAt { get; init; }
+    public DateTimeOffset? ProcessedAt { get; set; }
 }

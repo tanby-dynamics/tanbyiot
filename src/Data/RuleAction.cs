@@ -16,5 +16,6 @@ public class RuleAction : ISoftDelete, IUpdatable
     [MaxLength(4000)] public string? SendInstructionPayload { get; set; }
     public Guid? SendInstructionDeviceId { get; set; }
     [MaxLength(256)] public string? SendInstructionDeviceGroups { get; set; }
+    public RuleActionSendInstructionTargetDeviceType? SendInstructionTargetDeviceType { get; set; }
     public virtual Rule Rule { get; init; } = default!;
 }

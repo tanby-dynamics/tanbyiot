@@ -21,18 +21,10 @@ public class UpdateRuleAction(AppDbContext dbContext) : IUpdateRuleAction
         action.SendInstructionPayload = args.SendInstructionPayload;
         action.SendInstructionDeviceId = args.SendInstructionDeviceId;
         action.SendInstructionDeviceGroups = args.SendInstructionDeviceGroups;
+        action.SendInstructionTargetDeviceType = args.SendInstructionTargetDeviceType;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return RuleActionDto.FromEntity(action);
     }
-}
-
-public class UpdateRuleActionArgs
-{
-    public string? SendInstructionType { get; init; }
-    public string? SendInstructionValue { get; init; }
-    public string? SendInstructionPayload { get; init; }
-    public Guid? SendInstructionDeviceId { get; init; }
-    public string? SendInstructionDeviceGroups { get; init; }
 }

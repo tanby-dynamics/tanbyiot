@@ -18,7 +18,7 @@
     TextField,
     Typography
 } from "@mui/material";
-import {Rule, RuleAction, RuleActionType} from "../../api/types.t.ts";
+import {Rule, RuleAction, RuleActionSendInstructionTargetDeviceType, RuleActionType} from "../../api/types.t.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import {formatRuleActionType} from "../../helpers/helpers.ts";
 import { useState } from "react";
@@ -56,26 +56,22 @@ function ActionDetailsTable({ action }: { action: RuleAction }) {
 }
 
 function SendInstructionFields({ action }: { action: RuleAction }) {
-    // TODO use action.targetDeviceType (to be implemented)
-    const initialTargetDeviceType = action.sendInstructionDeviceGroups !== null 
-        ? "deviceGroups" 
-        : "singleDevice";
-    const [ targetDeviceType, setTargetDeviceType ] = useState(initialTargetDeviceType);
+    const [ targetDeviceType, setTargetDeviceType ] = useState(action.sendInstructionTargetDeviceType);
     
     return (
         <>
             <FormRow>
                 <FormControl>
                     <FormLabel id={"target-device-label"}>Target device(s)</FormLabel>
-                    <RadioGroup row aria-labelledby={"target-device-label"} name={"targetDeviceType"}
-                                onChange={(e) => setTargetDeviceType(e.target.value)}
-                                defaultValue={initialTargetDeviceType}>
-                        <FormControlLabel value={"singleDevice"} control={<Radio/>} label={"Single device"}/>
-                        <FormControlLabel value={"deviceGroups"} control={<Radio/>} label={"Device groups"}/>
+                    <RadioGroup row aria-labelledby={"target-device-label"} name={"sendInstructionTargetDeviceType"}
+                                onChange={(e) => setTargetDeviceType(e.target.value as RuleActionSendInstructionTargetDeviceType)}
+                                defaultValue={action.sendInstructionTargetDeviceType}>
+                        <FormControlLabel value={RuleActionSendInstructionTargetDeviceType.singleDevice} control={<Radio/>} label={"Single device"}/>
+                        <FormControlLabel value={RuleActionSendInstructionTargetDeviceType.deviceGroups} control={<Radio/>} label={"Device groups"}/>
                     </RadioGroup>
                 </FormControl>  
             </FormRow>            
-            {targetDeviceType === "singleDevice" && (
+            {targetDeviceType === RuleActionSendInstructionTargetDeviceType.singleDevice && (
                 <FormRow>
                     <FormControl fullWidth>
                         <TextField name={"sendInstructionDeviceId"}
@@ -87,10 +83,10 @@ function SendInstructionFields({ action }: { action: RuleAction }) {
                     </FormControl>
                 </FormRow>                
             )}
-            {targetDeviceType == "deviceGroups" && (
+            {targetDeviceType === RuleActionSendInstructionTargetDeviceType.deviceGroups && (
                 <FormRow>
                     <TextField name={"sendInstructionDeviceGroups"}
-                               label={"Device groups names"}
+                               label={"Device groups"}
                                required
                                fullWidth
                                defaultValue={action.sendInstructionDeviceGroups}
@@ -160,7 +156,8 @@ export function EditActionDialog(props: EditActionDialogProps) {
                 sendInstructionDeviceId: formJson.sendInstructionDeviceId,
                 sendInstructionPayload: formJson.sendInstructionPayload,
                 sendInstructionType: formJson.sendInstructionType,
-                sendInstructionValue: formJson.sendInstructionValue
+                sendInstructionValue: formJson.sendInstructionValue,
+                sendInstructionTargetDeviceType: formJson.sendInstructionTargetDeviceType
             });
             toast.success("Saved rule action");
             props.onSubmit();

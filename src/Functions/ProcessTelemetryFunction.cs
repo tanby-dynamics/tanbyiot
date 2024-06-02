@@ -1,8 +1,8 @@
 ﻿using Microsoft.Azure.Functions.Worker;
 using Newtonsoft.Json;
 using Serilog;
+using Services.Processing;
 using Services.Queueing;
-using Services.Telemetries;
 
 namespace Functions;
 

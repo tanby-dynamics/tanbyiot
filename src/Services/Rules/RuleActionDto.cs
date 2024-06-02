@@ -13,6 +13,7 @@ public class RuleActionDto
     public string? SendInstructionPayload { get; init; }
     public Guid? SendInstructionDeviceId { get; init; }
     public string? SendInstructionDeviceGroups { get; init; }
+    public RuleActionSendInstructionTargetDeviceType? SendInstructionTargetDeviceType { get; init; }
 
     public static RuleActionDto FromEntity(RuleAction action)
     {
@@ -26,7 +27,8 @@ public class RuleActionDto
             SendInstructionValue = action.SendInstructionValue,
             SendInstructionPayload = action.SendInstructionPayload,
             SendInstructionDeviceId = action.SendInstructionDeviceId,
-            SendInstructionDeviceGroups = action.SendInstructionDeviceGroups
+            SendInstructionDeviceGroups = action.SendInstructionDeviceGroups,
+            SendInstructionTargetDeviceType = action.SendInstructionTargetDeviceType
         };
     }
 }

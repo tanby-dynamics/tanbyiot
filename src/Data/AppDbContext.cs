@@ -44,5 +44,6 @@ public class AppDbContext : DbContext
         
         modelBuilder.Entity<RuleAction>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<RuleAction>().Property(x => x.Type).HasConversion<string>();
+        modelBuilder.Entity<RuleAction>().Property(x => x.SendInstructionTargetDeviceType).HasConversion<string>();
     }
 }

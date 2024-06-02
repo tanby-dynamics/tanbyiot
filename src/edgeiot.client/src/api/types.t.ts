@@ -67,6 +67,7 @@ export type RuleAction = {
     sendInstructionPayload: string | null;
     sendInstructionDeviceId: string | null;
     sendInstructionDeviceGroups: string | null;
+    sendInstructionTargetDeviceType: RuleActionSendInstructionTargetDeviceType | null;
 }
 
 export enum RuleActionType {
@@ -74,6 +75,11 @@ export enum RuleActionType {
     triggerWebhook = "TriggerWebhook",
     sendEmail = "SendEmail",
     sendSMS = "SendSMS"
+}
+
+export enum RuleActionSendInstructionTargetDeviceType {
+    deviceGroups = "DeviceGroups",
+    singleDevice = "SingleDevice"
 }
 
 export enum RuleConditionComparisonOperationType {
@@ -102,4 +108,5 @@ export type UpdateRuleActionArgs = {
     sendInstructionPayload: string | null;
     sendInstructionDeviceId: string | null;
     sendInstructionDeviceGroups: string | null;
+    sendInstructionTargetDeviceType: string | null;
 }

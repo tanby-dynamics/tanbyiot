@@ -9,10 +9,10 @@ export function PayloadCell(props: { rawPayload: string | null }) {
         <>
             {props.rawPayload && (
                 <>
-                    <CopyValueButton value={payloadJson || props.rawPayload}/>
                     <code>
                         {`${props.rawPayload.substring(0, 50)}${props.rawPayload.length > 50 ? "..." : ""}`}
                     </code>
+                    <CopyValueButton value={payloadJson || props.rawPayload}/>
                 </>
             )}
             {!props.rawPayload && <code>---</code>}

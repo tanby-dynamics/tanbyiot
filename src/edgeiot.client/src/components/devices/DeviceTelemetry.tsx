@@ -49,7 +49,7 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
                     <code>{params.row.id}</code>
                 </>
             ),
-            flex: 0.5
+            flex: 0.25
         },
         {
             field: "type",
@@ -64,7 +64,7 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
         {
             field: "payload",
             headerName: "Payload",
-            flex: 1,
+            flex: 0.5,
             renderCell: (params) => <PayloadCell rawPayload={params.row.payload}/>
         },
         {

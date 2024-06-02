@@ -49,7 +49,7 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
                     <code>{params.row.id}</code>
                 </>
             ),
-            flex: 0.5
+            flex: 0.25
         },
         {
             field: "type",
@@ -64,7 +64,7 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
         {
             field: "payload",
             headerName: "Payload",
-            flex: 0.75,
+            flex: 0.5,
             renderCell: (params) => <PayloadCell rawPayload={params.row.payload}/>
         },
         {

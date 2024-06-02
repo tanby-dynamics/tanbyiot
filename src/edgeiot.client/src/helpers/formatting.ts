@@ -8,6 +8,10 @@ export function formatTimestamp(timestamp: string | Moment | null, nullMessage: 
     if (typeof timestamp === 'string') {
         return formatTimestamp(moment(timestamp));
     }
+    
+    if (!timestamp.isValid()) {
+        return nullMessage;
+    }
 
     return timestamp.format();
 }

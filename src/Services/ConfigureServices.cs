@@ -35,5 +35,6 @@ public static class ConfigureServices
         services.AddScoped<IDeleteRuleCondition, DeleteRuleCondition>();
         services.AddScoped<IDeleteRuleAction, DeleteRuleAction>();
         services.AddScoped<IUpdateRuleCondition, UpdateRuleCondition>();
+        services.AddScoped<IUpdateRuleAction, UpdateRuleAction>();
     }
 }

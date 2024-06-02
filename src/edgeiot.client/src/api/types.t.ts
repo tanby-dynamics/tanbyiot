@@ -61,6 +61,12 @@ export type RuleAction = {
     id: string;
     createdAt: string | Moment;
     type: RuleActionType;
+    updatedAt: string | Moment;
+    sendInstructionType: string | null;
+    sendInstructionValue: string | null;
+    sendInstructionPayload: string | null;
+    sendInstructionDeviceId: string | null;
+    sendInstructionDeviceGroups: string | null;
 }
 
 export enum RuleActionType {
@@ -88,4 +94,12 @@ export type UpdateRuleConditionArgs = {
     comparisonOperation: RuleConditionComparisonOperationType | null;
     payloadPath: string | null;
     conversionType: RuleConditionConversionType | null;
+}
+
+export type UpdateRuleActionArgs = {
+    sendInstructionType: string | null;
+    sendInstructionValue: string | null;
+    sendInstructionPayload: string | null;
+    sendInstructionDeviceId: string | null;
+    sendInstructionDeviceGroups: string | null;
 }

@@ -36,7 +36,8 @@ export function RuleDetails() {
     return (
         <>
             <Helmet>
-                <title>{"rule name"} - edgeiot</title>
+                {!rule && <title>edgeiot</title>}
+                {rule && <title>Editing "{rule.name}" rule - edgeiot</title>}
             </Helmet>
 
             {isPending && <LinearProgress/>}

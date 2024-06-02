@@ -1,5 +1,5 @@
 ﻿import {Alert, Button, CircularProgress, Tooltip, Typography } from "@mui/material";
-import {RuleCondition, RuleConditionType, RuleDetail, UpdateRuleConditionArgs} from "../../api/types.t.ts";
+import {RuleCondition, RuleConditionType, RuleDetail} from "../../api/types.t.ts";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { AddCircleOutlined, DeleteOutlined, Edit } from "@mui/icons-material";
 import { useState } from "react";
@@ -63,6 +63,7 @@ export function RuleConditions(props: RuleConditionsProps) {
         } catch (error) {
             setAddConditionError(error as Error);
             console.error("Error adding condition", error)
+            toast.error("Error adding condition");
         }
         
         setIsAddingCondition(false);
@@ -82,14 +83,9 @@ export function RuleConditions(props: RuleConditionsProps) {
         setConditionBeingEdited(condition);
     }
     
-    async function updateCondition(args: UpdateRuleConditionArgs) {
-        const condition = conditionBeingEdited!;
-        
+    function onConditionUpdated() {
         setIsEditingCondition(false);
-        setConditionBeingEdited(null);       
-
-        await rulesApi.updateRuleCondition(rule.id, condition.id, args);
-        toast.success("Saved rule condition");
+        setConditionBeingEdited(null);   
         props.onConditionChanged();
     }
     
@@ -124,8 +120,9 @@ export function RuleConditions(props: RuleConditionsProps) {
             )}
             <EditConditionDialog open={isEditingCondition}
                                  condition={conditionBeingEdited}
+                                 rule={rule}
                                  onClose={() => setIsEditingCondition(false)}
-                                 onSubmit={updateCondition}/>                                 
+                                 onSubmit={onConditionUpdated}/>                                 
            
             <DataGrid columns={columns}
                       rows={rule.conditions}

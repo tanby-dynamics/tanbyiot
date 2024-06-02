@@ -14,7 +14,8 @@ public class RulesController(
     IAddRuleAction addRuleAction,
     IDeleteRuleCondition deleteRuleCondition,
     IDeleteRuleAction deleteRuleAction,
-    IUpdateRuleCondition updateRuleCondition) : ControllerBase
+    IUpdateRuleCondition updateRuleCondition,
+    IUpdateRuleAction updateRuleAction) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<RuleDto>>(StatusCodes.Status200OK)]
@@ -60,11 +61,10 @@ public class RulesController(
     [HttpPut("{ruleId:guid}/conditions/{ruleConditionId:guid}")]
     [ProducesResponseType<RuleConditionDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateCondition(Guid ruleId, Guid ruleConditionId,
-        UpdateRuleConditionRequestDto request, CancellationToken cancellationToken)
+        UpdateRuleConditionArgs request, CancellationToken cancellationToken)
     {
         // TODO take tenant ID from request, check for authorization
-        var condition = await updateRuleCondition.ExecuteAsync(ruleId, ruleConditionId, request.ComparisonValue,
-            request.ComparisonOperation, request.PayloadPath, request.Conversion, cancellationToken);
+        var condition = await updateRuleCondition.ExecuteAsync(ruleId, ruleConditionId, request, cancellationToken);
 
         return Ok(condition);
     }
@@ -87,6 +87,17 @@ public class RulesController(
     {
         // TODO take tenant ID from request, check for authorization
         var action = await addRuleAction.ExecuteAsync(ruleId, request.Type, cancellationToken);
+
+        return Ok(action);
+    }
+
+    [HttpPut("{ruleId:guid}/actions/{ruleActionId:guid}")]
+    [ProducesResponseType<RuleActionDto>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateAction(Guid ruleId, Guid ruleActionId,
+        UpdateRuleActionArgs request, CancellationToken cancellationToken)
+    {
+        // TODO take tenant ID from request, check for authorization
+        var action = await updateRuleAction.ExecuteAsync(ruleId, ruleActionId, request, cancellationToken);
 
         return Ok(action);
     }

@@ -5,25 +5,24 @@ namespace Services.Rules;
 
 public interface IUpdateRuleCondition
 {
-    Task<RuleConditionDto> ExecuteAsync(Guid ruleId, Guid ruleConditionId, string? comparisonValue,
-        RuleConditionComparisonOperationType? comparisonOperation, string? payloadPath,
-        RuleConditionConversionType? conversion, CancellationToken cancellationToken);
+    Task<RuleConditionDto> ExecuteAsync(Guid ruleId, Guid ruleConditionId, UpdateRuleConditionArgs args,
+        CancellationToken cancellationToken);
 }
 
 public class UpdateRuleCondition(AppDbContext dbContext) : IUpdateRuleCondition
 {
-    public async Task<RuleConditionDto> ExecuteAsync(Guid ruleId, Guid ruleConditionId, string? comparisonValue,
-        RuleConditionComparisonOperationType? comparisonOperation, string? payloadPath,
-        RuleConditionConversionType? conversion, CancellationToken cancellationToken)
+    public async Task<RuleConditionDto> ExecuteAsync(Guid ruleId, Guid ruleConditionId, UpdateRuleConditionArgs args,
+        CancellationToken cancellationToken)
     {
-        var condition =
-            await dbContext.RuleConditions.SingleAsync(x => x.RuleId == ruleId && x.Id == ruleConditionId,
+        var condition = await dbContext.RuleConditions
+            .SingleAsync(
+                x => x.RuleId == ruleId && x.Id == ruleConditionId,
                 cancellationToken);
 
-        condition.ComparisonValue = comparisonValue;
-        condition.ComparisonOperation = comparisonOperation;
-        condition.PayloadPath = payloadPath;
-        condition.Conversion = conversion;
+        condition.ComparisonValue = args.ComparisonValue;
+        condition.ComparisonOperation = args.ComparisonOperation;
+        condition.PayloadPath = args.PayloadPath;
+        condition.Conversion = args.Conversion;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

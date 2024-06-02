@@ -6,6 +6,8 @@ import {useState} from "react";
 import {EditActionDialog} from "./EditActionDialog.tsx";
 import {AddActionDialog} from "./AddActionDialog.tsx";
 import {rulesApi} from "../../api/RulesApi.ts";
+import {formatRuleActionType} from "../../helpers/helpers.ts";
+import { toast } from "react-toastify";
 
 export type RuleActionProps = {
     rule: RuleDetail,
@@ -26,7 +28,8 @@ export function RuleActions(props: RuleActionProps) {
         {
             field: "type",
             headerName: "Type",
-            width: 200
+            width: 200,
+            valueGetter: (_, action) => formatRuleActionType(action.type)
         },
         {
             field: "description",
@@ -60,15 +63,17 @@ export function RuleActions(props: RuleActionProps) {
         } catch (error) {
             setAddActionError(error as Error);
             console.error("Error adding action", error)
+            toast.error("Error adding action");
         }
 
         setIsAddingAction(false);
     }
     
     async function deleteAction(action: RuleAction) {
-        // TODO confirm
+        // TODO confirm dialog
         if (confirm("Are you sure you want to delete this action?")) {
             await rulesApi.deleteRuleAction(rule.id, action.id);
+            toast.success("Deleted rule action");
             props.onActionChanged();
         }
     }
@@ -78,11 +83,9 @@ export function RuleActions(props: RuleActionProps) {
         setActionBeingEdited(action);
     }
 
-    async function updateAction() {
+    function onActionUpdated() {
         setIsEditingAction(false);
         setActionBeingEdited(null);
-        // TODO update actionBeingEdited
-        // await rulesApi.updateAction(...
         props.onActionChanged();
     }
 
@@ -116,8 +119,9 @@ export function RuleActions(props: RuleActionProps) {
             )}
             <EditActionDialog open={isEditingAction}
                               action={actionBeingEdited}
+                              rule={rule}
                               onClose={() => setIsEditingAction(false)}
-                              onSubmit={updateAction}/>
+                              onSubmit={onActionUpdated}/>
 
             <DataGrid columns={columns}
                       rows={rule.actions}

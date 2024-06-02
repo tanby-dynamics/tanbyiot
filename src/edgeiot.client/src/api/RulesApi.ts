@@ -4,7 +4,7 @@
     RuleActionType,
     RuleCondition,
     RuleConditionType,
-    RuleDetail,
+    RuleDetail, UpdateRuleActionArgs,
     UpdateRuleConditionArgs
 } from "./types.t.ts";
 import {useApi} from "./Api.ts";
@@ -28,7 +28,8 @@ function transformRuleConditionFromServer(condition: RuleCondition): RuleConditi
 function transformRuleActionFromServer(action: RuleAction): RuleAction {
     return {
         ...action,
-        createdAt: moment(action.createdAt)
+        createdAt: moment(action.createdAt),
+        updatedAt: moment(action.updatedAt)
     };
 }
 
@@ -90,6 +91,14 @@ export async function addRuleAction(ruleId: string, type: RuleActionType): Promi
     return transformRuleActionFromServer(response.data);
 }
 
+export async function updateRuleAction(ruleId: string, ruleActionId: string, args: UpdateRuleActionArgs): Promise<RuleAction> {
+    console.log(args);
+    const api = useApi();
+    const response = await api.put(`/api/rules/${ruleId}/actions/${ruleActionId}`, args);
+
+    return transformRuleActionFromServer(response.data);
+}
+
 export async function deleteRuleAction(ruleId: string, ruleActionId: string) {
     const api = useApi();
     await api.delete(`/api/rules/${ruleId}/actions/${ruleActionId}`);
@@ -99,9 +108,10 @@ export const rulesApi = {
     getAllRules,
     addRule,
     getRule,
-    addRuleCondition: addRuleCondition,
-    updateRuleCondition: updateRuleCondition,
-    deleteRuleCondition: deleteRuleCondition,
-    addRuleAction: addRuleAction,
-    deleteRuleAction: deleteRuleAction
+    addRuleCondition,
+    updateRuleCondition,
+    deleteRuleCondition,
+    addRuleAction,
+    updateRuleAction,
+    deleteRuleAction
 }

@@ -21,6 +21,12 @@ export function Devices() {
 
     const devicesTableColumns: GridColDef<Device>[] = [
         {
+            field: "name",
+            headerName: "Name",
+            flex: 1,
+            renderCell: (params) => <a href={`/devices/${params.row.id}`}>{params.row.name}</a>
+        },
+        {
             field: "id",
             headerName: "ID",
             width: 350,
@@ -30,11 +36,6 @@ export function Devices() {
                     <CopyValueButton value={params.row.id} tooltip={"Copy device ID"}/>
                 </>
             )
-        },
-        {
-            field: "name",
-            headerName: "Name",
-            flex: 1
         },
         {
             field: "groupName",

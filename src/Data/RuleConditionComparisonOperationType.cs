@@ -7,6 +7,5 @@ public enum RuleConditionComparisonOperationType
 {
     Equals,
     NotEquals,
-    LessThan,
-    // TODO
+    LessThan
 }

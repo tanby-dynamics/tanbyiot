@@ -115,6 +115,11 @@ export function AppTemplate(props: {children: any}) {
                     <Divider/>
                     <List>
                         <ListItem disablePadding>
+                            <ListItemButton href={"https://docs.edgeiot.app"} target={"_blank"}>
+                                <small>Documentation <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
                             <ListItemButton href={"https://tanbydynamics.co"} target={"_blank"}>
                                 <small>Tanby Dynamics <OpenInNew sx={{ width: 12, height: 12 }}/></small>
                             </ListItemButton>
@@ -124,22 +129,27 @@ export function AppTemplate(props: {children: any}) {
                                 <small>
                                     {isVersionError && `Error getting version: ${versionError.name}, ${versionError.message}`}
                                     {version && `v${version}`}<br/>
-                                    {formatTimestamp(nowTimestamp)}
+                                    {formatTimestamp(nowTimestamp)}<br/>
+                                    &copy; {moment().format("yyyy")} Tanby Dynamics
                                 </small>
                             </ListItemButton>
                         </ListItem>
 
-                        {/* Dev tools, TODO remove me */}
-                        <ListItem disablePadding>
-                            <ListItemButton href={"http://localhost:8025"} target={"_blank"}>
-                                <small>Mailhog <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"http://localhost:5341"} target={"_blank"}>
-                                <small>Seq <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
+                        {/* Only show dev tools if the API base URL hasn't been set */}
+                        {!import.meta.env.API_BASE_URL && (
+                            <>
+                                <ListItem disablePadding>
+                                    <ListItemButton href={"http://localhost:8025"} target={"_blank"}>
+                                        <small>Mailhog <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <ListItemButton href={"http://localhost:5341"} target={"_blank"}>
+                                        <small>Seq <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                                    </ListItemButton>
+                                </ListItem>
+                            </>
+                        )}
                     </List>
                 </Drawer>
                 

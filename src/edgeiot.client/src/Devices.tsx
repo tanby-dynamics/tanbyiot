@@ -150,7 +150,7 @@ export function Devices() {
                 <Alert icon={<Check/>}
                        severity={"success"}
                        style={{ marginBottom: "1em" }}
-                       onClose={() => alert("TODO implement me")}>
+                       onClose={() => setNewDeviceId(undefined)}>
                     Your new device has been added.<br/>
                     Configure your device with these details:<br/>
                     <ul>

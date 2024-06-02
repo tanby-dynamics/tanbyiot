@@ -20,7 +20,6 @@ public class DevicesController(
     [ProducesResponseType<IEnumerable<DeviceDto>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllDevices(CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var devices = await getAllDevicesForTenant.ExecuteAsync(
             TenantId,
             cancellationToken);
@@ -32,7 +31,6 @@ public class DevicesController(
     [ProducesResponseType<DeviceDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetDevice(Guid deviceId, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var device = await getDevice.ExecuteAsync(TenantId, deviceId, cancellationToken);
 
         return Ok(device);
@@ -42,7 +40,6 @@ public class DevicesController(
     [ProducesResponseType<DeviceDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> AddDevice(AddDeviceRequestDto request, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var device = await addDevice.ExecuteAsync(TenantId, request.Name, request.GroupName, cancellationToken);
 
         return Ok(device);
@@ -70,7 +67,6 @@ public class DevicesController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetTelemetryForDevice(Guid deviceId, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request
         var isDeviceValidated = await validateDevice.ExecuteAsync(TenantId, deviceId, cancellationToken);
 
         if (!isDeviceValidated)
@@ -78,7 +74,6 @@ public class DevicesController(
             return BadRequest("Device is invalid");
         }
         
-        // TODO paging
         var results = await getTelemetryForDevice.ExecuteAsync(deviceId, 100, cancellationToken);
 
         return Ok(results);
@@ -89,7 +84,6 @@ public class DevicesController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetInstructionsForDevice(Guid deviceId, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request
         var isDeviceValidated = await validateDevice.ExecuteAsync(TenantId, deviceId, cancellationToken);
 
         if (!isDeviceValidated)
@@ -97,7 +91,6 @@ public class DevicesController(
             return BadRequest("Device is invalid");
         }
         
-        // TODO paging
         var results = await getInstructionsForDevice.ExecuteAsync(deviceId, 100, cancellationToken);
 
         return Ok(results);

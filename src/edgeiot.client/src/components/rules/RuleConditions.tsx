@@ -70,7 +70,6 @@ export function RuleConditions(props: RuleConditionsProps) {
     }
     
     async function deleteCondition(condition: RuleCondition) {
-        //TODO confirm
         if (confirm("Are you sure you want to delete this condition?")) {
             await rulesApi.deleteRuleCondition(rule.id, condition.id);
             toast.success("Deleted rule condition");

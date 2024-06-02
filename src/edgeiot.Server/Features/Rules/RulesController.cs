@@ -21,7 +21,6 @@ public class RulesController(
     [ProducesResponseType<IEnumerable<RuleDto>>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllRules(CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var rules = await getAllRulesForTenant.ExecuteAsync(DevicesController.TenantId, cancellationToken);
         
         return Ok(rules);
@@ -31,7 +30,6 @@ public class RulesController(
     [ProducesResponseType<RuleDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> AddRule(AddRuleRequestDto request, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var rule = await addRule.ExecuteAsync(DevicesController.TenantId, request.Name, cancellationToken);
 
         return Ok(rule);
@@ -41,7 +39,6 @@ public class RulesController(
     [ProducesResponseType<RuleDetailDto>(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetRuleDetail(Guid ruleId, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var rule = await getRuleDetail.ExecuteAsync(DevicesController.TenantId, ruleId, cancellationToken);
         
         return Ok(rule);
@@ -52,7 +49,6 @@ public class RulesController(
     public async Task<IActionResult> AddCondition(Guid ruleId, AddRuleConditionRequestDto request,
         CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var condition = await addRuleCondition.ExecuteAsync(ruleId, request.Type, cancellationToken);
 
         return Ok(condition);
@@ -63,7 +59,6 @@ public class RulesController(
     public async Task<IActionResult> UpdateCondition(Guid ruleId, Guid ruleConditionId,
         UpdateRuleConditionArgs request, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var condition = await updateRuleCondition.ExecuteAsync(ruleId, ruleConditionId, request, cancellationToken);
 
         return Ok(condition);
@@ -74,7 +69,6 @@ public class RulesController(
     public async Task<IActionResult> DeleteCondition(Guid ruleId, Guid ruleConditionId,
         CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         await deleteRuleCondition.ExecuteAsync(ruleId, ruleConditionId, cancellationToken);
 
         return Ok();
@@ -85,7 +79,6 @@ public class RulesController(
     public async Task<IActionResult> AddAction(Guid ruleId, AddRuleActionRequestDto request,
         CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var action = await addRuleAction.ExecuteAsync(ruleId, request.Type, cancellationToken);
 
         return Ok(action);
@@ -96,7 +89,6 @@ public class RulesController(
     public async Task<IActionResult> UpdateAction(Guid ruleId, Guid ruleActionId,
         UpdateRuleActionArgs request, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         var action = await updateRuleAction.ExecuteAsync(ruleId, ruleActionId, request, cancellationToken);
 
         return Ok(action);
@@ -106,7 +98,6 @@ public class RulesController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteAction(Guid ruleId, Guid ruleActionId, CancellationToken cancellationToken)
     {
-        // TODO take tenant ID from request, check for authorization
         await deleteRuleAction.ExecuteAsync(ruleId, ruleActionId, cancellationToken);
 
         return Ok();

@@ -78,8 +78,7 @@ function SendInstructionFields({ action }: { action: RuleAction }) {
                                    label={"Device ID"}
                                    required
                                    fullWidth
-                                   defaultValue={action.sendInstructionDeviceId}
-                                   helperText={"TODO search for device"}/>
+                                   defaultValue={action.sendInstructionDeviceId}/>
                     </FormControl>
                 </FormRow>                
             )}

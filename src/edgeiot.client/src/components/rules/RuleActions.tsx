@@ -70,7 +70,6 @@ export function RuleActions(props: RuleActionProps) {
     }
     
     async function deleteAction(action: RuleAction) {
-        // TODO confirm dialog
         if (confirm("Are you sure you want to delete this action?")) {
             await rulesApi.deleteRuleAction(rule.id, action.id);
             toast.success("Deleted rule action");

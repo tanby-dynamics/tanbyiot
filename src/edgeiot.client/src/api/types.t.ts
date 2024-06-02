@@ -85,8 +85,7 @@ export enum RuleActionSendInstructionTargetDeviceType {
 export enum RuleConditionComparisonOperationType {
     equals = "Equals",
     notEquals = "NotEquals",
-    lessThan = "LessThan",
-    // TODO
+    lessThan = "LessThan"
 }
 
 export enum RuleConditionConversionType {

@@ -42,5 +42,6 @@ public static class ConfigureServices
         services.AddScoped<IProcessRule, ProcessRule>();
         services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
         services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
+        services.AddScoped<IUpdateRule, UpdateRule>();
     }
 }

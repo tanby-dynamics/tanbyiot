@@ -2,7 +2,7 @@
 import { Moment } from "moment";
 
 export function formatTimestamp(timestamp: string | Moment | null, nullMessage: string = "---") {
-    if (timestamp === null) {
+    if (!timestamp) {
         return nullMessage;
     }
     if (typeof timestamp === 'string') {

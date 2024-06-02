@@ -31,11 +31,17 @@ export type Rule = {
     name: string;
     enabled: boolean;
     createdAt: string | Moment;
+    updatedAt: string | Moment | null;
 }
 
 export type RuleDetail = Rule & {
     conditions: RuleCondition[];
     actions: RuleAction[];
+}
+
+export type UpdateRuleArgs = {
+    name: string;
+    enabled: boolean;
 }
 
 export type RuleCondition = {

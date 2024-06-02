@@ -4,7 +4,7 @@
     RuleActionType,
     RuleCondition,
     RuleConditionType,
-    RuleDetail, UpdateRuleActionArgs,
+    RuleDetail, UpdateRuleActionArgs, UpdateRuleArgs,
     UpdateRuleConditionArgs
 } from "./types.t.ts";
 import {useApi} from "./Api.ts";
@@ -13,7 +13,8 @@ import moment from "moment";
 function transformRuleFromServer(rule: Rule): Rule {
     return {
         ...rule,
-        createdAt: moment(rule.createdAt)
+        createdAt: moment(rule.createdAt),
+        updatedAt: moment(rule.updatedAt)
     };
 }
 
@@ -59,6 +60,13 @@ export async function getRule(id: string): Promise<RuleDetail> {
         conditions: response.data.conditions.map(transformRuleConditionFromServer),
         actions: response.data.actions.map(transformRuleActionFromServer)
     };
+}
+
+export async function updateRule(id: string, args: UpdateRuleArgs): Promise<Rule> {
+    const api = useApi();
+    const response = await api.put<Rule>(`/api/rules/${id}`, args);
+    
+    return transformRuleFromServer(response.data);
 }
 
 export async function addRuleCondition(ruleId: string, type: RuleConditionType): Promise<RuleCondition> {
@@ -113,5 +121,6 @@ export const rulesApi = {
     deleteRuleCondition,
     addRuleAction,
     updateRuleAction,
-    deleteRuleAction
+    deleteRuleAction,
+    updateRule
 }

@@ -15,7 +15,8 @@ public class RulesController(
     IDeleteRuleCondition deleteRuleCondition,
     IDeleteRuleAction deleteRuleAction,
     IUpdateRuleCondition updateRuleCondition,
-    IUpdateRuleAction updateRuleAction) : ControllerBase
+    IUpdateRuleAction updateRuleAction,
+    IUpdateRule updateRule) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<RuleDto>>(StatusCodes.Status200OK)]
@@ -31,6 +32,15 @@ public class RulesController(
     public async Task<IActionResult> AddRule(AddRuleRequestDto request, CancellationToken cancellationToken)
     {
         var rule = await addRule.ExecuteAsync(DevicesController.TenantId, request.Name, cancellationToken);
+
+        return Ok(rule);
+    }
+
+    [HttpPut("{ruleId:guid}")]
+    [ProducesResponseType<RuleDto>(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateRule(Guid ruleId, UpdateRuleArgs args, CancellationToken cancellationToken)
+    {
+        var rule = await updateRule.ExecuteAsync(ruleId, args, cancellationToken);
 
         return Ok(rule);
     }

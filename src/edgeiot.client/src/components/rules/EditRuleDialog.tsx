@@ -45,7 +45,7 @@ export function EditRuleDialog(props: EditRuleDialogProps) {
     return (
         <>
             <Drawer anchor={"right"}
-                    sx={{ zIndex: 1202 }}
+                    sx={{ zIndex: (theme) => theme.zIndex.drawer + 2 }}
                     open={props.open}
                     onClose={props.onClose}
                     PaperProps={{

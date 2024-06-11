@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function useApi() {
     return axios.create({
-        baseURL: import.meta.env.API_BASE_URL ?? "https://localhost:7061/"
+        baseURL: import.meta.env.VITE_API_BASE_URL
     });
 }
 

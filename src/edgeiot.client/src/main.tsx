@@ -14,6 +14,21 @@ import {Rules} from "./Rules.tsx";
 import {RuleDetails} from "./RuleDetails.tsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { Auth0Provider, withAuthenticationRequired } from '@auth0/auth0-react';
+import { CssBaseline } from '@mui/material';
+
+// @ts-ignore
+function AuthGuard({ component }) {
+    const Component = withAuthenticationRequired(component, {
+        onRedirecting: () => (
+            <div>
+                Redirecting
+            </div>
+        )
+    });
+
+    return <Component/>;
+}
 
 const router = createBrowserRouter([
     {
@@ -22,29 +37,37 @@ const router = createBrowserRouter([
     },
     {
         path: "/devices",
-        element: <AppTemplate><Devices/></AppTemplate>
+        element: <AppTemplate><AuthGuard component={Devices}/></AppTemplate>
     },
     {
         path: "/devices/:id",
-        element: <AppTemplate><DeviceDetails/></AppTemplate>
+        element: <AppTemplate><AuthGuard component={DeviceDetails}/></AppTemplate>
     },
     {
         path: "/rules",
-        element: <AppTemplate><Rules/></AppTemplate>
+        element: <AppTemplate><AuthGuard component={Rules}/></AppTemplate>
     },
     {
         path: "/rules/:id",
-        element: <AppTemplate><RuleDetails/></AppTemplate>
+        element: <AppTemplate><AuthGuard component={RuleDetails}/></AppTemplate>
     }
 ]);
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>      
-        <QueryClientProvider client={queryClient}>
-            <ToastContainer autoClose={2000}/>
-            <RouterProvider router={router}/>
-        </QueryClientProvider>
+    <React.StrictMode>
+        <Auth0Provider domain={import.meta.env.VITE_AUTH0_DOMAIN}
+                       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+                       authorizationParams={{
+                           redirect_uri: window.location.origin,
+                           audience: import.meta.env.VITE_AUTH0_AUDIENCE
+                       }}>
+            <QueryClientProvider client={queryClient}>
+                <ToastContainer autoClose={2000}/>
+                <CssBaseline/>
+                <RouterProvider router={router}/>
+            </QueryClientProvider>
+        </Auth0Provider>
     </React.StrictMode>,
 )

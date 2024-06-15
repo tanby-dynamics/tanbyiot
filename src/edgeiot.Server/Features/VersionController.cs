@@ -11,7 +11,7 @@ public class VersionController : ControllerBase
     [ProducesResponseType<string>(StatusCodes.Status200OK)]
     public IActionResult GetVersion()
     {
-        var version = FileVersionInfo.GetVersionInfo(typeof(VersionController).Assembly.Location).FileVersion;
+        var version = FileVersionInfo.GetVersionInfo(GetType().Assembly.Location).FileVersion;
         
         return Ok(version);
     }

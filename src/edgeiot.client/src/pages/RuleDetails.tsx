@@ -1,15 +1,15 @@
 ﻿import { Helmet } from "react-helmet";
-import {getRule, rulesApi} from "./api/RulesApi.ts";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { Alert, Breadcrumbs, LinearProgress, Link, Paper, Switch, Table, TableBody,
     TableCell, TableContainer, TableRow, Typography } from "@mui/material";
-import {formatTimestamp} from "./helpers/formatting.ts";
-import {RuleConditions} from "./components/rules/RuleConditions.tsx";
-import {RuleActions} from "./components/rules/RuleActions.tsx";
 import { useState } from "react";
-import {EditRuleDialog} from "./components/rules/EditRuleDialog.tsx";
 import { toast } from "react-toastify";
+import {useRulesApi} from "../api/RulesApi.ts";
+import {formatTimestamp} from "../helpers/formatting.ts";
+import {EditRuleDialog} from "../components/rules/EditRuleDialog.tsx";
+import { RuleActions } from "../components/rules/RuleActions.tsx";
+import {RuleConditions} from "../components/rules/RuleConditions.tsx";
 
 export function RuleDetails() {
     const {
@@ -17,6 +17,7 @@ export function RuleDetails() {
     } = useParams<{ id: string}>();
     const queryClient = useQueryClient();
     const [ isEditing, setIsEditing ] = useState(false);
+    const rulesApi = useRulesApi();
     
     if (ruleId === undefined) {
         return <Alert severity={"error"}>No rule ID provided in path</Alert>;
@@ -28,7 +29,7 @@ export function RuleDetails() {
         data: rule
     } = useQuery({
         queryKey: ["rule"],
-        queryFn: () => getRule(ruleId)
+        queryFn: () => rulesApi.getRule(ruleId)
     });
     
     async function refresh() {

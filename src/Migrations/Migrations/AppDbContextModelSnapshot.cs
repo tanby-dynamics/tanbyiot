@@ -267,9 +267,55 @@ namespace Migrations.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
+                    b.Property<string>("SubscriptionLevel")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tenants");
+                });
+
+            modelBuilder.Entity("Data.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CurrentTenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ExternalId")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrentTenantId");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TenantUser", b =>
+                {
+                    b.Property<Guid>("TenantsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("TenantsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("TenantUser");
                 });
 
             modelBuilder.Entity("Data.Device", b =>
@@ -340,6 +386,30 @@ namespace Migrations.Migrations
                     b.Navigation("Device");
 
                     b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Data.User", b =>
+                {
+                    b.HasOne("Data.Tenant", "CurrentTenant")
+                        .WithMany()
+                        .HasForeignKey("CurrentTenantId");
+
+                    b.Navigation("CurrentTenant");
+                });
+
+            modelBuilder.Entity("TenantUser", b =>
+                {
+                    b.HasOne("Data.Tenant", null)
+                        .WithMany()
+                        .HasForeignKey("TenantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Device", b =>

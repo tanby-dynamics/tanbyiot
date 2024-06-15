@@ -1,16 +1,16 @@
-﻿import {RuleActionType, RuleConditionType} from "../api/types.t.ts";
+﻿import {RuleActionType, RuleConditionType} from "../api/enums.ts";
 
 export function getLabelForRuleConditionType(type: RuleConditionType) {
     switch (type) {
-        case RuleConditionType.telemetryTypes:
+        case RuleConditionType.TelemetryTypes:
             return "Telemetry type";
-        case RuleConditionType.value:
+        case RuleConditionType.Value:
             return "Value";
-        case RuleConditionType.payload:
+        case RuleConditionType.Payload:
             return "Payload";
-        case RuleConditionType.deviceId:
+        case RuleConditionType.DeviceId:
             return "Device ID";
-        case RuleConditionType.group:
+        case RuleConditionType.Group:
             return "Group";
         default:
             return `Unknown condition type: ${type}`;
@@ -19,13 +19,13 @@ export function getLabelForRuleConditionType(type: RuleConditionType) {
 
 export function getLabelForRuleActionType(type: RuleActionType) {
     switch (type) {
-        case RuleActionType.sendInstruction:
+        case RuleActionType.SendInstruction:
             return "Send instruction";
-        case RuleActionType.triggerWebhook:
+        case RuleActionType.TriggerWebhook:
             return "Trigger webhook";
-        case RuleActionType.sendEmail:
+        case RuleActionType.SendEmail:
             return "Send email";
-        case RuleActionType.sendSMS:
+        case RuleActionType.SendSMS:
             return "Send SMS";
         default:
             return `Unknown action type: ${type}`;

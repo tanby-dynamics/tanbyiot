@@ -1,4 +1,9 @@
+using System.Security.Claims;
 using Data;
+using edgeiot.Server;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Services;
 
@@ -44,6 +49,26 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add authentication and authorization
+var auth0Domain = builder.Configuration["Auth0:Domain"] ?? throw new ArgumentException("Auth0:Domain not set");
+var auth0Audience = builder.Configuration["Auth0:Audience"] ?? throw new ArgumentException("Auth0:Audience not set");
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = auth0Domain;
+        options.Audience = auth0Audience;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = ClaimTypes.NameIdentifier
+        };
+    });
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(
+        "admin:all",
+        policy => policy.Requirements.Add(new HasPermissionsRequirement("admin:all", auth0Domain)));
+builder.Services.AddSingleton<IAuthorizationHandler, HasPermissionsHandler>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -63,6 +88,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("/index.html");

@@ -2,7 +2,7 @@ import {DataGrid, GridColDef } from "@mui/x-data-grid";
 import {Device, Instruction} from "../../api/types.t.ts";
 import {Alert, Button, LinearProgress, Typography } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {getDeviceInstructions} from "../../api/DevicesApi.ts";
+import {useDevicesApi} from "../../api/DevicesApi.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
@@ -15,6 +15,7 @@ export type DeviceInstructionsProps = {
 
 export function DeviceInstructions(props: DeviceInstructionsProps) {
     const queryClient = useQueryClient();
+    const devicesApi = useDevicesApi();
     
     const {
         isPending,
@@ -23,7 +24,7 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
         data: instructions
     } = useQuery({
         queryKey: ["device-instructions"],
-        queryFn: () =>  getDeviceInstructions(props.device.id)
+        queryFn: () =>  devicesApi.getDeviceInstructions(props.device.id)
     });
     
     async function refresh() {

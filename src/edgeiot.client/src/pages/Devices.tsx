@@ -1,19 +1,20 @@
 ﻿import {Alert, Breadcrumbs, Button, CircularProgress, LinearProgress, Tooltip, Typography } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {devicesApi, getAllDevices} from "./api/DevicesApi.ts";
 import { AddCircleOutlined, Check, Delete, Edit, HistoryOutlined } from "@mui/icons-material";
 import {useEffect, useState } from "react";
-import {AddDeviceDialog} from "./components/devices/AddDeviceDialog.tsx";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import {Device} from "./api/types.t.ts";
-import {formatRelativeTimestamp} from "./helpers/formatting.ts";
 import { useNavigate } from 'react-router-dom';
-import {CopyValueButton} from "./components/shared/CopyValueButton.tsx";
 import { Helmet } from "react-helmet";
+import {useDevicesApi} from "../api/DevicesApi.ts";
+import {Device} from "../api/types.t.ts";
+import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
+import {formatRelativeTimestamp} from "../helpers/formatting.ts";
+import {AddDeviceDialog} from "../components/devices/AddDeviceDialog.tsx";
 
 export function Devices() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const devicesApi = useDevicesApi();
     const [ openAddDeviceDialog, setOpenAddDeviceDialog ] = useState(false);
     const [ isAddingDevice, setIsAddingDevice ] = useState(false);
     const [ newDeviceId, setNewDeviceId ] = useState<string>();
@@ -73,7 +74,7 @@ export function Devices() {
         data: devices 
     } = useQuery({
         queryKey: ["devices"],
-        queryFn: getAllDevices
+        queryFn: devicesApi.getAllDevices
     })
     
     async function refresh() {
@@ -119,7 +120,7 @@ export function Devices() {
     return (
         <>
             <Helmet>
-                <title>Devices - edgeiot</title>
+                <title>Devices - tanbyiot.app</title>
             </Helmet>
             <Breadcrumbs aria-label={"Breadcrumbs"}>
                 <Typography color={"text.primary"}>Devices</Typography>

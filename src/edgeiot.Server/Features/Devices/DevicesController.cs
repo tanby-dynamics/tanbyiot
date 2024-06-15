@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Devices;
 
 namespace edgeiot.Server.Features.Devices;
 
 [ApiController]
 [Route("/api/devices")]
+[Authorize]
 public class DevicesController(
     IGetAllDevicesForTenant getAllDevicesForTenant, 
     IAddDevice addDevice,

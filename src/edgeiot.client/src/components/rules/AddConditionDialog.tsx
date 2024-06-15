@@ -12,7 +12,7 @@
     RadioGroup,
     Tooltip
 } from "@mui/material";
-import {RuleConditionType} from "../../api/types.t.ts";
+import {RuleConditionType} from "../../api/enums.ts";
 import {getLabelForRuleConditionType} from "../../helpers/getEnumLabel.ts";
 import { InfoOutlined } from "@mui/icons-material";
 
@@ -47,57 +47,57 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
                 <FormControl>
                     <FormLabel id={"typeLabel"}></FormLabel>
                     <RadioGroup aria-labelledby={"typeLabel"}
-                                defaultValue={RuleConditionType.telemetryTypes}
+                                defaultValue={RuleConditionType.TelemetryTypes}
                                 name={"type"}>
-                        <FormControlLabel value={RuleConditionType.telemetryTypes}
+                        <FormControlLabel value={RuleConditionType.TelemetryTypes}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleConditionType(RuleConditionType.telemetryTypes)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.TelemetryTypes)}
                                                   {" "}
                                                   <Tooltip title={"Passes when the telemetry type matches the specified type"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleConditionType.value}
+                        <FormControlLabel value={RuleConditionType.Value}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleConditionType(RuleConditionType.value)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.Value)}
                                                   {" "}
                                                   <Tooltip title={"Passes based on the value of the telemetry"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleConditionType.payload}
+                        <FormControlLabel value={RuleConditionType.Payload}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleConditionType(RuleConditionType.payload)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.Payload)}
                                                   {" "}
                                                   <Tooltip title={"Passes when the payload of the telemetry matches the condition criteria"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleConditionType.deviceId}
+                        <FormControlLabel value={RuleConditionType.DeviceId}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleConditionType(RuleConditionType.deviceId)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.DeviceId)}
                                                   {" "}
                                                   <Tooltip title={"Passes when telemetry is received from the specified device"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleConditionType.group}
+                        <FormControlLabel value={RuleConditionType.Group}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleConditionType(RuleConditionType.group)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.Group)}
                                                   {" "}
                                                   <Tooltip title={"Passes when telemetry is received from a device in the specified group"}>
                                                       <InfoOutlined fontSize={"small"}/>

@@ -9,6 +9,8 @@ using Services.Processing;
 using Services.Telemetries;
 using Services.Queueing;
 using Services.Rules;
+using Services.Tenants;
+using Services.Users;
 
 namespace Services;
 
@@ -43,5 +45,9 @@ public static class ConfigureServices
         services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
         services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
         services.AddScoped<IUpdateRule, UpdateRule>();
+        services.AddScoped<IAddUser, AddUser>();
+        services.AddScoped<IGetUserByExternalId, GetUserByExternalId>();
+        services.AddScoped<IAddTenantForUser, AddTenantForUser>();
+        services.AddScoped<ISetCurrentTenantForUser, SetCurrentTenantForUser>();
     }
 }

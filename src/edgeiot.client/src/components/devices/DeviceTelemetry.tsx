@@ -4,7 +4,7 @@ import {Device, Telemetry} from "../../api/types.t.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
-import {getDeviceTelemetries} from "../../api/DevicesApi.ts";
+import {useDevicesApi} from "../../api/DevicesApi.ts";
 import { Alert, Button, LinearProgress, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
@@ -15,6 +15,7 @@ export type DeviceTelemetryProps = {
 
 export function DeviceTelemetry(props: DeviceTelemetryProps) {
     const queryClient = useQueryClient();
+    const devicesApi = useDevicesApi();
     
     const {
         isPending,
@@ -23,7 +24,7 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
         data: telemetries
     } = useQuery({
         queryKey: ["device-telemetries"],
-        queryFn: () => getDeviceTelemetries(props.device.id)
+        queryFn: () => devicesApi.getDeviceTelemetries(props.device.id)
     });
 
     async function refresh() {

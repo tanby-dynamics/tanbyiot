@@ -18,13 +18,14 @@
     TextField,
     Typography
 } from "@mui/material";
-import {Rule, RuleAction, RuleActionSendInstructionTargetDeviceType, RuleActionType} from "../../api/types.t.ts";
+import {Rule, RuleAction} from "../../api/types.t.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import {formatRuleActionType} from "../../helpers/helpers.ts";
 import { useState } from "react";
-import {rulesApi} from "../../api/RulesApi.ts";
+import {useRulesApi} from "../../api/RulesApi.ts";
 import { toast } from "react-toastify";
 import {FormRow} from "../shared/FormRow.tsx";
+import {RuleActionSendInstructionTargetDeviceType, RuleActionType} from "../../api/enums.ts";
 
 function ActionDetailsTable({ action }: { action: RuleAction }) {
     return (
@@ -66,12 +67,12 @@ function SendInstructionFields({ action }: { action: RuleAction }) {
                     <RadioGroup row aria-labelledby={"target-device-label"} name={"sendInstructionTargetDeviceType"}
                                 onChange={(e) => setTargetDeviceType(e.target.value as RuleActionSendInstructionTargetDeviceType)}
                                 defaultValue={action.sendInstructionTargetDeviceType}>
-                        <FormControlLabel value={RuleActionSendInstructionTargetDeviceType.singleDevice} control={<Radio/>} label={"Single device"}/>
-                        <FormControlLabel value={RuleActionSendInstructionTargetDeviceType.deviceGroups} control={<Radio/>} label={"Device groups"}/>
+                        <FormControlLabel value={RuleActionSendInstructionTargetDeviceType.SingleDevice} control={<Radio/>} label={"Single device"}/>
+                        <FormControlLabel value={RuleActionSendInstructionTargetDeviceType.DeviceGroups} control={<Radio/>} label={"Device groups"}/>
                     </RadioGroup>
                 </FormControl>  
             </FormRow>            
-            {targetDeviceType === RuleActionSendInstructionTargetDeviceType.singleDevice && (
+            {targetDeviceType === RuleActionSendInstructionTargetDeviceType.SingleDevice && (
                 <FormRow>
                     <FormControl fullWidth>
                         <TextField name={"sendInstructionDeviceId"}
@@ -82,7 +83,7 @@ function SendInstructionFields({ action }: { action: RuleAction }) {
                     </FormControl>
                 </FormRow>                
             )}
-            {targetDeviceType === RuleActionSendInstructionTargetDeviceType.deviceGroups && (
+            {targetDeviceType === RuleActionSendInstructionTargetDeviceType.DeviceGroups && (
                 <FormRow>
                     <TextField name={"sendInstructionDeviceGroups"}
                                label={"Device groups"}
@@ -140,6 +141,7 @@ export function EditActionDialog(props: EditActionDialogProps) {
     }
     
     const [ updating, setUpdating ] = useState(false);
+    const rulesApi = useRulesApi();
     
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -186,7 +188,7 @@ export function EditActionDialog(props: EditActionDialogProps) {
                     <ActionDetailsTable action={props.action}/>
 
                     <Box sx={{ marginTop: 2 }}>
-                        {props.action.type === RuleActionType.sendInstruction && <SendInstructionFields action={props.action}/>}
+                        {props.action.type === RuleActionType.SendInstruction && <SendInstructionFields action={props.action}/>}
                     </Box>
 
                     <Stack spacing={2} direction={"row"} sx={{ paddingTop: 2, float: "right"}}>

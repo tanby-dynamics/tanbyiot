@@ -5,17 +5,18 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import {AppTemplate} from "./AppTemplate.tsx";
-import {Dashboard} from "./Dashboard.tsx";
-import {Devices} from "./Devices.tsx";
+import {Devices} from "./pages/Devices.tsx";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {DeviceDetails} from "./DeviceDetails.tsx";
-import {Rules} from "./Rules.tsx";
-import {RuleDetails} from "./RuleDetails.tsx";
+import {DeviceDetails} from "./pages/DeviceDetails.tsx";
+import {Rules} from "./pages/Rules.tsx";
+import {RuleDetails} from "./pages/RuleDetails.tsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { Auth0Provider, withAuthenticationRequired } from '@auth0/auth0-react';
 import { CssBaseline } from '@mui/material';
+import {AdminDashboard} from "./pages/AdminDashboard.tsx";
+import {Root} from "./layout/Root.tsx";
+import {Tenants} from "./pages/Tenants.tsx";
 
 // @ts-ignore
 function AuthGuard({ component }) {
@@ -33,23 +34,34 @@ function AuthGuard({ component }) {
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <AppTemplate><Dashboard/></AppTemplate>
-    },
-    {
-        path: "/devices",
-        element: <AppTemplate><AuthGuard component={Devices}/></AppTemplate>
-    },
-    {
-        path: "/devices/:id",
-        element: <AppTemplate><AuthGuard component={DeviceDetails}/></AppTemplate>
-    },
-    {
-        path: "/rules",
-        element: <AppTemplate><AuthGuard component={Rules}/></AppTemplate>
-    },
-    {
-        path: "/rules/:id",
-        element: <AppTemplate><AuthGuard component={RuleDetails}/></AppTemplate>
+        element: <Root/>,
+        //errorElement,
+        children: [
+            {
+                path: "devices",
+                element: <AuthGuard component={Devices}/>
+            },
+            {
+                path: "devices/:id",
+                element: <AuthGuard component={DeviceDetails}/>
+            },
+            {
+                path: "rules",
+                element: <AuthGuard component={Rules}/>
+            },
+            {
+                path: "rules/:id",
+                element: <AuthGuard component={RuleDetails}/>
+            },
+            {
+                path: "admin",
+                element: <AdminDashboard/>
+            },
+            {
+                path: "tenants",
+                element: <AuthGuard component={Tenants}/>
+            }
+        ]
     }
 ]);
 

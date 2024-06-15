@@ -4,19 +4,20 @@ import {Alert,
     Typography} from "@mui/material";
 import { useState } from "react";
 import {useParams } from "react-router-dom";
-import {DeviceTelemetry} from "./components/devices/DeviceTelemetry.tsx";
-import {DeviceInstructions} from "./components/devices/DeviceInstructions.tsx";
 import { useQuery } from "@tanstack/react-query";
-import {getDevice} from "./api/DevicesApi.ts";
-import {CopyValueButton} from "./components/shared/CopyValueButton.tsx";
-import {formatRelativeTimestamp} from "./helpers/formatting.ts";
 import { Helmet } from "react-helmet";
+import {useDevicesApi} from "../api/DevicesApi.ts";
+import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
+import {formatRelativeTimestamp} from "../helpers/formatting.ts";
+import {DeviceTelemetry} from "../components/devices/DeviceTelemetry.tsx";
+import {DeviceInstructions} from "../components/devices/DeviceInstructions.tsx";
 
 export function DeviceDetails() {
     const {
         id: deviceId
     } = useParams<{ id: string }>();
     const [ selectedTab, setSelectedTab ] = useState(0);
+    const devicesApi = useDevicesApi();
 
     if (deviceId === undefined) {
         return <Alert severity={"error"}>No device ID provided in path</Alert>;
@@ -29,7 +30,7 @@ export function DeviceDetails() {
         data: device
     } = useQuery({
         queryKey: ["device-history-details"],
-        queryFn: () => getDevice(deviceId)
+        queryFn: () => devicesApi.getDevice(deviceId)
     });
     
     return (

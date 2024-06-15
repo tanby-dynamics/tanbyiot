@@ -1,4 +1,11 @@
 ﻿import { Moment } from "moment";
+import {
+    RuleActionSendInstructionTargetDeviceType,
+    RuleActionType,
+    RuleConditionComparisonOperationType,
+    RuleConditionConversionType,
+    RuleConditionType, SubscriptionLevel
+} from "./enums.ts";
 
 export type Device = {
     id: string;
@@ -55,14 +62,6 @@ export type RuleCondition = {
     updatedAt: string | Moment | null;
 }
 
-export enum RuleConditionType {
-    telemetryTypes = "TelemetryTypes",
-    value = "Value",
-    payload = "Payload",
-    deviceId = "DeviceId",
-    group = "Group"
-}
-
 export type RuleAction = {
     id: string;
     createdAt: string | Moment;
@@ -74,30 +73,6 @@ export type RuleAction = {
     sendInstructionDeviceId: string | null;
     sendInstructionDeviceGroups: string | null;
     sendInstructionTargetDeviceType: RuleActionSendInstructionTargetDeviceType | null;
-}
-
-export enum RuleActionType {
-    sendInstruction = "SendInstruction",
-    triggerWebhook = "TriggerWebhook",
-    sendEmail = "SendEmail",
-    sendSMS = "SendSMS"
-}
-
-export enum RuleActionSendInstructionTargetDeviceType {
-    deviceGroups = "DeviceGroups",
-    singleDevice = "SingleDevice"
-}
-
-export enum RuleConditionComparisonOperationType {
-    equals = "Equals",
-    notEquals = "NotEquals",
-    lessThan = "LessThan"
-}
-
-export enum RuleConditionConversionType {
-    number = "Number",
-    string = "String",
-    boolean = "Boolean"
 }
 
 export type UpdateRuleConditionArgs = {
@@ -114,4 +89,21 @@ export type UpdateRuleActionArgs = {
     sendInstructionDeviceId: string | null;
     sendInstructionDeviceGroups: string | null;
     sendInstructionTargetDeviceType: string | null;
+}
+
+export type Tenant = {
+    id: string;
+    name: string;
+}
+
+export type SystemUser = {
+    id: string;
+    externalId: string;
+    tenants: Tenant[];
+    currentTenant: Tenant;
+}
+
+export type AddTenantArgs = {
+    name: string;
+    subscriptionLevel: SubscriptionLevel;
 }

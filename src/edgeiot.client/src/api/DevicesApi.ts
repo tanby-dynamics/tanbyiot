@@ -1,6 +1,7 @@
 ﻿import {Device, Instruction, Telemetry} from "./types.t.ts";
 import moment from "moment";
-import {useApi} from "./Api.ts";
+import {getApi} from "./Api.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function transformDeviceFromServer(device: Device): Device {
     return {
@@ -9,54 +10,58 @@ function transformDeviceFromServer(device: Device): Device {
     };
 }
 
-export async function getAllDevices(): Promise<Device[]> {
-    const api = useApi();
-    const response = await api.get<Device[]>("api/devices");
+export function useDevicesApi() {
+    const {
+        getAccessTokenSilently,
+        isAuthenticated
+    } = useAuth0();
     
-    return response.data.map(transformDeviceFromServer);
-}
-
-export async function getDevice(deviceId: string) {
-    const api = useApi();
-    const response = await api.get<Device>(`/api/devices/${deviceId}`);
+    async function getAuthenticatedApi() {
+        const token = await getAccessTokenSilently();
+        return getApi(token);
+    }   
     
-    return transformDeviceFromServer(response.data);
-}
+    return {
+        ready: isAuthenticated,
+        getAllDevices: async function(): Promise<Device[]> {
+            const api = await getAuthenticatedApi();
+            const response = await api.get<Device[]>("api/devices");
 
-export async function addDevice(name: string, groupName: string): Promise<Device> {
-    const api = useApi();
-    const response = await api.post<Device>("/api/devices", {
-        name,
-        groupName
-    });
-    
-    return transformDeviceFromServer(response.data);
-}
+            return response.data.map(transformDeviceFromServer);
+        },
+        getDevice: async function(deviceId: string) {
+            const api = await getAuthenticatedApi();
+            const response = await api.get<Device>(`/api/devices/${deviceId}`);
 
-export async function getDeviceTelemetries(deviceId: string) {
-    const api= useApi();
-    const response = await api.get<Telemetry[]>(`/api/devices/${deviceId}/telemetry`);
+            return transformDeviceFromServer(response.data);
+        },
+        addDevice: async function(name: string, groupName: string): Promise<Device> {
+            const api = await getAuthenticatedApi();
+            const response = await api.post<Device>("/api/devices", {
+                name,
+                groupName
+            });
 
-    return response.data.map<Telemetry>(x => ({
-        ...x,
-        receivedAt: moment(x.receivedAt)
-    }));
-}
-export async function getDeviceInstructions(deviceId: string) {
-    const api= useApi();
-    const response = await api.get<Instruction[]>(`/api/devices/${deviceId}/instructions`);
+            return transformDeviceFromServer(response.data);
+        },
+        getDeviceTelemetries: async function(deviceId: string) {
+            const api= await getAuthenticatedApi();
+            const response = await api.get<Telemetry[]>(`/api/devices/${deviceId}/telemetry`);
 
-    return response.data.map<Instruction>(x => ({
-        ...x,
-        createdAt: moment(x.createdAt),
-        sentAt: x.sentAt ? moment(x.sentAt) : null
-    }));
-}
+            return response.data.map<Telemetry>(x => ({
+                ...x,
+                receivedAt: moment(x.receivedAt)
+            }));
+        },
+        getDeviceInstructions: async function(deviceId: string) {
+            const api= await getAuthenticatedApi();
+            const response = await api.get<Instruction[]>(`/api/devices/${deviceId}/instructions`);
 
-export const devicesApi = {
-    getAllDevices,
-    getDevice,
-    addDevice,
-    getDeviceTelemetries,
-    getDeviceInstructions
+            return response.data.map<Instruction>(x => ({
+                ...x,
+                createdAt: moment(x.createdAt),
+                sentAt: x.sentAt ? moment(x.sentAt) : null
+            }));
+        }
+    }
 }

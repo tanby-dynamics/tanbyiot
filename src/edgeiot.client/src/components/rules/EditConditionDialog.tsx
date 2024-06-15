@@ -14,13 +14,14 @@
     TextField,
     Typography
 } from "@mui/material";
-import {Rule, RuleCondition, RuleConditionType} from "../../api/types.t.ts";
+import {Rule, RuleCondition} from "../../api/types.t.ts";
 import {formatRuleConditionType} from "../../helpers/helpers.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import { useState } from "react";
-import {rulesApi} from "../../api/RulesApi.ts";
+import {useRulesApi} from "../../api/RulesApi.ts";
 import { toast } from "react-toastify";
 import {FormRow} from "../shared/FormRow.tsx";
+import {RuleConditionType} from "../../api/enums.ts";
 
 function ConditionDetailsTable({ condition }: { condition: RuleCondition }) {
     return (
@@ -83,6 +84,7 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
     }
     
     const [ updating, setUpdating ] = useState(false);
+    const rulesApi = useRulesApi();
     
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -96,11 +98,11 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
             await rulesApi.updateRuleCondition(props.rule.id, props.condition!.id, {
                 comparisonValue: (() => {
                     switch (props.condition!.type) {
-                        case RuleConditionType.deviceId: return "not implement";
-                        case RuleConditionType.group: return "not implemented";
-                        case RuleConditionType.telemetryTypes: return formJson.telemetryTypes;
-                        case RuleConditionType.payload: return "not implemented";
-                        case RuleConditionType.value: return "not implemented";
+                        case RuleConditionType.DeviceId: return "not implement";
+                        case RuleConditionType.Group: return "not implemented";
+                        case RuleConditionType.TelemetryTypes: return formJson.telemetryTypes;
+                        case RuleConditionType.Payload: return "not implemented";
+                        case RuleConditionType.Value: return "not implemented";
                         default: throw `Can't get comparison value for condition type ${props.condition?.type}`
                     }
                 })(),
@@ -136,7 +138,7 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
                     <ConditionDetailsTable condition={props.condition}/>
 
                     <Box sx={{ marginTop: 2 }}>
-                        {props.condition.type === RuleConditionType.telemetryTypes && <TelemetryTypesFields condition={props.condition}/>}
+                        {props.condition.type === RuleConditionType.TelemetryTypes && <TelemetryTypesFields condition={props.condition}/>}
                     </Box>
                      
                     <Stack spacing={2} direction={"row"} sx={{ paddingTop: 2, float: "right"}}>

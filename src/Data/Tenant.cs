@@ -12,4 +12,6 @@ public class Tenant
     public ICollection<Telemetry> Telemetries { get; init; } = default!;
     // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
     public ICollection<Rule> Rules { get; init; } = default!;
+    public ICollection<User> Users { get; init; } = default!;
+    public SubscriptionLevel SubscriptionLevel { get; init; }
 }

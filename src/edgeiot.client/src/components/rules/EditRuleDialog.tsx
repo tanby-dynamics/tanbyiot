@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
 import {Rule} from "../../api/types.t.ts";
-import {rulesApi} from "../../api/RulesApi.ts";
+import {useRulesApi} from "../../api/RulesApi.ts";
 import { toast } from "react-toastify";
 import {Box, Button, Container, Drawer, FormControl, Stack, TextField, Typography } from "@mui/material";
 import {FormRow} from "../shared/FormRow.tsx";
@@ -18,6 +18,7 @@ export function EditRuleDialog(props: EditRuleDialogProps) {
     }
     
     const [ updating, setUpdating ] = useState(false);
+    const rulesApi = useRulesApi();
     
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();

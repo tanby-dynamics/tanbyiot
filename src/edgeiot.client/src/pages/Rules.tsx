@@ -1,20 +1,21 @@
 ﻿import {DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import {Rule} from "./api/types.t.ts";
 import {Alert, Breadcrumbs, Button, CircularProgress, LinearProgress, Tooltip, Typography } from "@mui/material";
 import {AddCircleOutlined, Edit } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
-import {getAllRules, rulesApi} from "./api/RulesApi.ts";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {AddRuleDialog} from "./components/rules/AddRuleDialog.tsx";
-import {formatTimestamp} from "./helpers/formatting.ts";
+import {Rule} from "../api/types.t.ts";
+import {useRulesApi} from "../api/RulesApi.ts";
+import {formatTimestamp} from "../helpers/formatting.ts";
+import {AddRuleDialog} from "../components/rules/AddRuleDialog.tsx";
 
 export function Rules() {
     const navigate = useNavigate();
     const [ openAddRuleDialog, setOpenAddRuleDialog ] = useState(false);
     const [ isAddingRule, setIsAddingRule ] = useState(false);
     const [ addRuleError, setAddRuleError] = useState<Error>();
+    const rulesApi = useRulesApi();
     
     const rulesTableColumns: GridColDef<Rule>[] = [
         {
@@ -57,7 +58,7 @@ export function Rules() {
         data: rules
     } = useQuery({
         queryKey: ["rules"],
-        queryFn: getAllRules
+        queryFn: rulesApi.getAllRules
     });
     
     async function addRule(name: string) {

@@ -12,7 +12,7 @@
     RadioGroup,
     Tooltip
 } from "@mui/material";
-import {RuleActionType} from "../../api/types.t.ts";
+import {RuleActionType} from "../../api/enums.ts";
 import {getLabelForRuleActionType} from "../../helpers/getEnumLabel.ts";
 import {InfoOutlined} from "@mui/icons-material";
 
@@ -48,13 +48,13 @@ export function AddActionDialog(props: AddActionDialogProps) {
                 <FormControl>
                     <FormLabel id={"typeLabel"}></FormLabel>
                     <RadioGroup aria-labelledby={"typeLabel"}
-                                defaultValue={RuleActionType.sendInstruction}
+                                defaultValue={RuleActionType.SendInstruction}
                                 name={"type"}>
-                        <FormControlLabel value={RuleActionType.sendInstruction}
+                        <FormControlLabel value={RuleActionType.SendInstruction}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.sendInstruction)}
+                                                  {getLabelForRuleActionType(RuleActionType.SendInstruction)}
                                                   {" "}
                                                   <Tooltip
                                                       title={"Sends an instruction to a device or group of devices"}>
@@ -62,33 +62,33 @@ export function AddActionDialog(props: AddActionDialogProps) {
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleActionType.triggerWebhook}
+                        <FormControlLabel value={RuleActionType.TriggerWebhook}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.triggerWebhook)}
+                                                  {getLabelForRuleActionType(RuleActionType.TriggerWebhook)}
                                                   {" "}
                                                   <Tooltip title={"Sends a POST request to a specified URL"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleActionType.sendEmail}
+                        <FormControlLabel value={RuleActionType.SendEmail}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.sendEmail)}
+                                                  {getLabelForRuleActionType(RuleActionType.SendEmail)}
                                                   {" "}
                                                   <Tooltip title={"Sends an email to one or more recipients"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleActionType.sendSMS}
+                        <FormControlLabel value={RuleActionType.SendSMS}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.sendSMS)}
+                                                  {getLabelForRuleActionType(RuleActionType.SendSMS)}
                                                   {" "}
                                                   <Tooltip title={"Sends an SMS to one or more recipients"}>
                                                       <InfoOutlined fontSize={"small"}/>

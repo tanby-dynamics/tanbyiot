@@ -1,13 +1,14 @@
 ﻿import {Alert, Button, CircularProgress, Tooltip, Typography } from "@mui/material";
-import {RuleCondition, RuleConditionType, RuleDetail} from "../../api/types.t.ts";
+import {RuleCondition, RuleDetail} from "../../api/types.t.ts";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { AddCircleOutlined, DeleteOutlined, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { AddConditionDialog } from "./AddConditionDialog.tsx";
 import {EditConditionDialog} from "./EditConditionDialog.tsx";
-import {rulesApi} from "../../api/RulesApi.ts";
+import {useRulesApi} from "../../api/RulesApi.ts";
 import {formatRuleConditionType} from "../../helpers/helpers.ts";
 import { toast } from "react-toastify";
+import {RuleConditionType} from "../../api/enums.ts";
 
 export type RuleConditionsProps = {
     rule: RuleDetail,
@@ -23,6 +24,7 @@ export function RuleConditions(props: RuleConditionsProps) {
     const [ addConditionError, setAddConditionError ] = useState<Error | null>();
     const [ isEditingCondition, setIsEditingCondition ] = useState(false);
     const [ conditionBeingEdited, setConditionBeingEdited ] = useState<RuleCondition | null>(null);
+    const rulesApi = useRulesApi();
     
     const columns: GridColDef<RuleCondition>[] = [
         {

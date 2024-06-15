@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Rule> Rules { get; set; }
     public DbSet<RuleCondition> RuleConditions { get; set; }
     public DbSet<RuleAction> RuleActions { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -28,6 +29,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Tenant>().HasMany(x => x.Devices).WithOne(x => x.Tenant);
         modelBuilder.Entity<Tenant>().HasMany(x => x.Telemetries).WithOne(x => x.Tenant);
         modelBuilder.Entity<Tenant>().HasMany(x => x.Rules).WithOne(x => x.Tenant);
+        modelBuilder.Entity<Tenant>().HasMany(x => x.Users).WithMany(x => x.Tenants);
+        modelBuilder.Entity<Tenant>().Property(x => x.SubscriptionLevel).HasConversion<string>();
         
         modelBuilder.Entity<Device>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<Device>().HasMany(x => x.Instructions).WithOne(x => x.Device).IsRequired(false);
@@ -45,5 +48,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<RuleAction>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<RuleAction>().Property(x => x.Type).HasConversion<string>();
         modelBuilder.Entity<RuleAction>().Property(x => x.SendInstructionTargetDeviceType).HasConversion<string>();
+
+        modelBuilder.Entity<User>().HasIndex(x => x.ExternalId).IsUnique();
+        modelBuilder.Entity<User>().HasOne(x => x.CurrentTenant);
     }
 }

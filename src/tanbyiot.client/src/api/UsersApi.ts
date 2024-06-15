@@ -1,6 +1,7 @@
 ﻿import { useAuth0 } from "@auth0/auth0-react";
 import {getApi} from "./Api.ts";
 import {SystemUser, Tenant} from "./types.t.ts";
+import { useQuery } from "@tanstack/react-query";
 
 export function useUsersApi() {
     const {
@@ -33,4 +34,16 @@ export function useUsersApi() {
             });
         }
     };
+}
+
+export function useUser() {
+    const api = useUsersApi();
+    const {
+        data: user
+    } = useQuery({
+        queryKey: ["user"],
+        queryFn: api.getCurrentUser
+    });
+    
+    return user;
 }

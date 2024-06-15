@@ -6,15 +6,21 @@ namespace Services.Instructions;
 
 public interface IPollForInstructions
 {
-    Task<IEnumerable<PollForInstructionsResponseDto>> ExecuteAsync(Guid deviceId, CancellationToken cancellationToken);
+    Task<IEnumerable<PollForInstructionsResponseDto>> ExecuteAsync(
+        Guid tenantId,
+        Guid deviceId, 
+        CancellationToken cancellationToken);
 }
 
 public class PollForInstructions(AppDbContext dbContext, ISystemClock clock) : IPollForInstructions
 {
-    public async Task<IEnumerable<PollForInstructionsResponseDto>> ExecuteAsync(Guid deviceId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PollForInstructionsResponseDto>> ExecuteAsync(
+        Guid tenantId,
+        Guid deviceId, 
+        CancellationToken cancellationToken)
     {
         var instructions = await dbContext.Instructions
-            .Where(x => x.DeviceId == deviceId && x.SentAt == null)
+            .Where(x => x.Device.TenantId == tenantId && x.Device.Id == deviceId && x.SentAt == null)
             .OrderBy(x => x.CreatedAt)
             .ToListAsync(cancellationToken);
 

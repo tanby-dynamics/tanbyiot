@@ -45,7 +45,7 @@ public class UsersController(IAddUser addUser, IGetUserByExternalId getUserByExt
 
         if (!found)
         {
-            return Unauthorized();
+            return NotFound();
         }
 
         if (user!.Tenants.All(x => x.Id != request.TenantId))

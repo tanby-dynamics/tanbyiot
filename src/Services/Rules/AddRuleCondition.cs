@@ -13,6 +13,7 @@ public class AddRuleCondition(AppDbContext dbContext, ISystemClock clock) : IAdd
 {
     public async Task<RuleConditionDto> ExecuteAsync(Guid ruleId, RuleConditionType type, CancellationToken cancellationToken)
     {
+        var log = Log.ForContext<AddRuleCondition>();
         var result = await dbContext.RuleConditions.AddAsync(new RuleCondition
         {
             RuleId = ruleId,
@@ -22,7 +23,6 @@ public class AddRuleCondition(AppDbContext dbContext, ISystemClock clock) : IAdd
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        var log = Log.ForContext<AddRuleCondition>();
         log.Information("Added condition {RuleConditionId} for rule {RuleId}", result.Entity.Id, ruleId);
 
         return RuleConditionDto.FromEntity(result.Entity);

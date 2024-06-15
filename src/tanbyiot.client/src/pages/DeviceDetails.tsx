@@ -11,6 +11,7 @@ import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
 import {formatRelativeTimestamp} from "../helpers/formatting.ts";
 import {DeviceTelemetry} from "../components/devices/DeviceTelemetry.tsx";
 import {DeviceInstructions} from "../components/devices/DeviceInstructions.tsx";
+import {useUser} from "../api/UsersApi.ts";
 
 export function DeviceDetails() {
     const {
@@ -18,6 +19,7 @@ export function DeviceDetails() {
     } = useParams<{ id: string }>();
     const [ selectedTab, setSelectedTab ] = useState(0);
     const devicesApi = useDevicesApi();
+    const user = useUser();
 
     if (deviceId === undefined) {
         return <Alert severity={"error"}>No device ID provided in path</Alert>;
@@ -55,7 +57,11 @@ export function DeviceDetails() {
                             <TableBody>
                                 <TableRow>
                                     <TableCell>Tenant ID</TableCell>
-                                    <TableCell><code>{"de37f1e6-70a1-4c69-bdbc-317ff86b5267"}</code> <CopyValueButton value={"de37f1e6-70a1-4c69-bdbc-317ff86b5267"}/></TableCell>
+                                    {user && user.currentTenant && (
+                                        <>
+                                            <TableCell><code>{user.currentTenant.id}</code> <CopyValueButton value={user.currentTenant.id}/></TableCell>
+                                        </>
+                                    )}
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Device ID</TableCell>

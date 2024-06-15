@@ -5,12 +5,18 @@ namespace Services.Devices;
 
 public interface IGetInstructionsForDevice
 {
-    Task<IEnumerable<GetInstructionsForDeviceResponseDto>> ExecuteAsync(Guid deviceId, int take, CancellationToken cancellationToken);
+    Task<IEnumerable<GetInstructionsForDeviceResponseDto>> ExecuteAsync(
+        Guid deviceId, 
+        int take, 
+        CancellationToken cancellationToken);
 }
 
 public class GetInstructionsForDevice(AppDbContext dbContext) : IGetInstructionsForDevice
 {
-    public async Task<IEnumerable<GetInstructionsForDeviceResponseDto>> ExecuteAsync(Guid deviceId, int take, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetInstructionsForDeviceResponseDto>> ExecuteAsync(
+        Guid deviceId, 
+        int take, 
+        CancellationToken cancellationToken)
     {
         var results = await dbContext.Instructions
             .Where(x => x.DeviceId == deviceId)

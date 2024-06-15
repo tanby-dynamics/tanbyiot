@@ -23,7 +23,6 @@ public static class ConfigureServices
         services.AddScoped<IGetAllDevicesForTenant, GetAllDevicesForTenant>();
         services.AddScoped<IAddDevice, AddDevice>();
         services.AddScoped<IAddTelemetry, AddTelemetry>();
-        services.AddScoped<IValidateDevice, ValidateDevice>();
         services.AddScoped<ISystemClock, SystemClock>();
         services.AddScoped<IConnectDevice, ConnectDevice>();
         services.AddScoped<IProcessTelemetry, ProcessTelemetry>();
@@ -49,5 +48,11 @@ public static class ConfigureServices
         services.AddScoped<IGetUserByExternalId, GetUserByExternalId>();
         services.AddScoped<IAddTenantForUser, AddTenantForUser>();
         services.AddScoped<ISetCurrentTenantForUser, SetCurrentTenantForUser>();
+        services.AddScoped<IGetCurrentTenantIdForUser, GetCurrentTenantIdForUser>();
+        services.AddScoped<IValidateTenantForUser, ValidateTenantForUser>();
+        services.AddScoped<IValidateDeviceInTenant, ValidateDeviceInTenant>();
+        services.AddScoped<IValidateRuleInTenant, ValidateRuleInTenant>();
+        services.AddScoped<IValidateConditionInRule, ValidateConditionInRule>();
+        services.AddScoped<IValidateActionInRule, ValidateActionInRule>();
     }
 }

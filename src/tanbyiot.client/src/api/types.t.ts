@@ -76,6 +76,7 @@ export type RuleAction = {
 }
 
 export type UpdateRuleConditionArgs = {
+    ruleConditionId: string;
     comparisonValue: string;
     comparisonOperation: RuleConditionComparisonOperationType | null;
     payloadPath: string | null;

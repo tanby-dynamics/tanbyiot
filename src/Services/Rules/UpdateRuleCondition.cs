@@ -5,19 +5,19 @@ namespace Services.Rules;
 
 public interface IUpdateRuleCondition
 {
-    Task<RuleConditionDto> ExecuteAsync(Guid ruleId, Guid ruleConditionId, UpdateRuleConditionArgs args,
+    Task<RuleConditionDto> ExecuteAsync(
+        UpdateRuleConditionArgs args,
         CancellationToken cancellationToken);
 }
 
 public class UpdateRuleCondition(AppDbContext dbContext) : IUpdateRuleCondition
 {
-    public async Task<RuleConditionDto> ExecuteAsync(Guid ruleId, Guid ruleConditionId, UpdateRuleConditionArgs args,
+    public async Task<RuleConditionDto> ExecuteAsync(
+        UpdateRuleConditionArgs args,
         CancellationToken cancellationToken)
     {
         var condition = await dbContext.RuleConditions
-            .SingleAsync(
-                x => x.RuleId == ruleId && x.Id == ruleConditionId,
-                cancellationToken);
+            .SingleAsync(x => x.Id == args.RuleConditionId, cancellationToken);
 
         condition.ComparisonValue = args.ComparisonValue;
         condition.ComparisonOperation = args.ComparisonOperation;

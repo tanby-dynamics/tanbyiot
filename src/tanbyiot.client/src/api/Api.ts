@@ -1,5 +1,4 @@
 import axios from "axios";
-import {User} from "./types.t.ts";
 
 export function getApi(token?: string | null) {
     return axios.create({

@@ -10,6 +10,7 @@ import {Device} from "../api/types.t.ts";
 import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
 import {formatRelativeTimestamp} from "../helpers/formatting.ts";
 import {AddDeviceDialog} from "../components/devices/AddDeviceDialog.tsx";
+import {useUser} from "../api/UsersApi.ts";
 
 export function Devices() {
     const queryClient = useQueryClient();
@@ -19,6 +20,7 @@ export function Devices() {
     const [ isAddingDevice, setIsAddingDevice ] = useState(false);
     const [ newDeviceId, setNewDeviceId ] = useState<string>();
     const [ addDeviceError, setAddDeviceError ] = useState<Error | null>();
+    const user = useUser();
 
     const devicesTableColumns: GridColDef<Device>[] = [
         {
@@ -127,7 +129,9 @@ export function Devices() {
             </Breadcrumbs>
 
             {devices && devices.length === 0 && (
-                <Alert severity={"warning"}>You have no devices. You should create one now!</Alert>
+                <Alert severity={"warning"} style={{ marginBottom: "1em" }}>
+                    You have no devices. You should create one now!
+                </Alert>
             )}
             
             <Typography align={"right"} style={{ paddingBottom: "1em" }}>
@@ -158,7 +162,11 @@ export function Devices() {
                     <ul>
                         <li>
                             Tenant ID:{" "}
-                            <code>de37f1e6-70a1-4c69-bdbc-317ff86b5267</code> <CopyValueButton value={"de37f1e6-70a1-4c69-bdbc-317ff86b5267"}/>
+                            {user && user.currentTenant && (
+                                <>
+                                    <code>{user.currentTenant.id}</code> <CopyValueButton value={user.currentTenant.id}/>
+                                </>
+                            )}
                         </li>
                         <li>
                             Device ID:{" "}

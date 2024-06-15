@@ -1,6 +1,6 @@
-namespace tanbyiot.Server.Features.Devices;
+namespace tanbyiot.Server.Features.Hw;
 
-public class ConnectDeviceRequestDto
+public class ConnectDeviceArgsDto
 {
     public Guid TenantId { get; set; }
     public Guid DeviceId { get; set; }

@@ -95,7 +95,8 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
         setUpdating(true);
         
         try {
-            await rulesApi.updateRuleCondition(props.rule.id, props.condition!.id, {
+            await rulesApi.updateRuleCondition(props.rule.id, {
+                ruleConditionId: props.condition!.id,
                 comparisonValue: (() => {
                     switch (props.condition!.type) {
                         case RuleConditionType.DeviceId: return "not implement";

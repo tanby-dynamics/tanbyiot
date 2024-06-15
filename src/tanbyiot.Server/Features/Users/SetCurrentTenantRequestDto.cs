@@ -1,4 +1,4 @@
-﻿namespace edgeiot.Server.Features.Users;
+﻿namespace tanbyiot.Server.Features.Users;
 
 public class SetCurrentTenantRequestDto
 {

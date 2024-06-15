@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services.Users;
 
-namespace edgeiot.Server.Features.Users;
+namespace tanbyiot.Server.Features.Users;
 
 [ApiController]
 [Route("/api/users")]

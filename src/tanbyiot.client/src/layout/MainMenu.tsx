@@ -6,11 +6,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useAuth0 } from "@auth0/auth0-react";
-import {useUsersApi} from "../api/UsersApi.ts";
+import {useUser} from "../api/UsersApi.ts";
 
 export function MainMenu() {
     const [ nowTimestamp, setNowTimestamp ] = useState(moment());
-    const usersApi = useUsersApi();
     const {
         isError: isVersionError,
         error: versionError,
@@ -23,17 +22,7 @@ export function MainMenu() {
         logout,
         user: auth0User
     } = useAuth0();
-    const {
-        isPending: isUserLoading,
-        data: user
-    } = useQuery({
-        queryKey: ["user"],
-        queryFn: usersApi.getCurrentUser
-    });
-    
-    if (isUserLoading) {
-        return null;
-    }
+    const user = useUser();
 
     // Refresh nowTimestamp every second
     useEffect(() => {
@@ -137,7 +126,7 @@ export function MainMenu() {
                     <strong>
                         <Tooltip title={"Manage tenant"}>
                             <Link underline={"hover"} href={"/manage-tenant"}>
-                                {user!.currentTenant.name}
+                                {user?.currentTenant?.name}
                             </Link>
                         </Tooltip>
                     </strong>

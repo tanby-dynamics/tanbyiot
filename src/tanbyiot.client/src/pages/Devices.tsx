@@ -1,7 +1,7 @@
 ﻿import {Alert, Breadcrumbs, Button, CircularProgress, LinearProgress, Tooltip, Typography } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AddCircleOutlined, Check, Delete, Edit, HistoryOutlined } from "@mui/icons-material";
-import {useEffect, useState } from "react";
+import { useState } from "react";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from "react-helmet";
@@ -76,7 +76,9 @@ export function Devices() {
         data: devices 
     } = useQuery({
         queryKey: ["devices"],
-        queryFn: devicesApi.getAllDevices
+        queryFn: devicesApi.getAllDevices,
+        refetchInterval: 10000,
+        enabled: !!user?.currentTenant
     })
     
     async function refresh() {
@@ -84,13 +86,6 @@ export function Devices() {
             queryKey: ["devices"]
         })
     }
-
-    // Refresh devices every 10 seconds
-    useEffect(() => {
-        const refreshTimer = setInterval(refresh, 10000);
-        
-        return () => clearInterval(refreshTimer);
-    }, []);    
     
     async function addDevice(name: string, groupName: string) {
         setIsAddingDevice(true);
@@ -162,11 +157,7 @@ export function Devices() {
                     <ul>
                         <li>
                             Tenant ID:{" "}
-                            {user && user.currentTenant && (
-                                <>
-                                    <code>{user.currentTenant.id}</code> <CopyValueButton value={user.currentTenant.id}/>
-                                </>
-                            )}
+                            <code>{user?.currentTenant?.id}</code> <CopyValueButton value={user?.currentTenant?.id ?? ""}/>
                         </li>
                         <li>
                             Device ID:{" "}

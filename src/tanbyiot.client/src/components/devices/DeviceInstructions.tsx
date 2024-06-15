@@ -6,7 +6,6 @@ import {useDevicesApi} from "../../api/DevicesApi.ts";
 import {formatTimestamp} from "../../helpers/formatting.ts";
 import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
-import {useEffect } from "react";
 import { Helmet } from "react-helmet";
 
 export type DeviceInstructionsProps = {
@@ -24,7 +23,8 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
         data: instructions
     } = useQuery({
         queryKey: ["device-instructions"],
-        queryFn: () =>  devicesApi.getDeviceInstructions(props.device.id)
+        queryFn: () =>  devicesApi.getDeviceInstructions(props.device.id),
+        refetchInterval: 10000
     });
     
     async function refresh() {
@@ -32,13 +32,6 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
             queryKey: ["device-instructions"]
         });    
     }
-
-    // Refresh every 10 seconds
-    useEffect(() => {
-        const refreshTimer = setInterval(refresh,10000);
-
-        return () => clearInterval(refreshTimer);
-    }, []);
 
     const columns: GridColDef<Instruction>[] = [
         {

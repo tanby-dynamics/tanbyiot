@@ -57,7 +57,7 @@ export function Tenants() {
             width: 350,
             renderCell: (params) => (
                 <>
-                    <code><a href={`/devices/${params.row.id}`}>{params.row.id}</a></code>
+                    <code>{params.row.id}</code>
                     <CopyValueButton value={params.row.id} tooltip={"Copy tenant ID"}/>
                 </>
             )

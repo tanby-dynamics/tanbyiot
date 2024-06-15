@@ -21,7 +21,7 @@ export function OnboardingWorkflow(props: { children: any }) {
     });
 
     if (isAuth0UserLoading) {
-        return null;
+        return props.children;
     }
     
     if (!isAuthenticated) {
@@ -30,7 +30,7 @@ export function OnboardingWorkflow(props: { children: any }) {
     }    
     
     if (isUserPending || !user) {
-        return null;
+        return props.children;
     }
     
     if (user.tenants.length === 0) {

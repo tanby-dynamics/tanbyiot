@@ -9,6 +9,7 @@ import {Rule} from "../api/types.t.ts";
 import {useRulesApi} from "../api/RulesApi.ts";
 import {formatTimestamp} from "../helpers/formatting.ts";
 import {AddRuleDialog} from "../components/rules/AddRuleDialog.tsx";
+import {useUser} from "../api/UsersApi.ts";
 
 export function Rules() {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ export function Rules() {
     const [ isAddingRule, setIsAddingRule ] = useState(false);
     const [ addRuleError, setAddRuleError] = useState<Error>();
     const rulesApi = useRulesApi();
+    const user = useUser();
     
     const rulesTableColumns: GridColDef<Rule>[] = [
         {
@@ -58,7 +60,8 @@ export function Rules() {
         data: rules
     } = useQuery({
         queryKey: ["rules"],
-        queryFn: rulesApi.getAllRules
+        queryFn: rulesApi.getAllRules,
+        enabled: !!user?.currentTenant
     });
     
     async function addRule(name: string) {

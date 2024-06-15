@@ -6,7 +6,6 @@ import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
 import {useDevicesApi} from "../../api/DevicesApi.ts";
 import { Alert, Button, LinearProgress, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 
 export type DeviceTelemetryProps = {
@@ -24,7 +23,8 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
         data: telemetries
     } = useQuery({
         queryKey: ["device-telemetries"],
-        queryFn: () => devicesApi.getDeviceTelemetries(props.device.id)
+        queryFn: () => devicesApi.getDeviceTelemetries(props.device.id),
+        refetchInterval: 10000
     });
 
     async function refresh() {
@@ -32,13 +32,6 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
             queryKey: ["device-telemetries"]
         });
     }
-    
-    // Refresh every 10 seconds
-    useEffect(() => {
-        const refreshTimer = setInterval(refresh, 10000);
-        
-        return () => clearInterval(refreshTimer);
-    }, []);
     
     const columns: GridColDef<Telemetry>[] = [
         {

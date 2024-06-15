@@ -13,7 +13,7 @@ import {RuleDetails} from "./pages/RuleDetails.tsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { Auth0Provider, withAuthenticationRequired } from '@auth0/auth0-react';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, LinearProgress } from '@mui/material';
 import {AdminDashboard} from "./pages/AdminDashboard.tsx";
 import {Root} from "./layout/Root.tsx";
 import {Tenants} from "./pages/Tenants.tsx";
@@ -22,9 +22,7 @@ import {Tenants} from "./pages/Tenants.tsx";
 function AuthGuard({ component }) {
     const Component = withAuthenticationRequired(component, {
         onRedirecting: () => (
-            <div>
-                Redirecting
-            </div>
+            <LinearProgress/>
         )
     });
 

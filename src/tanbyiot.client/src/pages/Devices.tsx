@@ -11,6 +11,7 @@ import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
 import {formatRelativeTimestamp} from "../helpers/formatting.ts";
 import {AddDeviceDialog} from "../components/devices/AddDeviceDialog.tsx";
 import {useUser} from "../api/UsersApi.ts";
+import {QueryKeys} from "../api/constants.ts";
 
 export function Devices() {
     const queryClient = useQueryClient();
@@ -75,7 +76,7 @@ export function Devices() {
         error, 
         data: devices 
     } = useQuery({
-        queryKey: ["devices"],
+        queryKey: [QueryKeys.Devices],
         queryFn: devicesApi.getAllDevices,
         refetchInterval: 10000,
         enabled: !!user?.currentTenant
@@ -83,7 +84,7 @@ export function Devices() {
     
     async function refresh() {
         await queryClient.invalidateQueries({
-            queryKey: ["devices"]
+            queryKey: [QueryKeys.Devices]
         })
     }
     
@@ -95,9 +96,7 @@ export function Devices() {
             const response = await devicesApi.addDevice(name, groupName);
 
             setNewDeviceId(response.id);
-            await queryClient.invalidateQueries({
-                queryKey: ["devices"]
-            })
+            await refresh();
         } catch (error) {
             setAddDeviceError(error as Error);
             console.error("Error adding device", error);

@@ -1,29 +1,27 @@
 ﻿import { Helmet } from "react-helmet";
-import {useUsersApi} from "../api/UsersApi.ts";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {useUser, useUsersApi} from "../api/UsersApi.ts";
+import { useQueryClient } from "@tanstack/react-query";
 import {Alert, Breadcrumbs, LinearProgress, Link, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import {Tenant} from "../api/types.t.ts";
+import {SystemUser, Tenant} from "../api/types.t.ts";
 import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
 import { Edit } from "@mui/icons-material";
 import { toast } from "react-toastify";
+import { QueryKeys } from "../api/constants.ts";
 
 export function Tenants() {
-    const usersApi = useUsersApi();
     const queryClient = useQueryClient();
-    
-    const {
-        data: user
-    } = useQuery({
-        queryKey: ["user"],
-        queryFn: usersApi.getCurrentUser
-    });
+    const user = useUser();
+    const usersApi = useUsersApi();
     
     async function selectTenant(tenant: Tenant) {
         try {
             await usersApi.setCurrentTenant(tenant);
-            await queryClient.invalidateQueries({
-                queryKey: ["user"]
+            queryClient.setQueryData([QueryKeys.User], (oldData: SystemUser) => {
+                return {
+                    ...oldData,
+                    currentTenant: tenant
+                };
             });
             toast.success(`Set current tenant to ${tenant.name}`);
         } catch (error) {
@@ -50,6 +48,11 @@ export function Tenants() {
                     )}
                 </>
             ) 
+        },
+        {
+            field: "subscriptionLevel",
+            headerName: "Subscription level",
+            flex: 0.5
         },
         {
             field: "id",

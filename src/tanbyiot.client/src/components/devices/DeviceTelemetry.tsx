@@ -7,6 +7,7 @@ import {PayloadCell} from "../shared/PayloadCell.tsx";
 import {useDevicesApi} from "../../api/DevicesApi.ts";
 import { Alert, Button, LinearProgress, Typography } from "@mui/material";
 import { Helmet } from "react-helmet";
+import {QueryKeys} from "../../api/constants.ts";
 
 export type DeviceTelemetryProps = {
     device: Device
@@ -22,14 +23,14 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
         error,
         data: telemetries
     } = useQuery({
-        queryKey: ["device-telemetries"],
+        queryKey: [QueryKeys.DeviceTelemetries, props.device.id],
         queryFn: () => devicesApi.getDeviceTelemetries(props.device.id),
         refetchInterval: 10000
     });
 
     async function refresh() {
         await queryClient.invalidateQueries({
-            queryKey: ["device-telemetries"]
+            queryKey: [QueryKeys.DeviceTelemetries, props.device.id]
         });
     }
     

@@ -10,7 +10,7 @@ namespace tanbyiot.Server.Features.Rules;
 [Route("/api/tenants/{tenantId:guid}/rules")]
 [Authorize]
 public class RulesController(
-    IGetAllRulesForTenant getAllRulesForTenant,
+    IGetRulesForTenant getRulesForTenant,
     IAddRule addRule,
     IGetRuleDetail getRuleDetail,
     IAddRuleCondition addRuleCondition,
@@ -34,7 +34,7 @@ public class RulesController(
             return NotFound();
         }
 
-        var rules = await getAllRulesForTenant.ExecuteAsync(tenantId, cancellationToken);
+        var rules = await getRulesForTenant.ExecuteAsync(tenantId, cancellationToken);
         
         return Ok(rules);
     }

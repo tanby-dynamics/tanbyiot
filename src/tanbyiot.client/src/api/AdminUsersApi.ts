@@ -1,7 +1,8 @@
-﻿import { useAuth0 } from "@auth0/auth0-react";
+﻿import {SystemUser} from "./types.t.ts";
 import {getApi} from "./Api.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
-export function useAdminTenantsApi() {
+export function useAdminUsersApi() {
     const {
         getAccessTokenSilently
     } = useAuth0();
@@ -11,11 +12,11 @@ export function useAdminTenantsApi() {
 
         return getApi(token);
     }
-
+    
     return {
-        getTenants: async function(): Promise<string[]> {
+        getUsers: async function(): Promise<SystemUser[]> {
             const api = await getAuthenticatedApi();
-            const response = await api.get<string[]>("api/admin/tenants");
+            const response = await api.get<SystemUser[]>("/api/admin/users");
             
             return response.data;
         }

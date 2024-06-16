@@ -102,6 +102,7 @@ export type SystemUser = {
     externalId: string;
     tenants: Tenant[];
     currentTenant: Tenant;
+    email: string;
 }
 
 export type AddTenantArgs = {

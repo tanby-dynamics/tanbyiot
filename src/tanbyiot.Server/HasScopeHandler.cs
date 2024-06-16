@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace edgeiot.Server;
+namespace tanbyiot.Server;
 
 public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
 {
@@ -19,31 +19,6 @@ public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
         }
 
         if (scopes.Any(x => x == requirement.Scope))
-        {
-            context.Succeed(requirement);
-        }
-
-        return Task.CompletedTask;
-    }
-}
-
-public class HasPermissionsHandler : AuthorizationHandler<HasPermissionsRequirement>
-{
-    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HasPermissionsRequirement requirement)
-    {
-        if (!context.User.HasClaim(x => x.Type == "permissions" && x.Issuer == requirement.Issuer))
-        {
-            return Task.CompletedTask;
-        }
-
-        var permissions = context.User.FindFirst(x => x.Type == "permissions" && x.Issuer == requirement.Issuer)?.Value.Split(' ');
-
-        if (permissions is null)
-        {
-            return Task.CompletedTask;
-        }
-
-        if (permissions.Any(x => x == requirement.Permission))
         {
             context.Succeed(requirement);
         }

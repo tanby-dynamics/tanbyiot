@@ -10,4 +10,5 @@ public class User
     public ICollection<Tenant> Tenants { get; init; } = default!;
     public Guid? CurrentTenantId { get; init; }
     public Tenant? CurrentTenant { get; set; }
+    [MaxLength(320)] public string Email { get; set; } = string.Empty;
 }

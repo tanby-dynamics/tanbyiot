@@ -2,8 +2,7 @@
 import moment from "moment";
 import {getApi} from "./Api.ts";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useQuery } from "@tanstack/react-query";
-import {useUsersApi} from "./UsersApi.ts";
+import {useUser} from "./UsersApi.ts";
 
 function transformDeviceFromServer(device: Device): Device {
     return {
@@ -13,17 +12,11 @@ function transformDeviceFromServer(device: Device): Device {
 }
 
 export function useDevicesApi() {
-    const userApi = useUsersApi();
     const {
         getAccessTokenSilently,
         isAuthenticated
     } = useAuth0();
-    const {
-        data: user
-    } = useQuery({
-        queryKey: ["user"],
-        queryFn: userApi.getCurrentUser
-    })
+    const user = useUser();
     
     async function getAuthenticatedApi() {
         const token = await getAccessTokenSilently();

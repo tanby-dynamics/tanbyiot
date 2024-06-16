@@ -14,9 +14,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { Auth0Provider, withAuthenticationRequired } from '@auth0/auth0-react';
 import { CssBaseline, LinearProgress } from '@mui/material';
-import {AdminDashboard} from "./pages/AdminDashboard.tsx";
 import {Root} from "./layout/Root.tsx";
 import {Tenants} from "./pages/Tenants.tsx";
+import {OnboardingSelectSubscriptionLevel} from "./pages/onboarding/OnboardingSelectSubscriptionLevel.tsx";
+import {OnboardingTenantDetails} from "./pages/onboarding/OnboardingTenantDetails.tsx";
+import {OnboardingPayment} from "./pages/onboarding/OnboardingPayment.tsx";
+import {AdminUsers} from "./pages/admin/AdminUsers.tsx";
+import {AdminOverview} from "./pages/admin/AdminOverview.tsx";
+import {AdminTenants} from "./pages/admin/AdminTenants.tsx";
+import {Overview} from "./pages/Overview.tsx";
 
 // @ts-ignore
 function AuthGuard({ component }) {
@@ -36,6 +42,10 @@ const router = createBrowserRouter([
         //errorElement,
         children: [
             {
+                path: "",
+                element: <AuthGuard component={Overview}/>
+            },
+            {
                 path: "devices",
                 element: <AuthGuard component={Devices}/>
             },
@@ -52,12 +62,32 @@ const router = createBrowserRouter([
                 element: <AuthGuard component={RuleDetails}/>
             },
             {
-                path: "admin",
-                element: <AdminDashboard/>
+                path: "admin/overview",
+                element: <AuthGuard component={AdminOverview}/>
+            },
+            {
+                path: "admin/tenants",
+                element: <AuthGuard component={AdminTenants}/>
+            },
+            {
+                path: "admin/users",
+                element: <AuthGuard component={AdminUsers}/>
             },
             {
                 path: "tenants",
                 element: <AuthGuard component={Tenants}/>
+            },
+            {
+                path: "onboarding/select-subscription-level",
+                element: <OnboardingSelectSubscriptionLevel/>
+            },
+            {
+                path: "onboarding/tenant-details",
+                element: <OnboardingTenantDetails/>
+            },
+            {
+                path: "onboarding/payment",
+                element: <OnboardingPayment/>
             }
         ]
     }

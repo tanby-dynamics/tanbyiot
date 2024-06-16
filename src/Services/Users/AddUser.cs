@@ -6,18 +6,19 @@ namespace Services.Users;
 
 public interface IAddUser
 {
-    Task<UserDto> ExecuteAsync(string externalId, CancellationToken cancellationToken);
+    Task<UserDto> ExecuteAsync(string externalId, string email, CancellationToken cancellationToken);
 }
 
 public class AddUser(AppDbContext dbContext, ISystemClock clock) : IAddUser
 {
-    public async Task<UserDto> ExecuteAsync(string externalId, CancellationToken cancellationToken)
+    public async Task<UserDto> ExecuteAsync(string externalId, string email, CancellationToken cancellationToken)
     {
         var log = Log.ForContext<AddUser>();
         var result = await dbContext.Users.AddAsync(new User
         {
             ExternalId = externalId,
-            CreatedAt = clock.UtcNow
+            CreatedAt = clock.UtcNow,
+            Email = email
         }, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);

@@ -7,6 +7,7 @@ import {formatTimestamp} from "../../helpers/formatting.ts";
 import {CopyValueButton} from "../shared/CopyValueButton.tsx";
 import {PayloadCell} from "../shared/PayloadCell.tsx";
 import { Helmet } from "react-helmet";
+import {QueryKeys} from "../../api/constants.ts";
 
 export type DeviceInstructionsProps = {
     device: Device
@@ -22,14 +23,14 @@ export function DeviceInstructions(props: DeviceInstructionsProps) {
         error,
         data: instructions
     } = useQuery({
-        queryKey: ["device-instructions"],
+        queryKey: [QueryKeys.DeviceInstructions],
         queryFn: () =>  devicesApi.getDeviceInstructions(props.device.id),
         refetchInterval: 10000
     });
     
     async function refresh() {
         await queryClient.invalidateQueries({
-            queryKey: ["device-instructions"]
+            queryKey: [QueryKeys.DeviceInstructions]
         });    
     }
 

@@ -1,11 +1,11 @@
 using System.Security.Claims;
 using Data;
-using edgeiot.Server;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Services;
+using tanbyiot.Server;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()

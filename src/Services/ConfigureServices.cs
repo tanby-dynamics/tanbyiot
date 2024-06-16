@@ -30,7 +30,7 @@ public static class ConfigureServices
         services.AddScoped<IGetInstructionsForDevice, GetInstructionsForDevice>();
         services.AddScoped<IGetDevice, GetDevice>();
         services.AddScoped<IPollForInstructions, PollForInstructions>();
-        services.AddScoped<IGetAllRulesForTenant, GetAllRulesForTenant>();
+        services.AddScoped<IGetRulesForTenant, GetRulesForTenant>();
         services.AddScoped<IAddRule, AddRule>();
         services.AddScoped<IGetRuleDetail, GetRuleDetail>();
         services.AddScoped<IAddRuleCondition, AddRuleCondition>();
@@ -54,5 +54,7 @@ public static class ConfigureServices
         services.AddScoped<IValidateRuleInTenant, ValidateRuleInTenant>();
         services.AddScoped<IValidateConditionInRule, ValidateConditionInRule>();
         services.AddScoped<IValidateActionInRule, ValidateActionInRule>();
+        services.AddScoped<IGetUsers, GetUsers>();
+        services.AddScoped<ISetUserEmail, SetUserEmail>();
     }
 }

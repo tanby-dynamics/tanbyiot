@@ -12,6 +12,7 @@ import {formatRelativeTimestamp} from "../helpers/formatting.ts";
 import {DeviceTelemetry} from "../components/devices/DeviceTelemetry.tsx";
 import {DeviceInstructions} from "../components/devices/DeviceInstructions.tsx";
 import {useUser} from "../api/UsersApi.ts";
+import {QueryKeys} from "../api/constants.ts";
 
 export function DeviceDetails() {
     const {
@@ -31,7 +32,7 @@ export function DeviceDetails() {
         error,
         data: device
     } = useQuery({
-        queryKey: ["device-history-details"],
+        queryKey: [QueryKeys.Device, deviceId],
         queryFn: () => devicesApi.getDevice(deviceId)
     });
     

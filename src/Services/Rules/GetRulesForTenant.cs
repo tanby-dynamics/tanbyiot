@@ -4,16 +4,16 @@ using Serilog;
 
 namespace Services.Rules;
 
-public interface IGetAllRulesForTenant
+public interface IGetRulesForTenant
 {
     Task<IEnumerable<RuleDto>> ExecuteAsync(Guid tenantId, CancellationToken cancellationToken);
 }
 
-public class GetAllRulesForTenant(AppDbContext dbContext) : IGetAllRulesForTenant
+public class GetRulesForTenant(AppDbContext dbContext) : IGetRulesForTenant
 {
     public async Task<IEnumerable<RuleDto>> ExecuteAsync(Guid tenantId, CancellationToken cancellationToken)
     {
-        var log = Log.ForContext<GetAllRulesForTenant>();
+        var log = Log.ForContext<GetRulesForTenant>();
         log.Information("Getting all rules for tenant {TenantId}", tenantId);
 
         var rules = await dbContext.Rules

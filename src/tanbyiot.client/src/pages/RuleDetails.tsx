@@ -10,6 +10,7 @@ import {formatTimestamp} from "../helpers/formatting.ts";
 import {EditRuleDialog} from "../components/rules/EditRuleDialog.tsx";
 import { RuleActions } from "../components/rules/RuleActions.tsx";
 import {RuleConditions} from "../components/rules/RuleConditions.tsx";
+import { QueryKeys } from "../api/constants.ts";
 
 export function RuleDetails() {
     const {
@@ -28,13 +29,13 @@ export function RuleDetails() {
         error,
         data: rule
     } = useQuery({
-        queryKey: ["rule"],
+        queryKey: [QueryKeys.Rule, ruleId],
         queryFn: () => rulesApi.getRule(ruleId)
     });
     
     async function refresh() {
         await queryClient.invalidateQueries({
-            queryKey: ["rule"]
+            queryKey: [QueryKeys.Rule, ruleId]
         });
     }
     

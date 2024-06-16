@@ -1,7 +1,7 @@
 ﻿import {DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import {Alert, Breadcrumbs, Button, CircularProgress, LinearProgress, Tooltip, Typography } from "@mui/material";
 import {AddCircleOutlined, Edit } from "@mui/icons-material";
-import { useQuery } from "@tanstack/react-query";
+import {useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import {useRulesApi} from "../api/RulesApi.ts";
 import {formatTimestamp} from "../helpers/formatting.ts";
 import {AddRuleDialog} from "../components/rules/AddRuleDialog.tsx";
 import {useUser} from "../api/UsersApi.ts";
+import {QueryKeys} from "../api/constants.ts";
 
 export function Rules() {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ export function Rules() {
         error: getRulesError,
         data: rules
     } = useQuery({
-        queryKey: ["rules"],
+        queryKey: [QueryKeys.Rules],
         queryFn: rulesApi.getAllRules,
         enabled: !!user?.currentTenant
     });

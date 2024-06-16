@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useAuth0 } from "@auth0/auth0-react";
-import {useUser} from "../api/UsersApi.ts";
+import {usePermissions, useUser} from "../api/UsersApi.ts";
+import {QueryKeys} from "../api/constants.ts";
 
 export function MainMenu() {
     const [ nowTimestamp, setNowTimestamp ] = useState(moment());
@@ -15,7 +16,7 @@ export function MainMenu() {
         error: versionError,
         data: version
     } = useQuery({
-        queryKey: ["version"],
+        queryKey: [QueryKeys.Version],
         queryFn: getVersion
     });
     const {
@@ -23,6 +24,9 @@ export function MainMenu() {
         user: auth0User
     } = useAuth0();
     const user = useUser();
+    const {
+        isSystemAdmin
+    } = usePermissions();
 
     // Refresh nowTimestamp every second
     useEffect(() => {
@@ -51,15 +55,36 @@ export function MainMenu() {
                         paddingTop: "64px"
                     }
                 }}>
-            {/* Admin (TODO add check on user) */}
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton href={"/admin"} selected={location.pathname === "/admin"}>
-                        <ListItemIcon><Dashboard/></ListItemIcon>
-                        <ListItemText primary={"Admin dashboard"}/>
-                    </ListItemButton>
-                </ListItem>
-            </List>
+            {/* System admin */}
+            {isSystemAdmin && (
+                <>
+                    <Typography variant={"subtitle2"} style={{ padding: "1em"}}>
+                        <small>
+                            System admin
+                        </small>
+                    </Typography>
+                    <List>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"/admin/overview"} selected={location.pathname === "/admin/overview"}>
+                                <ListItemIcon><Dashboard/></ListItemIcon>
+                                <ListItemText primary={"Overview"}/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"/admin/tenants"} selected={location.pathname.startsWith("/admin/tenants")}>
+                                <ListItemIcon><People/></ListItemIcon>
+                                <ListItemText primary={"Tenants"}/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"/admin/users"} selected={location.pathname.startsWith("/admin/users")}>
+                                <ListItemIcon><People/></ListItemIcon>
+                                <ListItemText primary={"Users"}/>
+                            </ListItemButton>
+                        </ListItem>
+                    </List>       
+                </>
+            )}
 
             {/* Select tenant */}
             <Divider/>
@@ -78,7 +103,7 @@ export function MainMenu() {
                 <ListItem disablePadding>
                     <ListItemButton href={"/"} selected={location.pathname === "/"}>
                         <ListItemIcon><Dashboard/></ListItemIcon>
-                        <ListItemText primary={"Dashboard"}/>
+                        <ListItemText primary={"Overview"}/>
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
@@ -149,7 +174,7 @@ export function MainMenu() {
                     <ListItemButton disabled>
                         <small>
                             {isVersionError && `Error getting version: ${versionError.name}, ${versionError.message}`}
-                            {version && `v${version}`}<br/>
+                            {!isVersionError && version && `v${version}`}<br/>
                             {formatTimestamp(nowTimestamp)}<br/>
                             &copy; {moment().format("yyyy")} Tanby Dynamics
                         </small>

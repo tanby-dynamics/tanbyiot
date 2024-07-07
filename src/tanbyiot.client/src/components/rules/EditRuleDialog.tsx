@@ -68,8 +68,6 @@ export function EditRuleDialog(props: EditRuleDialogProps) {
                                            defaultValue={props.rule.name}/>
                             </FormControl>
                         </FormRow>
-                        <FormRow>
-                        </FormRow>
                     </Box>
 
                     <Stack spacing={2} direction={"row"} sx={{ paddingTop: 2, float: "right"}}>

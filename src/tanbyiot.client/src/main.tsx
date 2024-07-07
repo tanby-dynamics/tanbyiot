@@ -23,6 +23,7 @@ import {AdminUsers} from "./pages/admin/AdminUsers.tsx";
 import {AdminOverview} from "./pages/admin/AdminOverview.tsx";
 import {AdminTenants} from "./pages/admin/AdminTenants.tsx";
 import {Overview} from "./pages/Overview.tsx";
+import {TenantStates} from "./pages/TenantStates.tsx";
 
 // @ts-ignore
 function AuthGuard({ component }) {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
             {
                 path: "onboarding/payment",
                 element: <OnboardingPayment/>
+            },
+            {
+                path: "tenant-states",
+                element: <TenantStates/>
             }
         ]
     }

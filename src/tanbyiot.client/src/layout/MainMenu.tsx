@@ -1,6 +1,6 @@
 ﻿import {Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material";
 import {formatTimestamp} from "../helpers/formatting.ts";
-import {Dashboard, Gavel, DeveloperMode, OpenInNew, Settings, ManageAccounts, People } from "@mui/icons-material";
+import {Dashboard, Gavel, DeveloperMode, OpenInNew, Settings, ManageAccounts, People, Description } from "@mui/icons-material";
 import {getVersion} from "../api/Api.ts";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -118,6 +118,12 @@ export function MainMenu() {
                         <ListItemText primary={"Rules"}/>
                     </ListItemButton>
                 </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton href="/tenant-states" selected={location.pathname === "/tenant-states"}>
+                        <ListItemIcon><Description/></ListItemIcon>
+                        <ListItemText primary={"Tenant state"}/>
+                    </ListItemButton>
+                </ListItem>
             </List>
 
             {/* Tenant and account management */}
@@ -215,7 +221,7 @@ export function MainMenu() {
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemButton href={"https://mui.com"} target={"_blank"}>
+                            <ListItemButton href={"https://mui.com/material-ui/all-components/"} target={"_blank"}>
                                 <small>MUI <OpenInNew sx={{ width: 12, height: 12 }}/></small>
                             </ListItemButton>
                         </ListItem>

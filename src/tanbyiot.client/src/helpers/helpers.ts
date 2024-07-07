@@ -28,6 +28,7 @@ export function formatRuleActionType(type: RuleActionType) {
         case RuleActionType.TriggerWebhook: return "Trigger webhook";
         case RuleActionType.SendEmail: return "Send email";
         case RuleActionType.SendSMS: return "Send SMS";
+        case RuleActionType.SetState: return "Set tenant state";
         default: return `Unknown type {type}`;
     }
 }

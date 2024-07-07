@@ -69,10 +69,11 @@ export type RuleAction = {
     updatedAt: string | Moment;
     sendInstructionType: string | null;
     sendInstructionValue: string | null;
-    sendInstructionPayload: string | null;
+    payload: string | null;
     sendInstructionDeviceId: string | null;
     sendInstructionDeviceGroups: string | null;
     sendInstructionTargetDeviceType: RuleActionSendInstructionTargetDeviceType | null;
+    key: string | null;
 }
 
 export type UpdateRuleConditionArgs = {
@@ -86,10 +87,11 @@ export type UpdateRuleConditionArgs = {
 export type UpdateRuleActionArgs = {
     sendInstructionType: string | null;
     sendInstructionValue: string | null;
-    sendInstructionPayload: string | null;
+    payload: string | null;
     sendInstructionDeviceId: string | null;
     sendInstructionDeviceGroups: string | null;
     sendInstructionTargetDeviceType: string | null;
+    key: string | null;
 }
 
 export type Tenant = {

@@ -195,6 +195,11 @@ export function MainMenu() {
                 {import.meta.env.DEV && (
                     <>
                         <ListItem disablePadding>
+                            <ListItemButton href={"https://localhost:7061/swagger"} target={"_blank"}>
+                                <small>Swagger <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
                             <ListItemButton href={"http://localhost:8025"} target={"_blank"}>
                                 <small>Mailhog <OpenInNew sx={{ width: 12, height: 12 }}/></small>
                             </ListItemButton>

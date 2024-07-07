@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 import {useRulesApi} from "../api/RulesApi.ts";
 import {formatTimestamp} from "../helpers/formatting.ts";
 import {EditRuleDialog} from "../components/rules/EditRuleDialog.tsx";
-import { RuleActions } from "../components/rules/RuleActions.tsx";
-import {RuleConditions} from "../components/rules/RuleConditions.tsx";
+import { RuleActions } from "../components/rules/actions/RuleActions.tsx";
+import {RuleConditions} from "../components/rules/conditions/RuleConditions.tsx";
 import { QueryKeys } from "../api/constants.ts";
 
 export function RuleDetails() {

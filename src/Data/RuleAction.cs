@@ -13,7 +13,8 @@ public class RuleAction : ISoftDelete, IUpdatable
     public DateTimeOffset? UpdatedAt { get; set; }
     [MaxLength(128)] public string? SendInstructionType { get; set; }
     [MaxLength(128)] public string? SendInstructionValue { get; set; }
-    [MaxLength(4000)] public string? SendInstructionPayload { get; set; }
+    [MaxLength(128)] public string? Key { get; set; }
+    [MaxLength(4000)] public string? Payload { get; set; }
     public Guid? SendInstructionDeviceId { get; set; }
     [MaxLength(256)] public string? SendInstructionDeviceGroups { get; set; }
     public RuleActionSendInstructionTargetDeviceType? SendInstructionTargetDeviceType { get; set; }

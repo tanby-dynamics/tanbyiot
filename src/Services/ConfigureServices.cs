@@ -9,6 +9,8 @@ using Services.Processing;
 using Services.Telemetries;
 using Services.Queueing;
 using Services.Rules;
+using Services.Rules.Actions;
+using Services.Rules.Conditions;
 using Services.Tenants;
 using Services.Users;
 
@@ -19,6 +21,9 @@ public static class ConfigureServices
     public static void Configure(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<AzureStorageOptions>(options => configuration.GetSection("AzureStorage").Bind(options));
+        services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
+        services.AddKeyedScoped<IProcessAction, ProcessSetStateAction>(RuleActionType.SetState);
+        services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
         services.AddScoped<IQueueManager, QueueManager>();
         services.AddScoped<IGetAllDevicesForTenant, GetAllDevicesForTenant>();
         services.AddScoped<IAddDevice, AddDevice>();
@@ -41,8 +46,6 @@ public static class ConfigureServices
         services.AddScoped<IUpdateRuleAction, UpdateRuleAction>();
         services.AddScoped<ITenantContextFactory, TenantContextFactory>();
         services.AddScoped<IProcessRule, ProcessRule>();
-        services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
-        services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
         services.AddScoped<IUpdateRule, UpdateRule>();
         services.AddScoped<IAddUser, AddUser>();
         services.AddScoped<IGetUserByExternalId, GetUserByExternalId>();

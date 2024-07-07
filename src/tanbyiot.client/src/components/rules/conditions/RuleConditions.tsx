@@ -1,14 +1,14 @@
 ﻿import {Alert, Button, CircularProgress, Tooltip, Typography } from "@mui/material";
-import {RuleCondition, RuleDetail} from "../../api/types.t.ts";
+import {RuleCondition, RuleDetail} from "../../../api/types.t.ts";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { AddCircleOutlined, DeleteOutlined, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { AddConditionDialog } from "./AddConditionDialog.tsx";
 import {EditConditionDialog} from "./EditConditionDialog.tsx";
-import {useRulesApi} from "../../api/RulesApi.ts";
-import {formatRuleConditionType} from "../../helpers/helpers.ts";
+import {useRulesApi} from "../../../api/RulesApi.ts";
+import {formatRuleConditionType} from "../../../helpers/helpers.ts";
 import { toast } from "react-toastify";
-import {RuleConditionType} from "../../api/enums.ts";
+import {RuleConditionType} from "../../../api/enums.ts";
 
 export type RuleConditionsProps = {
     rule: RuleDetail,

@@ -29,6 +29,12 @@ export function AdminUsers() {
             valueGetter: (_, user) => user.currentTenant?.name ?? "None"
         },
         {
+            field: "tenantCount",
+            headerName: "# of tenants",
+            width: 100,
+            valueGetter: (_, user) => user.tenants.length
+        },
+        {
             field: "id",
             headerName: "ID",
             flex: 1,
@@ -49,12 +55,6 @@ export function AdminUsers() {
                     <CopyValueButton value={params.row.externalId} tooltip={"Copy external ID"}/>
                 </>
             )
-        },        
-        {
-            field: "tenantCount",
-            headerName: "Tenants",
-            width: 100,
-            valueGetter: (_, user) => user.tenants.length
         }
     ];
     

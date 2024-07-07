@@ -14,7 +14,6 @@ export function Root() {
         isLoading: isAuth0UserLoading,
         isAuthenticated,
         loginWithRedirect,
-        logout
     } = useAuth0();
     const {
         data: user
@@ -26,14 +25,6 @@ export function Root() {
     
     if (!isAuth0UserLoading && !isAuthenticated) {
         loginWithRedirect();
-    }
-    
-    function signOut() {
-        logout({
-            logoutParams: {
-                returnTo: window.location.origin
-            }
-        });
     }
     
     // If there are no tenants, start the onboarding process
@@ -54,7 +45,6 @@ export function Root() {
                                 tanbyiot.app
                                 {user && user.currentTenant && ` - ${user.currentTenant.name}`}
                             </Link>
-                            {isAuthenticated && <Link component={"button"} color={"inherit"} onClick={signOut}>Sign out</Link>}
                         </Typography>
                     </Toolbar>
                 </AppBar>

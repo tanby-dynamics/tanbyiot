@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<RuleCondition> RuleConditions { get; set; }
     public DbSet<RuleAction> RuleActions { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<TenantState> TenantStates { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -31,6 +32,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Tenant>().HasMany(x => x.Rules).WithOne(x => x.Tenant);
         modelBuilder.Entity<Tenant>().HasMany(x => x.Users).WithMany(x => x.Tenants);
         modelBuilder.Entity<Tenant>().Property(x => x.SubscriptionLevel).HasConversion<string>();
+        modelBuilder.Entity<Tenant>().HasMany(x => x.States).WithOne(x => x.Tenant);
         
         modelBuilder.Entity<Device>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<Device>().HasMany(x => x.Instructions).WithOne(x => x.Device).IsRequired(false);
@@ -51,5 +53,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>().HasIndex(x => x.ExternalId).IsUnique();
         modelBuilder.Entity<User>().HasOne(x => x.CurrentTenant);
+
+        modelBuilder.Entity<TenantState>().HasIndex(x => x.Key);
     }
 }

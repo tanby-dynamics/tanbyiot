@@ -1,6 +1,6 @@
 ﻿using Data;
 
-namespace Services.Rules;
+namespace Services.Rules.Conditions;
 
 public class RuleConditionDto
 {
@@ -22,7 +22,7 @@ public class RuleConditionDto
             .ToArray();
         var description = condition.Type switch
         {
-            RuleConditionType.TelemetryTypes => string.Join(", ", telemetryTypes),
+            RuleConditionType.TelemetryTypes => $"Type is in of \"{string.Join(", ", telemetryTypes)}\"",
             _ => string.Empty
         };
         

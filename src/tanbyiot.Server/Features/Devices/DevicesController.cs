@@ -15,7 +15,6 @@ public class DevicesController(
     IGetTelemetryForDevice getTelemetryForDevice,
     IGetInstructionsForDevice getInstructionsForDevice,
     IGetDevice getDevice,
-    IGetCurrentTenantIdForUser getCurrentTenantIdForUser,
     IValidateTenantForUser validateTenantForUser,
     IValidateDeviceInTenant validateDeviceInTenant) : ControllerBase
 {

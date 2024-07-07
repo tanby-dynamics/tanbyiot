@@ -5,7 +5,7 @@ namespace Services.Devices;
 
 public interface IGetDevice
 {
-    Task<(bool found, DeviceDto device)> ExecuteAsync(Guid tenantId, Guid deviceId, CancellationToken cancellationToken);
+    Task<(bool found, DeviceDto? device)> ExecuteAsync(Guid tenantId, Guid deviceId, CancellationToken cancellationToken);
 }
 
 public class GetDevice(AppDbContext dbContext) : IGetDevice

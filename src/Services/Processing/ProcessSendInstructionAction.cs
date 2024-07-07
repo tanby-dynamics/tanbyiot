@@ -52,7 +52,7 @@ public class ProcessSendInstructionAction(AppDbContext dbContext,ISystemClock cl
                 Device = device,
                 Type = action.SendInstructionType,
                 Value = action.SendInstructionValue,
-                Payload = action.SendInstructionPayload,
+                Payload = action.Payload,
                 CreatedAt = clock.UtcNow
             }, cancellationToken);
 

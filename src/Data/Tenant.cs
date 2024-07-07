@@ -14,4 +14,5 @@ public class Tenant
     public ICollection<Rule> Rules { get; init; } = default!;
     public ICollection<User> Users { get; init; } = default!;
     public SubscriptionLevel SubscriptionLevel { get; init; }
+    public ICollection<TenantState> States { get; init; } = default!;
 }

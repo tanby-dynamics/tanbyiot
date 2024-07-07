@@ -27,6 +27,8 @@ export function getLabelForRuleActionType(type: RuleActionType) {
             return "Send email";
         case RuleActionType.SendSMS:
             return "Send SMS";
+        case RuleActionType.SetState:
+            return "Set tenant state";
         default:
             return `Unknown action type: ${type}`;
     }

@@ -1,7 +1,7 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services.Rules;
+namespace Services.Rules.Actions;
 
 public interface IUpdateRuleAction
 {
@@ -19,10 +19,11 @@ public class UpdateRuleAction(AppDbContext dbContext) : IUpdateRuleAction
 
         action.SendInstructionType = args.SendInstructionType;
         action.SendInstructionValue = args.SendInstructionValue;
-        action.SendInstructionPayload = args.SendInstructionPayload;
+        action.Payload = args.Payload;
         action.SendInstructionDeviceId = args.SendInstructionDeviceId;
         action.SendInstructionDeviceGroups = args.SendInstructionDeviceGroups;
         action.SendInstructionTargetDeviceType = args.SendInstructionTargetDeviceType;
+        action.Key = args.Key;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -1,4 +1,7 @@
-﻿namespace Services.Rules;
+﻿using Services.Rules.Actions;
+using Services.Rules.Conditions;
+
+namespace Services.Rules;
 
 public class RuleDetailDto : RuleDto
 {

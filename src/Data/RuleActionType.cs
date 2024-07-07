@@ -8,5 +8,6 @@ public enum RuleActionType
     SendInstruction,
     TriggerWebhook,
     SendEmail,
-    SendSms
+    SendSms,
+    SetState
 }

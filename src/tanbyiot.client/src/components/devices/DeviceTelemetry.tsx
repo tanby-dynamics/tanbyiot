@@ -23,8 +23,9 @@ export function DeviceTelemetry(props: DeviceTelemetryProps) {
         error,
         data: telemetries
     } = useQuery({
-        queryKey: [QueryKeys.DeviceTelemetries, props.device.id],
-        queryFn: () => devicesApi.getDeviceTelemetries(props.device.id),
+        queryKey: [QueryKeys.DeviceTelemetries, props.device?.id],
+        queryFn: () => devicesApi.getDeviceTelemetries(props.device?.id),
+        enabled: !!props.device,
         refetchInterval: 10000
     });
 

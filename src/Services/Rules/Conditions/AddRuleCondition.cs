@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Internal;
 using Serilog;
 
-namespace Services.Rules;
+namespace Services.Rules.Conditions;
 
 public interface IAddRuleCondition
 {

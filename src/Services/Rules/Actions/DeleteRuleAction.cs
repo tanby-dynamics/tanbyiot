@@ -1,7 +1,7 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services.Rules;
+namespace Services.Rules.Actions;
 
 public interface IDeleteRuleAction
 {

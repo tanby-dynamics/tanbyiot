@@ -12,27 +12,26 @@
     RadioGroup,
     Tooltip
 } from "@mui/material";
-import {RuleActionType} from "../../api/enums.ts";
-import {getLabelForRuleActionType} from "../../helpers/getEnumLabel.ts";
-import {InfoOutlined} from "@mui/icons-material";
+import {RuleConditionType} from "../../../api/enums.ts";
+import {getLabelForRuleConditionType} from "../../../helpers/getEnumLabel.ts";
+import { InfoOutlined } from "@mui/icons-material";
 
-export type AddActionDialogProps = {
+export type AddConditionDialogProps = {
     open: boolean,
     onClose: () => void,
-    onSubmit: (type: RuleActionType) => void;
+    onSubmit: (type: RuleConditionType) => void;
 }
 
-export function AddActionDialog(props: AddActionDialogProps) {
+export function AddConditionDialog(props: AddConditionDialogProps) {
     function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-
+        
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
 
         props.onSubmit(formJson.type);
         props.onClose();
     }
-
     return (
         <Dialog open={props.open}
                 onClose={props.onClose}
@@ -40,57 +39,67 @@ export function AddActionDialog(props: AddActionDialogProps) {
                     component: 'form',
                     onSubmit
                 }}>
-            <DialogTitle>Add rule action</DialogTitle>
+            <DialogTitle>Add rule condition</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Select the type of action to add to the rule.
+                    Select the type of condition to add to the rule.
                 </DialogContentText>
                 <FormControl>
                     <FormLabel id={"typeLabel"}></FormLabel>
                     <RadioGroup aria-labelledby={"typeLabel"}
-                                defaultValue={RuleActionType.SendInstruction}
+                                defaultValue={RuleConditionType.TelemetryTypes}
                                 name={"type"}>
-                        <FormControlLabel value={RuleActionType.SendInstruction}
+                        <FormControlLabel value={RuleConditionType.TelemetryTypes}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.SendInstruction)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.TelemetryTypes)}
                                                   {" "}
-                                                  <Tooltip
-                                                      title={"Sends an instruction to a device or group of devices"}>
+                                                  <Tooltip title={"Passes when the telemetry type matches the specified type"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleActionType.TriggerWebhook}
+                        <FormControlLabel value={RuleConditionType.Value}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.TriggerWebhook)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.Value)}
                                                   {" "}
-                                                  <Tooltip title={"Sends a POST request to a specified URL"}>
+                                                  <Tooltip title={"Passes based on the value of the telemetry"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleActionType.SendEmail}
+                        <FormControlLabel value={RuleConditionType.Payload}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.SendEmail)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.Payload)}
                                                   {" "}
-                                                  <Tooltip title={"Sends an email to one or more recipients"}>
+                                                  <Tooltip title={"Passes when the payload of the telemetry matches the condition criteria"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
                                           }/>
-                        <FormControlLabel value={RuleActionType.SendSMS}
+                        <FormControlLabel value={RuleConditionType.DeviceId}
                                           control={<Radio/>}
                                           label={
                                               <>
-                                                  {getLabelForRuleActionType(RuleActionType.SendSMS)}
+                                                  {getLabelForRuleConditionType(RuleConditionType.DeviceId)}
                                                   {" "}
-                                                  <Tooltip title={"Sends an SMS to one or more recipients"}>
+                                                  <Tooltip title={"Passes when telemetry is received from the specified device"}>
+                                                      <InfoOutlined fontSize={"small"}/>
+                                                  </Tooltip>
+                                              </>
+                                          }/>
+                        <FormControlLabel value={RuleConditionType.Group}
+                                          control={<Radio/>}
+                                          label={
+                                              <>
+                                                  {getLabelForRuleConditionType(RuleConditionType.Group)}
+                                                  {" "}
+                                                  <Tooltip title={"Passes when telemetry is received from a device in the specified group"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
@@ -100,7 +109,7 @@ export function AddActionDialog(props: AddActionDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose}>Cancel</Button>
-                <Button variant={"contained"} type={"submit"}>Add action</Button>
+                <Button variant={"contained"} type={"submit"}>Add condition</Button>
             </DialogActions>
         </Dialog>
     );

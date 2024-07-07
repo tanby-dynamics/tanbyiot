@@ -14,7 +14,7 @@ public class Telemetry
     public virtual Device Device { get; init; } = default!;
     [MaxLength(128)] public string Type { get; init; } = string.Empty;
     [MaxLength(128)] public string? Value { get; init; }
-    [MaxLength(4000)]  public string? Payload { get; init; } = string.Empty;
+    [MaxLength(4000)] public string? Payload { get; init; } = string.Empty;
     public DateTimeOffset ReceivedAt { get; init; }
     public DateTimeOffset? ProcessedAt { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿using Data;
 
-namespace Services.Rules;
+namespace Services.Rules.Conditions;
 
 public class UpdateRuleConditionArgs
 {

@@ -27,9 +27,9 @@ public class ProcessRule(IServiceProvider serviceProvider) : IProcessRule
             if (checkCondition is null)
             {
                 log.Error(
-                    "Unimplemented condition processor when executing condition {RuleConditionId} for type {RuleConditionId}",
-                    condition.Type,
-                    condition.Id);
+                    "Unimplemented condition processor when executing condition {RuleConditionId} for type {RuleConditionType}",
+                    condition.Id,
+                    condition.Type);
                 return;
             }
             

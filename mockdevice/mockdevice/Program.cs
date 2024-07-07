@@ -2,11 +2,11 @@
 using System.Text.Json;
 
 const string baseUrl = "https://localhost:7061";
-const string telemetryUrl = $"{baseUrl}/api/telemetry";
-const string instructionsPollUrl = $"{baseUrl}/api/instructions/poll";
-const string connectUrl = $"{baseUrl}/api/devices/connect";
+const string telemetryUrl = $"{baseUrl}/api/hw/add-telemetry";
+const string instructionsPollUrl = $"{baseUrl}/api/hw/poll-for-instructions";
+const string connectUrl = $"{baseUrl}/api/hw/connect-device";
 
-Console.WriteLine("edgeiot mock device");
+Console.WriteLine("tanbyiot mock device");
 Console.WriteLine("-------------------");
 Console.WriteLine();
 

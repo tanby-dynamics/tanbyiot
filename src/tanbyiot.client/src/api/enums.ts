@@ -10,7 +10,8 @@ export enum RuleActionType {
     SendInstruction = "SendInstruction",
     TriggerWebhook = "TriggerWebhook",
     SendEmail = "SendEmail",
-    SendSMS = "SendSMS"
+    SendSMS = "SendSMS",
+    SetState = "SetState"
 }
 
 export enum RuleActionSendInstructionTargetDeviceType {

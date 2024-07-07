@@ -3,7 +3,6 @@
     Button,
     Container,
     Drawer,
-    FormControl,
     Paper,
     Stack,
     Table,
@@ -11,17 +10,16 @@
     TableCell,
     TableContainer,
     TableRow,
-    TextField,
     Typography
 } from "@mui/material";
-import {Rule, RuleCondition} from "../../api/types.t.ts";
-import {formatRuleConditionType} from "../../helpers/helpers.ts";
-import {formatTimestamp} from "../../helpers/formatting.ts";
-import { useState } from "react";
-import {useRulesApi} from "../../api/RulesApi.ts";
-import { toast } from "react-toastify";
-import {FormRow} from "../shared/FormRow.tsx";
-import {RuleConditionType} from "../../api/enums.ts";
+import {Rule, RuleCondition} from "../../../api/types.t.ts";
+import {formatRuleConditionType} from "../../../helpers/helpers.ts";
+import {formatTimestamp} from "../../../helpers/formatting.ts";
+import {useState} from "react";
+import {useRulesApi} from "../../../api/RulesApi.ts";
+import {toast} from "react-toastify";
+import {RuleConditionType} from "../../../api/enums.ts";
+import {TelemetryTypesFields} from "./TelemetryTypesFields.tsx";
 
 function ConditionDetailsTable({ condition }: { condition: RuleCondition }) {
     return (
@@ -48,24 +46,6 @@ function ConditionDetailsTable({ condition }: { condition: RuleCondition }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
-    );
-}
-
-function TelemetryTypesFields({ condition }: { condition: RuleCondition }) {
-    return (
-        <>
-            <FormRow>
-                <FormControl>
-                    <TextField margin={"dense"}
-                               label={"Telemetry type"}
-                               type={"text"}
-                               name={"telemetryTypes"}
-                               fullWidth
-                               helperText={<>Enter telemetry types to match against. Separate types with a comma (e.g. <code>temp, temperature</code>).</>}
-                               defaultValue={condition.comparisonValue ?? ""}/>
-                </FormControl>
-            </FormRow>            
         </>
     );
 }

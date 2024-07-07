@@ -1,4 +1,4 @@
-# Edge IoT
+# tanbyiot
 
 IoT intelligence platform
 

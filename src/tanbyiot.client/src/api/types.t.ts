@@ -113,3 +113,20 @@ export type AddTenantArgs = {
     name: string;
     subscriptionLevel: SubscriptionLevel;
 }
+
+export type TenantState = {
+    id: string;
+    key: string;
+    value: string;
+    setAt: string | Moment;
+}
+
+export type UpdateTenantStateArgs = {
+    key: string;
+    value: string;
+}
+
+export type AddTenantStateArgs = {
+    key: string;
+    value: string;
+}

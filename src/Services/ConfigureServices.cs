@@ -14,6 +14,7 @@ using Services.Rules;
 using Services.Rules.Actions;
 using Services.Rules.Conditions;
 using Services.Tenants;
+using Services.TenantStates;
 using Services.Users;
 
 namespace Services;
@@ -62,5 +63,10 @@ public static class ConfigureServices
         services.AddScoped<IValidateActionInRule, ValidateActionInRule>();
         services.AddScoped<IGetUsers, GetUsers>();
         services.AddScoped<ISetUserEmail, SetUserEmail>();
+        services.AddScoped<IGetStatesForTenant, GetStatesForTenant>();
+        services.AddScoped<IUpdateTenantState, UpdateTenantState>();
+        services.AddScoped<IDeleteTenantState, DeleteTenantState>();
+        services.AddScoped<IValidateTenantStateInTenant, ValidateTenantStateInTenant>();
+        services.AddScoped<IAddTenantState, AddTenantState>();
     }
 }

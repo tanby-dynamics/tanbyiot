@@ -10,5 +10,6 @@
     Tenants: "tenants",
     User: "user",
     UserPermissions: "user-permissions",
-    Version: "version"
+    Version: "version",
+    TenantStates: "tenant-states"
 }

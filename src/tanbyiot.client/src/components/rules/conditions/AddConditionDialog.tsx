@@ -104,6 +104,17 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
                                                   </Tooltip>
                                               </>
                                           }/>
+                        <FormControlLabel value={RuleConditionType.State}
+                                          control={<Radio/>}
+                                          label={
+                                              <>
+                                                  {getLabelForRuleConditionType(RuleConditionType.State)}
+                                                  {" "}
+                                                  <Tooltip title={"Passes when the tenant state matches the condition"}>
+                                                      <InfoOutlined fontSize={"small"}/>
+                                                  </Tooltip>
+                                              </>
+                                          }/>
                     </RadioGroup>
                 </FormControl>
             </DialogContent>

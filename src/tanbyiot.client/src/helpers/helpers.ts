@@ -18,6 +18,7 @@ export function formatRuleConditionType(type: RuleConditionType) {
         case RuleConditionType.Payload: return "Telemetry payload";
         case RuleConditionType.TelemetryTypes: return "Telemetry type";
         case RuleConditionType.Value: return "Telemetry value";
+        case RuleConditionType.State: return "Tenant state"
         default: return `Unknown type {type}`;
     }
 }

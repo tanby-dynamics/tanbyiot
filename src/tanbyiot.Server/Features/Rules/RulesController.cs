@@ -257,10 +257,10 @@ public class RulesController(
         if (!isTenantValidForUser)
         {
             var log = Log.ForContext<RulesController>();
-            log.Warning("Tenant {TenantId} not valid for user {ExternalId}",
+            log.Warning(
+                "Tenant {TenantId} not valid for user {ExternalId}",
                 tenantId,
-                HttpContext.User.Identity?.Name!,
-                cancellationToken);
+                HttpContext.User.Identity?.Name!);
             return false;
         }
 

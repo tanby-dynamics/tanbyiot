@@ -3,7 +3,8 @@
     Value = "Value",
     Payload = "Payload",
     DeviceId = "DeviceId",
-    Group = "Group"
+    Group = "Group",
+    State = "State"
 }
 
 export enum RuleActionType {

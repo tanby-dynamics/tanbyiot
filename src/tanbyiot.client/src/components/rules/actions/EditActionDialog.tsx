@@ -20,7 +20,7 @@ import {useRulesApi} from "../../../api/RulesApi.ts";
 import {toast} from "react-toastify";
 import {RuleActionType} from "../../../api/enums.ts";
 import {SendInstructionFields} from "./SendInstructionFields.tsx";
-import {SetStateFields} from "./SetStateFields.tsx";
+import {SetStateActionFields} from "./SetStateActionFields.tsx";
 
 function ActionDetailsTable({ action }: { action: RuleAction }) {
     return (
@@ -119,8 +119,8 @@ export function EditActionDialog(props: EditActionDialogProps) {
                                                    onPayloadChange={(value) => setPayload(value)}/>
                         )}
                         {props.action.type === RuleActionType.SetState && (
-                            <SetStateFields action={props.action}
-                                            onPayloadChange={(value) => setPayload(value)}/>
+                            <SetStateActionFields action={props.action}
+                                                  onPayloadChange={(value) => setPayload(value)}/>
                         )}
                     </Box>
 

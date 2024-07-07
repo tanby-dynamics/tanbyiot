@@ -6,6 +6,8 @@ using Services.Devices;
 using Services.Instructions;
 using Services.Options;
 using Services.Processing;
+using Services.Processing.Actions;
+using Services.Processing.Conditions;
 using Services.Telemetries;
 using Services.Queueing;
 using Services.Rules;
@@ -24,6 +26,7 @@ public static class ConfigureServices
         services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
         services.AddKeyedScoped<IProcessAction, ProcessSetStateAction>(RuleActionType.SetState);
         services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
+        services.AddKeyedScoped<ICheckCondition, CheckTenantStateCondition>(RuleConditionType.State);
         services.AddScoped<IQueueManager, QueueManager>();
         services.AddScoped<IGetAllDevicesForTenant, GetAllDevicesForTenant>();
         services.AddScoped<IAddDevice, AddDevice>();

@@ -1,6 +1,6 @@
 ﻿using Data;
 
-namespace Services.Processing;
+namespace Services.Processing.Conditions;
 
 public interface ICheckCondition
 {

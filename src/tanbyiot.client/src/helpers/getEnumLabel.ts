@@ -5,13 +5,15 @@ export function getLabelForRuleConditionType(type: RuleConditionType) {
         case RuleConditionType.TelemetryTypes:
             return "Telemetry type";
         case RuleConditionType.Value:
-            return "Value";
+            return "Telemetry value";
         case RuleConditionType.Payload:
-            return "Payload";
+            return "Telemetry payload";
         case RuleConditionType.DeviceId:
-            return "Device ID";
+            return "Telemetry received from device";
         case RuleConditionType.Group:
-            return "Group";
+            return "Telemetry received from group";
+        case RuleConditionType.State:
+            return "Tenant state";
         default:
             return `Unknown condition type: ${type}`;
     }

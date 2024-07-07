@@ -8,7 +8,7 @@ export type SetStateFieldsProps = {
     onPayloadChange: (value: string) => void
 }
 
-export function SetStateFields(props: SetStateFieldsProps) {
+export function SetStateActionFields(props: SetStateFieldsProps) {
     return (
         <>
             <FormRow>
@@ -17,7 +17,8 @@ export function SetStateFields(props: SetStateFieldsProps) {
                                label={"Key"}
                                defaultValue={props.action.key}
                                required
-                               fullWidth/>
+                               fullWidth
+                               margin={"dense"} />
                 </FormControl>
             </FormRow>
             <FormRow>

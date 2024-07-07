@@ -191,7 +191,7 @@ export function MainMenu() {
                     </ListItemButton>
                 </ListItem>
 
-                {/* Only show dev tools if this is a local dev environment */}
+                {/* Only show dev links if this is a local dev environment */}
                 {import.meta.env.DEV && (
                     <>
                         <ListItem disablePadding>

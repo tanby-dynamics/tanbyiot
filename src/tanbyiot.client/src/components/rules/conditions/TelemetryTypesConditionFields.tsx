@@ -2,7 +2,7 @@ import {FormControl, TextField } from "@mui/material";
 import {RuleCondition} from "../../../api/types.t.ts";
 import {FormRow} from "../../shared/FormRow.tsx";
 
-export function TelemetryTypesFields({condition}: { condition: RuleCondition }) {
+export function TelemetryTypesConditionFields({condition}: { condition: RuleCondition }) {
     return (
         <>
             <FormRow>
@@ -10,7 +10,7 @@ export function TelemetryTypesFields({condition}: { condition: RuleCondition }) 
                     <TextField margin={"dense"}
                                label={"Telemetry type"}
                                type={"text"}
-                               name={"telemetryTypes"}
+                               name={"comparisonValue"}
                                fullWidth
                                helperText={<>Enter telemetry types to match against. Separate types with a comma
                                    (e.g. <code>temp, temperature</code>).</>}

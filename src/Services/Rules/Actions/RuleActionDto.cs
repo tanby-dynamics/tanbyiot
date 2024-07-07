@@ -18,11 +18,18 @@ public class RuleActionDto
 
     public static RuleActionDto FromEntity(RuleAction action)
     {
+        var sendInstructionDeviceTypeDescription = action.SendInstructionTargetDeviceType switch
+        {
+            RuleActionSendInstructionTargetDeviceType.DeviceGroups =>
+                $"device groups \"{action.SendInstructionDeviceGroups}\"",
+            RuleActionSendInstructionTargetDeviceType.SingleDevice => "device",
+            _ => $"Unknown target device type {action.SendInstructionTargetDeviceType}"
+        };
         var description = action.Type switch
         {
-            RuleActionType.SendInstruction => $"Send \"{action.SendInstructionType}\" instruction",
-            RuleActionType.SetState => $"Set state key \"{action.Key}\"",
-            _ => $"Description for {action.Type} action"
+            RuleActionType.SendInstruction => $"Send \"{action.SendInstructionType}\" instruction to {sendInstructionDeviceTypeDescription}",
+            RuleActionType.SetState => $"Set tenant state key \"{action.Key}\" to \"{action.Payload}\"",
+            _ => $"Unknown rule action type {action.Type}"
         };
         
         return new RuleActionDto

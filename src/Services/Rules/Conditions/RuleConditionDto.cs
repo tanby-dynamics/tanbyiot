@@ -8,6 +8,7 @@ public class RuleConditionDto
     public RuleConditionType Type { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public string Description { get; init; } = string.Empty;
+    public string? Key { get; init; }
     public string? ComparisonValue { get; init; }
     public RuleConditionComparisonOperationType? ComparisonOperation { get; init; }
     public string? PayloadPath { get; init; }
@@ -22,7 +23,8 @@ public class RuleConditionDto
             .ToArray();
         var description = condition.Type switch
         {
-            RuleConditionType.TelemetryTypes => $"Type is in of \"{string.Join(", ", telemetryTypes)}\"",
+            RuleConditionType.TelemetryTypes => $"Telemetry type is in \"{string.Join(", ", telemetryTypes)}\"",
+            RuleConditionType.State => $"Tenant state key \"{condition.Key}\" is equal to \"{condition.ComparisonValue}\"",
             _ => string.Empty
         };
         
@@ -32,6 +34,7 @@ public class RuleConditionDto
             Type = condition.Type,
             CreatedAt = condition.CreatedAt,
             Description = description,
+            Key = condition.Key,
             ComparisonValue = condition.ComparisonValue,
             ComparisonOperation = condition.ComparisonOperation,
             PayloadPath = condition.PayloadPath,

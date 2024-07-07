@@ -19,7 +19,8 @@ import {useState} from "react";
 import {useRulesApi} from "../../../api/RulesApi.ts";
 import {toast} from "react-toastify";
 import {RuleConditionType} from "../../../api/enums.ts";
-import {TelemetryTypesFields} from "./TelemetryTypesFields.tsx";
+import {TelemetryTypesConditionFields} from "./TelemetryTypesConditionFields.tsx";
+import {StateConditionFields} from "./StateConditionFields.tsx";
 
 function ConditionDetailsTable({ condition }: { condition: RuleCondition }) {
     return (
@@ -77,19 +78,11 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
         try {
             await rulesApi.updateRuleCondition(props.rule.id, {
                 ruleConditionId: props.condition!.id,
-                comparisonValue: (() => {
-                    switch (props.condition!.type) {
-                        case RuleConditionType.DeviceId: return "not implement";
-                        case RuleConditionType.Group: return "not implemented";
-                        case RuleConditionType.TelemetryTypes: return formJson.telemetryTypes;
-                        case RuleConditionType.Payload: return "not implemented";
-                        case RuleConditionType.Value: return "not implemented";
-                        default: throw `Can't get comparison value for condition type ${props.condition?.type}`
-                    }
-                })(),
+                comparisonValue: formJson.comparisonValue,
                 comparisonOperation: null,
                 payloadPath: null,
-                conversionType: null
+                conversionType: null,
+                key: formJson.key
             });
             toast.success("Saved rule condition");
             props.onSubmit();
@@ -119,7 +112,8 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
                     <ConditionDetailsTable condition={props.condition}/>
 
                     <Box sx={{ marginTop: 2 }}>
-                        {props.condition.type === RuleConditionType.TelemetryTypes && <TelemetryTypesFields condition={props.condition}/>}
+                        {props.condition.type === RuleConditionType.TelemetryTypes && <TelemetryTypesConditionFields condition={props.condition}/>}
+                        {props.condition.type === RuleConditionType.State && <StateConditionFields condition={props.condition}/>}
                     </Box>
                      
                     <Stack spacing={2} direction={"row"} sx={{ paddingTop: 2, float: "right"}}>

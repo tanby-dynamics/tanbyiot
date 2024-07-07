@@ -60,6 +60,7 @@ export type RuleCondition = {
     payloadPath: string | null;
     conversion: RuleConditionConversionType | null;
     updatedAt: string | Moment | null;
+    key: string | null;
 }
 
 export type RuleAction = {
@@ -82,6 +83,7 @@ export type UpdateRuleConditionArgs = {
     comparisonOperation: RuleConditionComparisonOperationType | null;
     payloadPath: string | null;
     conversionType: RuleConditionConversionType | null;
+    key: string | null;
 }
 
 export type UpdateRuleActionArgs = {

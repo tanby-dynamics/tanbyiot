@@ -1,6 +1,6 @@
 ﻿using Data;
 
-namespace Services.Processing;
+namespace Services.Processing.Actions;
 
 public interface IProcessAction
 {

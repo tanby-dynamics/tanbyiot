@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Internal;
 using Serilog;
 
-namespace Services.Processing;
+namespace Services.Processing.Actions;
 
 public class ProcessSendInstructionAction(AppDbContext dbContext,ISystemClock clock) : IProcessAction
 {

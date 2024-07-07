@@ -9,5 +9,6 @@ public enum RuleConditionType
     Value,
     Payload,
     DeviceId,
-    Group
+    Group,
+    State
 }

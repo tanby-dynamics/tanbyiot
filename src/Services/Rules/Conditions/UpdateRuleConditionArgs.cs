@@ -9,4 +9,5 @@ public class UpdateRuleConditionArgs
     public RuleConditionComparisonOperationType? ComparisonOperation { get; init; }
     public string? PayloadPath { get; init; }
     public RuleConditionConversionType? Conversion { get; init; }
+    public string? Key { get; init; }
 }

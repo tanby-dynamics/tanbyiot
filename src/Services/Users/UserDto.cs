@@ -17,7 +17,7 @@ public class UserDto
         {
             Id = user.Id,
             ExternalId = user.ExternalId,
-            Tenants = user.Tenants.Select(x => TenantDto.FromEntity(x)!),
+            Tenants = (user.Tenants ?? Array.Empty<Tenant>()).Select(x => TenantDto.FromEntity(x)!),
             CurrentTenant = TenantDto.FromEntity(user.CurrentTenant),
             Email = user.Email
         };

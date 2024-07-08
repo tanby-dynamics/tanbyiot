@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Internal;
 using Serilog;
 
 namespace Services.Rules;
@@ -9,7 +10,7 @@ public interface IUpdateRule
     Task<RuleDto> ExecuteAsync(Guid ruleId, UpdateRuleArgs args, CancellationToken cancellationToken);
 }
 
-public class UpdateRule(AppDbContext dbContext) : IUpdateRule
+public class UpdateRule(AppDbContext dbContext, ISystemClock clock) : IUpdateRule
 {
     public async Task<RuleDto> ExecuteAsync(Guid ruleId, UpdateRuleArgs args, CancellationToken cancellationToken)
     {
@@ -19,6 +20,7 @@ public class UpdateRule(AppDbContext dbContext) : IUpdateRule
 
         rule.Name = args.Name;
         rule.Enabled = args.Enabled;
+        rule.UpdatedAt = clock.UtcNow;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

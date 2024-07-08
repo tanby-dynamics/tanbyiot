@@ -18,7 +18,8 @@ public class AddRule(AppDbContext dbContext, ISystemClock clock) : IAddRule
         {
             TenantId = tenantId,
             Name = name,
-            CreatedAt = clock.UtcNow
+            CreatedAt = clock.UtcNow,
+            Enabled = true
         }, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);

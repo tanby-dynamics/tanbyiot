@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tanbyiot.Server", "tanbyiot
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tanbyiot.client", "tanbyiot.client\tanbyiot.client.esproj", "{A9A53942-263F-4F39-8316-D803D970F0B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{BD54639F-3375-4A66-887B-46EA3BF1B8BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{A9A53942-263F-4F39-8316-D803D970F0B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9A53942-263F-4F39-8316-D803D970F0B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9A53942-263F-4F39-8316-D803D970F0B7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

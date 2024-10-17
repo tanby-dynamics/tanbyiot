@@ -1,0 +1,73 @@
+trigger:
+  - TODO
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  azureSubscription: TODO
+  dbConnectionString: "Server=c-pg-tanbyiot-dev.ozuleqj4oupgby.postgres.cosmos.azure.com;Database=tanbyiot;Port=5432;User Id=citus;Password=Gm;1dc~MB^8NTsZ-A%7n;Ssl Mode=Require;"
+
+stages:
+  - stage: database_migrations
+    jobs:
+      - job: run_database_migrations
+        displayName: Run database migrations
+        steps:
+          - download: current
+            artifact: drop-migrations
+          - script: |
+              cd $(System.DefaultWorkingDirectory)/drop-migrations/
+              dotnet Migrations.dll --connection $(dbConnectionString)
+            displayName: Run database migrations
+  
+  -stage: Deploy to Azure
+    jobs:
+      - deployment: deploy_api
+        displayName: Deploy API
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop-api
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: $(azureSubscription)
+                    appType: webApp
+                    appName: tanbyiot-dev-api
+                    package: $(System.DefaultWorkingDirectory)/drop-api
+      - deployment: deploy_function
+        displayName: Deploy function
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop-function
+                - task: AzureFunctionApp@1
+                  inputs:
+                    azureSubscription: $(azureSubscription)
+                    appType: functionApp
+                    appName: tanbyiot-dev-fn
+                    package: $(System.DefaultWorkingDirectory)/drop-function
+      - deployment: deploy_client
+        displayName: Deploy client
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: drop-client
+                - task: AzureStaticWebApp@0
+                  inputs:
+                    azureStaticWebAppsToken: $(azureClientStaticWebAppsToken)
+      # TODO deploy API
+      # TODO deploy Functions app
+      # TODO deploy client
+
+
+

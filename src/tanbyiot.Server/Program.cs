@@ -43,7 +43,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(configurePolicy =>
     {
         configurePolicy
-            .WithOrigins("http://localhost:5173", "http://omv:3097", "https://portal.tanbyiot.app")
+            .WithOrigins("http://localhost:5173", "https://dev-portal.tanbyiot.app", "https://portal.tanbyiot.app")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });

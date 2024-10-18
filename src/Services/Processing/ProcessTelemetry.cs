@@ -10,7 +10,7 @@ public interface IProcessTelemetry
     Task ExecuteAsync(Guid telemetryId, CancellationToken cancellationToken);
 }
 
-public class ProcessTelemetry(AppDbContext dbContext, ISystemClock clock, ITenantContextFactory tenantContextFactory,
+public class ProcessTelemetry(AppDbContext dbContext, ISystemClock clock, IApplicationContextFactory applicationContextFactory,
     IProcessRule processRule) : IProcessTelemetry
 {
     public async Task ExecuteAsync(Guid telemetryId, CancellationToken cancellationToken)
@@ -24,16 +24,15 @@ public class ProcessTelemetry(AppDbContext dbContext, ISystemClock clock, ITenan
             return;
         }
 
-        var tenant = await dbContext.Tenants
-            .Include(x => x.Rules).ThenInclude(x => x.Conditions)
-            .Include(x => x.Rules).ThenInclude(x => x.Actions)
-            .SingleAsync(x => x.Id == telemetry.TenantId, cancellationToken);
-
-        var context = tenantContextFactory.CreateNew(tenant);
-
+        var enabledRules = dbContext.Rules
+            .Include(x => x.Conditions)
+            .Include(x => x.Actions)
+            .Where(x => x.Enabled);
+        var context = applicationContextFactory.CreateNew();
+        
         context.CurrentTelemetry = telemetry;
 
-        foreach (var rule in tenant.Rules.Where(x => x.Enabled))
+        foreach (var rule in enabledRules)
         {
             await processRule.ExecuteAsync(rule, context, cancellationToken);
         }

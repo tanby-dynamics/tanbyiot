@@ -1,10 +1,9 @@
 import axios from "axios";
 
-export function getApi(token?: string | null) {
+export function getApi() {
     return axios.create({
         baseURL: import.meta.env.VITE_API_BASE_URL,
         headers: {
-            ...(token ? {"Authorization": `Bearer ${token}`} : undefined)
         }
     });
 }

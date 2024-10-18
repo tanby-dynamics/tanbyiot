@@ -7,16 +7,15 @@ namespace Services.Processing.Actions;
 
 public class ProcessSendInstructionAction(AppDbContext dbContext,ISystemClock clock) : IProcessAction
 {
-    public async Task ExecuteAsync(RuleAction action, TenantContext context, CancellationToken cancellationToken)
+    public async Task ExecuteAsync(RuleAction action, ApplicationContext context, CancellationToken cancellationToken)
     {
         var log = Log.ForContext<ProcessSendInstructionAction>();
 
         if (action.SendInstructionType is null)
         {
             log.Error(
-                "SendInstructionType is null for send instruction action {RuleActionId} in tenant {TenantId}",
-                action.Id,
-                context.Tenant.Id);
+                "SendInstructionType is null for send instruction action {RuleActionId}",
+                action.Id);
             return;
         }
         
@@ -26,10 +25,10 @@ public class ProcessSendInstructionAction(AppDbContext dbContext,ISystemClock cl
         var devices = action.SendInstructionTargetDeviceType switch
         {
             RuleActionSendInstructionTargetDeviceType.SingleDevice => await dbContext.Devices
-                .Where(x => x.Id == action.SendInstructionDeviceId && x.Tenant == context.Tenant)
+                .Where(x => x.Id == action.SendInstructionDeviceId)
                 .ToListAsync(cancellationToken),
             RuleActionSendInstructionTargetDeviceType.DeviceGroups => await dbContext.Devices
-                .Where(x => x.TenantId == context.Tenant.Id && groups.Contains(x.GroupName))
+                .Where(x => groups.Contains(x.GroupName))
                 .ToListAsync(cancellationToken),
             _ => throw new NotImplementedException(
                 $"Unimplemented send instruction target device type ${action.SendInstructionTargetDeviceType}")
@@ -38,10 +37,9 @@ public class ProcessSendInstructionAction(AppDbContext dbContext,ISystemClock cl
         if (devices.Count == 0)
         {
             log.Warning(
-                "No devices match action {RuleActionId} in rule {RuleId} in tenant {TenantId}",
+                "No devices match action {RuleActionId} in rule {RuleId}",
                 action.Id,
-                action.RuleId,
-                context.Tenant.Id);
+                action.RuleId);
             return;
         }
 
@@ -57,12 +55,11 @@ public class ProcessSendInstructionAction(AppDbContext dbContext,ISystemClock cl
             }, cancellationToken);
 
             log.Information(
-                "Sent instruction {InstructionId} to device {DeviceId} for rule {RuleId} action {RuleActionId} in tenant {TenantId}",
+                "Sent instruction {InstructionId} to device {DeviceId} for rule {RuleId} action {RuleActionId}",
                 result.Entity.Id,
                 device.Id,
                 action.RuleId,
-                action.Id,
-                context.Tenant.Id);
+                action.Id);
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);

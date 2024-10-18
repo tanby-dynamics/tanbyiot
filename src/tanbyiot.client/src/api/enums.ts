@@ -31,11 +31,3 @@ export enum RuleConditionConversionType {
     String = "String",
     Boolean = "Boolean"
 }
-
-export enum SubscriptionLevel {
-    Developer = "Developer",
-    Startup = "Startup",
-    Business = "Business",
-    Industry = "Industry"
-}
-

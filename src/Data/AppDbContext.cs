@@ -4,15 +4,13 @@ namespace Data;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Tenant> Tenants { get; set; }
     public DbSet<Device> Devices { get; set; }
     public DbSet<Telemetry> Telemetries { get; set; }
     public DbSet<Instruction> Instructions { get; set; }
     public DbSet<Rule> Rules { get; set; }
     public DbSet<RuleCondition> RuleConditions { get; set; }
     public DbSet<RuleAction> RuleActions { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<TenantState> TenantStates { get; set; }
+    public DbSet<ApplicationState> ApplicationStates { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
@@ -27,13 +25,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Tenant>().HasMany(x => x.Devices).WithOne(x => x.Tenant);
-        modelBuilder.Entity<Tenant>().HasMany(x => x.Telemetries).WithOne(x => x.Tenant);
-        modelBuilder.Entity<Tenant>().HasMany(x => x.Rules).WithOne(x => x.Tenant);
-        modelBuilder.Entity<Tenant>().HasMany(x => x.Users).WithMany(x => x.Tenants);
-        modelBuilder.Entity<Tenant>().Property(x => x.SubscriptionLevel).HasConversion<string>();
-        modelBuilder.Entity<Tenant>().HasMany(x => x.States).WithOne(x => x.Tenant);
-        
         modelBuilder.Entity<Device>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<Device>().HasMany(x => x.Instructions).WithOne(x => x.Device).IsRequired(false);
         modelBuilder.Entity<Device>().HasMany(x => x.Telemetries).WithOne(x => x.Device).IsRequired(false);
@@ -50,10 +41,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<RuleAction>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<RuleAction>().Property(x => x.Type).HasConversion<string>();
         modelBuilder.Entity<RuleAction>().Property(x => x.SendInstructionTargetDeviceType).HasConversion<string>();
-
-        modelBuilder.Entity<User>().HasIndex(x => x.ExternalId).IsUnique();
-        modelBuilder.Entity<User>().HasOne(x => x.CurrentTenant);
-
-        modelBuilder.Entity<TenantState>().HasIndex(x => x.Key);
+        
+        modelBuilder.Entity<ApplicationState>().HasIndex(x => x.Key);
     }
 }

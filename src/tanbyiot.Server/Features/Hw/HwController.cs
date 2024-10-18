@@ -10,21 +10,13 @@ namespace tanbyiot.Server.Features.Hw;
 public class HwController(
     IAddTelemetry addTelemetry,
     IConnectDevice connectDevice,
-    IPollForInstructions pollForInstructions,
-    IValidateDeviceInTenant validateDeviceInTenant) : ControllerBase
+    IPollForInstructions pollForInstructions) : ControllerBase
 {
     [HttpPost("add-telemetry")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AddTelemetry(AddTelemetryArgsDto args, CancellationToken cancellationToken)
     {
-        var isDeviceInTenant = await validateDeviceInTenant.ExecuteAsync(args.TenantId, args.DeviceId, cancellationToken);
-
-        if (!isDeviceInTenant)
-        {
-            return BadRequest("Device is invalid");
-        }
-        
         await addTelemetry.ExecuteAsync(args, cancellationToken);
 
         return Ok();
@@ -35,14 +27,7 @@ public class HwController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ConnectDevice(ConnectDeviceArgsDto args, CancellationToken cancellationToken)
     {
-        var isDeviceInTenant = await validateDeviceInTenant.ExecuteAsync(args.TenantId, args.DeviceId, cancellationToken);
-
-        if (!isDeviceInTenant)
-        {
-            return BadRequest("Device is invalid");
-        }
-        
-        await connectDevice.ExecuteAsync(args.TenantId, args.DeviceId, cancellationToken);
+        await connectDevice.ExecuteAsync(args.DeviceId, cancellationToken);
 
         return Ok();
     }
@@ -53,14 +38,7 @@ public class HwController(
         PollForInstructionsArgsDto args,
         CancellationToken cancellationToken)
     {
-        var isDeviceInTenant = await validateDeviceInTenant.ExecuteAsync(args.TenantId, args.DeviceId, cancellationToken);
-
-        if (!isDeviceInTenant)
-        {
-            return BadRequest("Device is invalid");
-        }
-        
-        var response = await pollForInstructions.ExecuteAsync(args.TenantId, args.DeviceId, cancellationToken);
+        var response = await pollForInstructions.ExecuteAsync(args.DeviceId, cancellationToken);
 
         return Ok(response);
     }

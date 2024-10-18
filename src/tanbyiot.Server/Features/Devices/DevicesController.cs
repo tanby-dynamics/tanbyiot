@@ -2,65 +2,37 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Services.Devices;
-using Services.Users;
 
 namespace tanbyiot.Server.Features.Devices;
 
 [ApiController]
-[Route("/api/tenants/{tenantId:guid}/devices")]
-[Authorize]
+[Route("/api/devices")]
 public class DevicesController(
-    IGetAllDevicesForTenant getAllDevicesForTenant, 
+    IGetAllDevices getAllDevices, 
     IAddDevice addDevice,
     IGetTelemetryForDevice getTelemetryForDevice,
     IGetInstructionsForDevice getInstructionsForDevice,
-    IGetDevice getDevice,
-    IValidateTenantForUser validateTenantForUser,
-    IValidateDeviceInTenant validateDeviceInTenant) : ControllerBase
+    IGetDevice getDevice) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<DeviceDto>>(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAllDevices(Guid tenantId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllDevices(CancellationToken cancellationToken)
     {
-        var log = Log.ForContext<DevicesController>();
-        var isTenantValidForUser = await validateTenantForUser.ExecuteAsync(tenantId, HttpContext.User.Identity?.Name!,
-            cancellationToken);
-
-        if (!isTenantValidForUser)
-        {
-            log.Warning("Tenant {TenantId} not valid for user {ExternalId}",
-                tenantId,
-                HttpContext.User.Identity?.Name!,
-                cancellationToken);
-            return NotFound();
-        }
-
-        var devices = await getAllDevicesForTenant.ExecuteAsync(tenantId, cancellationToken);
+        var devices = await getAllDevices.ExecuteAsync(cancellationToken);
         
         return Ok(devices);
     }
 
     [HttpGet("{deviceId:guid}")]
     [ProducesResponseType<DeviceDto>(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetDevice(Guid tenantId, Guid deviceId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetDevice(Guid deviceId, CancellationToken cancellationToken)
     {
         var log = Log.ForContext<DevicesController>();
-        var isTenantValidForUser = await validateTenantForUser.ExecuteAsync(tenantId, HttpContext.User.Identity?.Name!,
-            cancellationToken);
-
-        if (!isTenantValidForUser)
-        {
-            log.Warning("Tenant {TenantId} not valid for user {ExternalId}",
-                tenantId,
-                HttpContext.User.Identity?.Name!,
-                cancellationToken);
-            return NotFound();
-        }
-
-        var (found, device) = await getDevice.ExecuteAsync(tenantId, deviceId, cancellationToken);
+        var (found, device) = await getDevice.ExecuteAsync(deviceId, cancellationToken);
 
         if (!found)
         {
+            log.Warning("Cannot get device {DeviceId}", deviceId);
             return NotFound();
         }
 
@@ -69,22 +41,9 @@ public class DevicesController(
 
     [HttpPost]
     [ProducesResponseType<DeviceDto>(StatusCodes.Status200OK)]
-    public async Task<IActionResult> AddDevice(Guid tenantId, AddDeviceRequestDto request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddDevice(AddDeviceRequestDto request, CancellationToken cancellationToken)
     {
-        var log = Log.ForContext<DevicesController>();
-        var isTenantValidForUser = await validateTenantForUser.ExecuteAsync(tenantId, HttpContext.User.Identity?.Name!,
-            cancellationToken);
-
-        if (!isTenantValidForUser)
-        {
-            log.Warning("Tenant {TenantId} not valid for user {ExternalId}",
-                tenantId,
-                HttpContext.User.Identity?.Name!,
-                cancellationToken);
-            return NotFound();
-        }
-
-        var device = await addDevice.ExecuteAsync(tenantId, request.Name, request.GroupName, cancellationToken);
+        var device = await addDevice.ExecuteAsync(request.Name, request.GroupName, cancellationToken);
 
         return Ok(device);
     }
@@ -93,29 +52,8 @@ public class DevicesController(
     [HttpGet("{deviceId:guid}/telemetry")]
     [ProducesResponseType<IEnumerable<TelemetryDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetTelemetryForDevice(Guid tenantId, Guid deviceId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetTelemetryForDevice(Guid deviceId, CancellationToken cancellationToken)
     {
-        var log = Log.ForContext<DevicesController>();
-        var isTenantValidForUser = await validateTenantForUser.ExecuteAsync(tenantId, HttpContext.User.Identity?.Name!,
-            cancellationToken);
-
-        if (!isTenantValidForUser)
-        {
-            log.Warning("Tenant {TenantId} not valid for user {ExternalId}",
-                tenantId,
-                HttpContext.User.Identity?.Name!,
-                cancellationToken);
-            return NotFound();
-        }
-
-        var deviceInTenant = await validateDeviceInTenant.ExecuteAsync(tenantId, deviceId, cancellationToken);
-
-        if (!deviceInTenant)
-        {
-            log.Warning("Device {DeviceId} not in tenant {TenantId}", deviceId, tenantId);
-            return NotFound();
-        }
-        
         var results = await getTelemetryForDevice.ExecuteAsync(
             deviceId, 
             100, 
@@ -127,31 +65,8 @@ public class DevicesController(
     [HttpGet("{deviceId:guid}/instructions")]
     [ProducesResponseType<IEnumerable<GetInstructionsForDeviceResponseDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetInstructionsForDevice(Guid tenantId, Guid deviceId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetInstructionsForDevice(Guid deviceId, CancellationToken cancellationToken)
     {
-        var log = Log.ForContext<DevicesController>();
-        var tenantValidForUser = await validateTenantForUser.ExecuteAsync(
-            tenantId,
-            HttpContext.User.Identity?.Name!,
-            cancellationToken);
-
-        if (!tenantValidForUser)
-        {
-            log.Warning("Tenant {TenantId} not valid for user {ExternalId}",
-                tenantId,
-                HttpContext.User.Identity?.Name!,
-                cancellationToken);
-            return NotFound();
-        }
-
-        var deviceInTenant = await validateDeviceInTenant.ExecuteAsync(tenantId, deviceId, cancellationToken);
-
-        if (!deviceInTenant)
-        {
-            log.Warning("Device {DeviceId} not in tenant {TenantId}", deviceId, tenantId);
-            return NotFound();
-        }
-        
         var results = await getInstructionsForDevice.ExecuteAsync(
             deviceId, 
             100, 

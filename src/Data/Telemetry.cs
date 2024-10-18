@@ -6,9 +6,6 @@ namespace Data;
 public class Telemetry
 {
     public Guid Id { get; init; }
-    public Guid TenantId { get; init; }
-    // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
-    public virtual Tenant Tenant { get; init; } = default!;
     public Guid DeviceId { get; init; }
     // ReSharper disable once EntityFramework.ModelValidation.CircularDependency
     public virtual Device Device { get; init; } = default!;

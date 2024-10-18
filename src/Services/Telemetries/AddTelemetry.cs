@@ -20,9 +20,10 @@ public class AddTelemetry(AppDbContext dbContext, ISystemClock clock,
         var log = Log.ForContext<AddTelemetry>();
         var now = clock.UtcNow;
         
+        log.Information("Adding telemetry type {Type} for {DeviceId}", args.Type, args.DeviceId);
+        
         var entry = await dbContext.Telemetries.AddAsync(new Telemetry
         {
-            TenantId = args.TenantId,
             DeviceId = args.DeviceId,
             Type = args.Type,
             Value = args.Value,

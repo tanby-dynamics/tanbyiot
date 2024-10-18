@@ -16,7 +16,7 @@ public class AddRuleTests
 
         var sut = new AddRule(dbContext, clock);
 
-        var result = await sut.ExecuteAsync(Guid.NewGuid(), "Test rule", CancellationToken.None);
+        var result = await sut.ExecuteAsync("Test rule", CancellationToken.None);
 
         result.Name.Should().Be("Test rule");
         result.CreatedAt.Should().Be(DateTimeOffset.Parse("2024-07-08"));

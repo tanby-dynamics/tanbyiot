@@ -10,7 +10,6 @@ import {Device} from "../api/types.t.ts";
 import {CopyValueButton} from "../components/shared/CopyValueButton.tsx";
 import {formatRelativeTimestamp} from "../helpers/formatting.ts";
 import {AddDeviceDialog} from "../components/devices/AddDeviceDialog.tsx";
-import {useUser} from "../api/UsersApi.ts";
 import {QueryKeys} from "../api/constants.ts";
 
 export function Devices() {
@@ -21,7 +20,6 @@ export function Devices() {
     const [ isAddingDevice, setIsAddingDevice ] = useState(false);
     const [ newDeviceId, setNewDeviceId ] = useState<string>();
     const [ addDeviceError, setAddDeviceError ] = useState<Error | null>();
-    const user = useUser();
 
     const devicesTableColumns: GridColDef<Device>[] = [
         {
@@ -78,8 +76,7 @@ export function Devices() {
     } = useQuery({
         queryKey: [QueryKeys.Devices],
         queryFn: devicesApi.getAllDevices,
-        refetchInterval: 10000,
-        enabled: !!user?.currentTenant
+        refetchInterval: 10000
     })
     
     async function refresh() {
@@ -154,10 +151,6 @@ export function Devices() {
                     Your new device has been added.<br/>
                     Configure your device with these details:<br/>
                     <ul>
-                        <li>
-                            Tenant ID:{" "}
-                            <code>{user?.currentTenant?.id}</code> <CopyValueButton value={user?.currentTenant?.id ?? ""}/>
-                        </li>
                         <li>
                             Device ID:{" "}
                             <code>{newDeviceId}</code> <CopyValueButton value={newDeviceId}/>

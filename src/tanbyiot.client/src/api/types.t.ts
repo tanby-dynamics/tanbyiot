@@ -4,7 +4,7 @@ import {
     RuleActionType,
     RuleConditionComparisonOperationType,
     RuleConditionConversionType,
-    RuleConditionType, SubscriptionLevel
+    RuleConditionType
 } from "./enums.ts";
 
 export type Device = {
@@ -96,37 +96,19 @@ export type UpdateRuleActionArgs = {
     key: string | null;
 }
 
-export type Tenant = {
-    id: string;
-    name: string;
-}
-
-export type SystemUser = {
-    id: string;
-    externalId: string;
-    tenants: Tenant[];
-    currentTenant: Tenant;
-    email: string;
-}
-
-export type AddTenantArgs = {
-    name: string;
-    subscriptionLevel: SubscriptionLevel;
-}
-
-export type TenantState = {
+export type ApplicationState = {
     id: string;
     key: string;
     value: string;
     setAt: string | Moment;
 }
 
-export type UpdateTenantStateArgs = {
+export type UpdateApplicationStateArgs = {
     key: string;
     value: string;
 }
 
-export type AddTenantStateArgs = {
+export type AddApplicationStateArgs = {
     key: string;
     value: string;
 }

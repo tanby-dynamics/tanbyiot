@@ -14,7 +14,7 @@ public class UpdateRuleTests
         var clock = Substitute.For<ISystemClock>();
         clock.UtcNow.Returns(DateTimeOffset.Parse("2024-01-01"));
         var addRule = new AddRule(dbContext, clock);
-        var rule = await addRule.ExecuteAsync(Guid.NewGuid(), "Rule", CancellationToken.None);
+        var rule = await addRule.ExecuteAsync("Rule", CancellationToken.None);
         
         clock.UtcNow.Returns(DateTimeOffset.Parse("2024-01-02"));
         var sut = new UpdateRule(dbContext, clock);

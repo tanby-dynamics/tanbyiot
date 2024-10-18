@@ -1,12 +1,10 @@
-﻿import {Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material";
+﻿import {Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import {formatTimestamp} from "../helpers/formatting.ts";
-import {Dashboard, Gavel, DeveloperMode, OpenInNew, Settings, ManageAccounts, People, Description } from "@mui/icons-material";
+import {Dashboard, Gavel, DeveloperMode, OpenInNew, Description } from "@mui/icons-material";
 import {getVersion} from "../api/Api.ts";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useAuth0 } from "@auth0/auth0-react";
-import {usePermissions, useUser} from "../api/UsersApi.ts";
 import {QueryKeys} from "../api/constants.ts";
 
 export function MainMenu() {
@@ -19,29 +17,13 @@ export function MainMenu() {
         queryKey: [QueryKeys.Version],
         queryFn: getVersion
     });
-    const {
-        logout,
-        user: auth0User
-    } = useAuth0();
-    const user = useUser();
-    const {
-        isSystemAdmin
-    } = usePermissions();
-
+    
     // Refresh nowTimestamp every second
     useEffect(() => {
         const timer = setInterval(() => setNowTimestamp(moment()), 1000);
 
         return () => clearInterval(timer);
     }, []);
-
-    function signOut() {
-        logout({
-            logoutParams: {
-                returnTo: window.location.origin
-            }
-        });
-    }
 
     return (
         <Drawer variant={"permanent"}
@@ -55,50 +37,7 @@ export function MainMenu() {
                         paddingTop: "64px"
                     }
                 }}>
-            {/* System admin */}
-            {isSystemAdmin && (
-                <>
-                    <Typography variant={"subtitle2"} style={{ padding: "1em"}}>
-                        <small>
-                            System admin
-                        </small>
-                    </Typography>
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"/admin/overview"} selected={location.pathname === "/admin/overview"}>
-                                <ListItemIcon><Dashboard/></ListItemIcon>
-                                <ListItemText primary={"Overview"}/>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"/admin/tenants"} selected={location.pathname.startsWith("/admin/tenants")}>
-                                <ListItemIcon><People/></ListItemIcon>
-                                <ListItemText primary={"Tenants"}/>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"/admin/users"} selected={location.pathname.startsWith("/admin/users")}>
-                                <ListItemIcon><People/></ListItemIcon>
-                                <ListItemText primary={"Users"}/>
-                            </ListItemButton>
-                        </ListItem>
-                    </List>       
-                </>
-            )}
-
-            {/* Select tenant */}
-            <Divider/>
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton href={"/tenants"} selected={location.pathname.startsWith("/tenants")}>
-                        <ListItemIcon><People/></ListItemIcon>
-                        <ListItemText primary={"Tenants"}/>
-                    </ListItemButton>
-                </ListItem>
-            </List>
-
             {/* Management pages */}
-            <Divider/>
             <List>
                 <ListItem disablePadding>
                     <ListItemButton href={"/"} selected={location.pathname === "/"}>
@@ -119,60 +58,13 @@ export function MainMenu() {
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemButton href="/tenant-states" selected={location.pathname === "/tenant-states"}>
+                    <ListItemButton href="/application-states" selected={location.pathname === "/application-states"}>
                         <ListItemIcon><Description/></ListItemIcon>
-                        <ListItemText primary={"Tenant state"}/>
+                        <ListItemText primary={"Application state"}/>
                     </ListItemButton>
                 </ListItem>
             </List>
-
-            {/* Tenant and account management */}
-            <Divider/>
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton href="/manage-tenant" selected={location.pathname.startsWith("/manage-tenant")}>
-                        <ListItemIcon><Settings/></ListItemIcon>
-                        <ListItemText primary={"Manage tenant"}/>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton href="/manage-account" selected={location.pathname === "/manage-account"}>
-                        <ListItemIcon><ManageAccounts/></ListItemIcon>
-                        <ListItemText primary={"Account settings"}/>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton onClick={signOut}>
-                        <ListItemIcon><ManageAccounts/></ListItemIcon>
-                        <ListItemText primary={"Sign out"}/>
-                    </ListItemButton>
-                </ListItem>
-            </List>
-
-            {/* Tenant and account details */}
-            <Divider/>
-            <Typography variant={"subtitle2"} style={{ padding: "1em"}}>
-                <small>
-                    Tenant:{" "}
-                    <strong>
-                        <Tooltip title={"Manage tenant"}>
-                            <Link underline={"hover"} href={"/manage-tenant"}>
-                                {user?.currentTenant?.name}
-                            </Link>
-                        </Tooltip>
-                    </strong>
-                    <br/>
-                    User:{" "}
-                    <strong>
-                        <Tooltip title={"Manage account settings"}>
-                            <Link underline={"hover"} href={"/manage-account"}>
-                                {auth0User?.email}
-                            </Link>
-                        </Tooltip>
-                    </strong>
-                </small>
-            </Typography>
-
+            
             {/* Links and dev tools */}
             <Divider/>
             <List>

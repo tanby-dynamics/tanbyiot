@@ -8,12 +8,12 @@ namespace Services.Processing;
 
 public interface IProcessRule
 {
-    Task ExecuteAsync(Rule rule, TenantContext context, CancellationToken cancellationToken);
+    Task ExecuteAsync(Rule rule, ApplicationContext context, CancellationToken cancellationToken);
 }
 
 public class ProcessRule(IServiceProvider serviceProvider) : IProcessRule
 {
-    public async Task ExecuteAsync(Rule rule, TenantContext context, CancellationToken cancellationToken)
+    public async Task ExecuteAsync(Rule rule, ApplicationContext context, CancellationToken cancellationToken)
     {
         if (rule.Conditions.Count == 0 || rule.Actions.Count == 0)
         {

@@ -3,17 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Devices;
 
-public interface IGetAllDevicesForTenant
+public interface IGetAllDevices
 {
-    Task<IEnumerable<DeviceDto>> ExecuteAsync(Guid tenantId, CancellationToken cancellationToken);
+    Task<IEnumerable<DeviceDto>> ExecuteAsync(CancellationToken cancellationToken);
 }
 
-public class GetAllDevicesForTenant(AppDbContext dbContext) : IGetAllDevicesForTenant
+public class GetAllDevices(AppDbContext dbContext) : IGetAllDevices
 {
-    public async Task<IEnumerable<DeviceDto>> ExecuteAsync(Guid tenantId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<DeviceDto>> ExecuteAsync(CancellationToken cancellationToken)
     {
         var devices = await dbContext.Devices
-            .Where(x => x.TenantId == tenantId)
             .ToListAsync(cancellationToken);
 
         return devices.Select(DeviceDto.FromEntity);

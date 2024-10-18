@@ -4,7 +4,7 @@ namespace Services.Processing.Conditions;
 
 public class CheckTelemetryTypesCondition : ICheckCondition
 {
-    public Task<bool> ExecuteAsync(RuleCondition condition, TenantContext context, CancellationToken cancellationToken)
+    public Task<bool> ExecuteAsync(RuleCondition condition, ApplicationContext context, CancellationToken cancellationToken)
     {
         if (context.CurrentTelemetry is null)
         {

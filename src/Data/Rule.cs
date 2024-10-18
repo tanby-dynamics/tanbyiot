@@ -12,7 +12,6 @@ public class Rule : ISoftDelete, IUpdatable
     public Guid TenantId { get; init; }
     public DateTimeOffset? DeletedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
-    public virtual Tenant Tenant { get; init; } = default!;
     public ICollection<RuleCondition> Conditions { get; init; } = default!;
     public ICollection<RuleAction> Actions { get; init; } = default!;
 }

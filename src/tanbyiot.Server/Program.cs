@@ -1,12 +1,7 @@
-using System.Security.Claims;
 using Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Services;
 using StackExchange.Redis;
-using tanbyiot.Server;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -53,26 +48,6 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
-
-// Add authentication and authorization
-var auth0Domain = builder.Configuration["Auth0:Domain"] ?? throw new ArgumentException("Auth0:Domain not set");
-var auth0Audience = builder.Configuration["Auth0:Audience"] ?? throw new ArgumentException("Auth0:Audience not set");
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = auth0Domain;
-        options.Audience = auth0Audience;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            NameClaimType = ClaimTypes.NameIdentifier
-        };
-    });
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(
-        "admin:all",
-        policy => policy.Requirements.Add(new HasPermissionsRequirement("admin:all", auth0Domain)));
-builder.Services.AddSingleton<IAuthorizationHandler, HasPermissionsHandler>();
 
 // Set up the API
 builder.Services.AddControllers();

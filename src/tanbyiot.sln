@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functions", "Functions\Functions.csproj", "{4AA7C8FA-899E-4FB8-A1CF-D7D1B7546841}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations", "Migrations\Migrations.csproj", "{ADC52445-6C9F-468B-9220-5FB06B14EB9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{311C3FA5-007E-4370-82C1-E8453733D124}"
@@ -17,16 +15,14 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "tanbyiot.client", "tanbyiot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{BD54639F-3375-4A66-887B-46EA3BF1B8BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tanbyiot.WorkerService", "tanbyiot.WorkerService\tanbyiot.WorkerService.csproj", "{126460CA-F6D8-4CFC-A472-63C6D52CCC0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AA7C8FA-899E-4FB8-A1CF-D7D1B7546841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AA7C8FA-899E-4FB8-A1CF-D7D1B7546841}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AA7C8FA-899E-4FB8-A1CF-D7D1B7546841}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AA7C8FA-899E-4FB8-A1CF-D7D1B7546841}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADC52445-6C9F-468B-9220-5FB06B14EB9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADC52445-6C9F-468B-9220-5FB06B14EB9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADC52445-6C9F-468B-9220-5FB06B14EB9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +49,10 @@ Global
 		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD54639F-3375-4A66-887B-46EA3BF1B8BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{126460CA-F6D8-4CFC-A472-63C6D52CCC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{126460CA-F6D8-4CFC-A472-63C6D52CCC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{126460CA-F6D8-4CFC-A472-63C6D52CCC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{126460CA-F6D8-4CFC-A472-63C6D52CCC0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

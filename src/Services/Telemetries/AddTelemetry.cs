@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Internal;
 using Serilog;
+using Services.Messaging;
 using Services.Queueing;
 
 namespace Services.Telemetries;
@@ -12,10 +13,11 @@ public interface IAddTelemetry
 }
 
 public class AddTelemetry(AppDbContext dbContext, ISystemClock clock,
-    IQueueManager queueManager) : IAddTelemetry
+    IMessageManager messageManager) : IAddTelemetry
 {
     public async Task ExecuteAsync(AddTelemetryArgsDto args, CancellationToken cancellationToken)
     {
+        var log = Log.ForContext<AddTelemetry>();
         var now = clock.UtcNow;
         
         var entry = await dbContext.Telemetries.AddAsync(new Telemetry
@@ -32,12 +34,12 @@ public class AddTelemetry(AppDbContext dbContext, ISystemClock clock,
         device.LastConnected = now;
         
         await dbContext.SaveChangesAsync(cancellationToken);
-        await queueManager.SendMessageAsync(Queues.ProcessTelemetry, new ProcessTelemetryMessage
+        await messageManager.PublishAsync(MessageChannels.ProcessTelemetry, new ProcessTelemetryMessage
         {
             Id = entry.Entity.Id
-        }, cancellationToken);
+        });
         
-        Log.Information(
+        log.Information(
             "Added telemetry {TelemetryId} {DeviceId} {Type}", 
             entry.Entity.Id, 
             device.Id, 

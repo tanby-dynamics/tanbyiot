@@ -6,7 +6,7 @@ services:
     environment:
       ACCEPT_EULA: "Y"
     networks:
-      - edgeiot
+      - tanbyiot
 
   mailhog:
     image: mailhog/mailhog
@@ -15,17 +15,8 @@ services:
       - 25:1025
       - 8025:8025
     networks:
-      - edgeiot
+      - tanbyiot
 
-  azurite:
-    ports:
-      - "10000:10000"
-      - "10001:10001"
-      - "10002:10002"
-    image: mcr.microsoft.com/azure-storage/azurite
-    networks:
-      - edgeiot
-  
   postgres:
     ports:
       - "5432:5432"
@@ -33,7 +24,14 @@ services:
     environment:
       - POSTGRES_PASSWORD=SekretPassword!
     networks:
-      - edgeiot
+      - tanbyiot
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - tanbyiot
 
 networks:
-  edgeiot:
+  tanbyiot:

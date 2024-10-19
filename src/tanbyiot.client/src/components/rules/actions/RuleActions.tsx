@@ -64,18 +64,25 @@ export function RuleActions(props: RuleActionProps) {
             editAction(newAction);
         } catch (error) {
             setAddActionError(error as Error);
-            console.error("Error adding action", error)
-            toast.error("Error adding action");
+            console.error("Error adding rule action", error);
+            toast.error("Error adding rule action");
         }
 
         setIsAddingAction(false);
     }
     
     async function deleteAction(action: RuleAction) {
-        if (confirm("Are you sure you want to delete this action?")) {
+        if (!confirm("Are you sure you want to delete this action?")) {
+            return;
+        }
+        
+        try {
             await rulesApi.deleteRuleAction(rule.id, action.id);
             toast.success("Deleted rule action");
             props.onActionChanged();
+        } catch (error) {
+            console.error("Error deleting rule action", error);
+            toast.error("Error deleting rule action");
         }
     }
 

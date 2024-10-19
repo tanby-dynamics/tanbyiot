@@ -64,7 +64,7 @@ export function RuleConditions(props: RuleConditionsProps) {
             editCondition(newCondition);
         } catch (error) {
             setAddConditionError(error as Error);
-            console.error("Error adding condition", error)
+            console.error("Error adding condition", error);
             toast.error("Error adding condition");
         }
         
@@ -72,10 +72,17 @@ export function RuleConditions(props: RuleConditionsProps) {
     }
     
     async function deleteCondition(condition: RuleCondition) {
-        if (confirm("Are you sure you want to delete this condition?")) {
+        if (!confirm("Are you sure you want to delete this condition?")) {
+            return;
+        }
+        
+        try {
             await rulesApi.deleteRuleCondition(rule.id, condition.id);
             toast.success("Deleted rule condition");
             props.onConditionChanged();
+        } catch (error) {
+            console.error("Error deleting rule condition", error);
+            toast.error("Error deleting rule condition");
         }
     }
     

@@ -108,11 +108,6 @@ export function MainMenu() {
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
-                            <ListItemButton href={"https://manage.auth0.com/dashboard/au/dev-edgeiot/"} target={"_blank"}>
-                                <small>Auth0 <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
                             <ListItemButton href={"https://mui.com/material-ui/all-components/"} target={"_blank"}>
                                 <small>MUI <OpenInNew sx={{ width: 12, height: 12 }}/></small>
                             </ListItemButton>

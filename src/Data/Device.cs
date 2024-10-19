@@ -3,7 +3,7 @@
 namespace Data;
 
 // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-public class Device : ISoftDelete
+public class Device
 {
     public Guid Id { get; init; }
     [MaxLength(128)] public string Name { get; init; } = string.Empty;

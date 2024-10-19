@@ -1,6 +1,5 @@
 import moment from "moment";
 import {AddApplicationStateArgs, ApplicationState, UpdateApplicationStateArgs} from "./types.t.ts";
-import {useUser} from "./UsersApi.ts";
 import {getApi} from "./Api.ts";
 
 function transformApplicationStateFromServer(applicationState: ApplicationState) : ApplicationState {

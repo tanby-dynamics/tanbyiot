@@ -3,7 +3,7 @@
 namespace Data;
 
 // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-public class RuleCondition : ISoftDelete, IUpdatable
+public class RuleCondition
 {
     public Guid Id { get; init; }
     public Guid RuleId { get; init; }

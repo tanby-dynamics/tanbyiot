@@ -17,12 +17,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder
-            .AddInterceptors(new SoftDeleteInterceptor(), new UpdatableInterceptor());
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Device>().HasQueryFilter(x => x.DeletedAt == null);

@@ -2,8 +2,21 @@ import {RuleAction} from "../../../api/types.t.ts";
 import {FormRow} from "../../shared/FormRow.tsx";
 import {RuleActionSendInstructionTargetDeviceType} from "../../../api/enums.ts";
 import { useState } from "react";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material";
+import {
+    FormControl, 
+    FormControlLabel, 
+    FormLabel,
+    Radio,
+    RadioGroup,
+    TextField,
+    Select,
+    Alert,
+    InputLabel
+} from "@mui/material";
 import { Editor } from "@monaco-editor/react";
+import {useDevicesApi} from "../../../api/DevicesApi.ts";
+import { useQuery } from "@tanstack/react-query";
+import {QueryKeys} from "../../../api/constants.ts";
 
 export type SendInstructionFieldsProps = {
     action: RuleAction;
@@ -11,8 +24,17 @@ export type SendInstructionFieldsProps = {
 }
 
 export function SendInstructionFields(props: SendInstructionFieldsProps) {
+    const devicesApi = useDevicesApi();
     const [targetDeviceType, setTargetDeviceType] = useState(props.action.sendInstructionTargetDeviceType);
 
+    const {
+        isPending: isLoadingDevices,
+        data: devices
+    } = useQuery({
+        queryKey: [QueryKeys.Devices],
+        queryFn: devicesApi.getAllDevices
+    });
+    
     return (
         <>
             <FormRow>
@@ -31,11 +53,21 @@ export function SendInstructionFields(props: SendInstructionFieldsProps) {
             {targetDeviceType === RuleActionSendInstructionTargetDeviceType.SingleDevice && (
                 <FormRow>
                     <FormControl fullWidth>
-                        <TextField name={"sendInstructionDeviceId"}
-                                   label={"Device ID"}
-                                   required
-                                   fullWidth
-                                   defaultValue={props.action.sendInstructionDeviceId}/>
+                        {isLoadingDevices && <span>Loading devices...</span>}
+                        {devices && devices.length === 0 && (
+                            <Alert severity={"warning"}>No devices have been configured. Add a device first.</Alert>
+                        )}
+                        {devices && devices.length > 0 && (<>
+                            <InputLabel id={"device-select-label"}>Device</InputLabel>
+                            <Select name={"sendInstructionDeviceId"}
+                                    label={"Device"}
+                                    defaultValue={props.action.sendInstructionDeviceId}
+                                    labelId={"device-select-label"}
+                                    required
+                                    fullWidth>
+                                {devices.map(x => <option value={x.id}>{x.name} ({x.id})</option>)}
+                            </Select>
+                        </>)}
                     </FormControl>
                 </FormRow>
             )}

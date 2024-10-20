@@ -22,7 +22,7 @@ public static class ConfigureServices
     {
         services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
         services.AddKeyedScoped<IProcessAction, ProcessSetStateAction>(RuleActionType.SetState);
-        services.AddKeyedScoped<ICheckCondition, CheckTelemetryTypesCondition>(RuleConditionType.TelemetryTypes);
+        services.AddKeyedScoped<ICheckCondition, CheckTelemetryCondition>(RuleConditionType.Telemetry);
         services.AddKeyedScoped<ICheckCondition, CheckApplicationStateCondition>(RuleConditionType.State);
         services.AddScoped<IMessageManager, MessageManager>();
         services.AddScoped<IGetAllDevices, GetAllDevices>();

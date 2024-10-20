@@ -10,4 +10,5 @@ public class UpdateRuleConditionArgs
     public string? PayloadPath { get; init; }
     public RuleConditionConversionType? Conversion { get; init; }
     public string? Key { get; init; }
+    public RuleConditionTelemetryTypeType TelemetryTypeType { get; init; }
 }

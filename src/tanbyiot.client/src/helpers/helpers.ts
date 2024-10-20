@@ -13,11 +13,7 @@ export function jsonTryParse(json: string | null): any | null {
 
 export function formatRuleConditionType(type: RuleConditionType) {
     switch (type) {
-        case RuleConditionType.DeviceId: return "Device ID";
-        case RuleConditionType.Group: return "Device group";
-        case RuleConditionType.Payload: return "Telemetry payload";
-        case RuleConditionType.TelemetryTypes: return "Telemetry type";
-        case RuleConditionType.Value: return "Telemetry value";
+        case RuleConditionType.Telemetry: return "Telemetry";
         case RuleConditionType.State: return "Tenant state"
         default: return `Unknown type {type}`;
     }
@@ -29,7 +25,7 @@ export function formatRuleActionType(type: RuleActionType) {
         case RuleActionType.TriggerWebhook: return "Trigger webhook";
         case RuleActionType.SendEmail: return "Send email";
         case RuleActionType.SendSMS: return "Send SMS";
-        case RuleActionType.SetState: return "Set tenant state";
+        case RuleActionType.SetState: return "Set application state";
         default: return `Unknown type {type}`;
     }
 }

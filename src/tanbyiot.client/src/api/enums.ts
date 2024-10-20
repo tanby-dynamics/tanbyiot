@@ -1,9 +1,5 @@
 ﻿export enum RuleConditionType {
-    TelemetryTypes = "TelemetryTypes",
-    Value = "Value",
-    Payload = "Payload",
-    DeviceId = "DeviceId",
-    Group = "Group",
+    Telemetry = "Telemetry",
     State = "State"
 }
 
@@ -30,4 +26,9 @@ export enum RuleConditionConversionType {
     Number = "Number",
     String = "String",
     Boolean = "Boolean"
+}
+
+export enum RuleConditionTelemetryTypeType {
+    AllTypes = "AllTypes",
+    SpecifiedTypes = "SpecifiedTypes"
 }

@@ -19,7 +19,7 @@ import {useState} from "react";
 import {useRulesApi} from "../../../api/RulesApi.ts";
 import {toast} from "react-toastify";
 import {RuleConditionType} from "../../../api/enums.ts";
-import {TelemetryTypesConditionFields} from "./TelemetryTypesConditionFields.tsx";
+import {TelemetryConditionFields} from "./TelemetryConditionFields.tsx";
 import {StateConditionFields} from "./StateConditionFields.tsx";
 
 function ConditionDetailsTable({ condition }: { condition: RuleCondition }) {
@@ -82,7 +82,8 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
                 comparisonOperation: null,
                 payloadPath: null,
                 conversionType: null,
-                key: formJson.key
+                key: formJson.key,
+                telemetryTypeType: formJson.telemetryTypeType
             });
             toast.success("Saved rule condition");
             props.onSubmit();
@@ -112,7 +113,7 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
                     <ConditionDetailsTable condition={props.condition}/>
 
                     <Box sx={{ marginTop: 2 }}>
-                        {props.condition.type === RuleConditionType.TelemetryTypes && <TelemetryTypesConditionFields condition={props.condition}/>}
+                        {props.condition.type === RuleConditionType.Telemetry && <TelemetryConditionFields condition={props.condition}/>}
                         {props.condition.type === RuleConditionType.State && <StateConditionFields condition={props.condition}/>}
                     </Box>
                      

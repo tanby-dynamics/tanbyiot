@@ -23,7 +23,8 @@ public class UpdateRuleCondition(AppDbContext dbContext) : IUpdateRuleCondition
         condition.ComparisonOperation = args.ComparisonOperation;
         condition.PayloadPath = args.PayloadPath;
         condition.Conversion = args.Conversion;
-        condition.Key = args.Key;
+        condition.StateKey = args.Key;
+        condition.TelemetryTypeType = args.TelemetryTypeType;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

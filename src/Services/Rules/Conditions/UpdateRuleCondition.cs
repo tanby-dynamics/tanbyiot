@@ -24,7 +24,7 @@ public class UpdateRuleCondition(AppDbContext dbContext) : IUpdateRuleCondition
         condition.PayloadPath = args.PayloadPath;
         condition.Conversion = args.Conversion;
         condition.StateKey = args.Key;
-        condition.TelemetryTypeType = args.TelemetryTypeType;
+        condition.TelemetryTypeMatchingType = args.TelemetryTypeMatchingType;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

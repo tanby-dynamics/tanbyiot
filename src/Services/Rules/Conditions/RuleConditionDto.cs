@@ -8,7 +8,7 @@ public class RuleConditionDto
     public RuleConditionType Type { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public string Description { get; init; } = string.Empty;
-    public RuleConditionTelemetryTypeType? TelemetryTypeType { get; init; }
+    public TelemetryTypeMatchingType? TelemetryTypeMatchingType { get; init; }
     public string? StateKey { get; init; }
     public string? ComparisonValue { get; init; }
     public RuleConditionComparisonOperationType? ComparisonOperation { get; init; }
@@ -36,7 +36,7 @@ public class RuleConditionDto
             Type = condition.Type,
             CreatedAt = condition.CreatedAt,
             Description = description,
-            TelemetryTypeType = condition.TelemetryTypeType,
+            TelemetryTypeMatchingType = condition.TelemetryTypeMatchingType,
             StateKey = condition.StateKey,
             ComparisonValue = condition.ComparisonValue,
             ComparisonOperation = condition.ComparisonOperation,

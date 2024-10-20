@@ -3,7 +3,7 @@ import {
     RuleActionSendInstructionTargetDeviceType,
     RuleActionType,
     RuleConditionComparisonOperationType,
-    RuleConditionConversionType, RuleConditionTelemetryTypeType,
+    RuleConditionConversionType, TelemetryTypeMatchingType,
     RuleConditionType
 } from "./enums.ts";
 
@@ -54,7 +54,7 @@ export type UpdateRuleArgs = {
 export type RuleCondition = {
     id: string;
     createdAt: string | Moment;
-    telemetryTypeType: RuleConditionTelemetryTypeType;
+    telemetryTypeMatchingType: TelemetryTypeMatchingType;
     type: RuleConditionType;
     comparisonValue: string | null;
     comparisonOperation: RuleConditionComparisonOperationType | null;
@@ -85,7 +85,7 @@ export type UpdateRuleConditionArgs = {
     payloadPath: string | null;
     conversionType: RuleConditionConversionType | null;
     key: string | null;
-    telemetryTypeType: RuleConditionTelemetryTypeType | null;
+    telemetryTypeMatchingType: TelemetryTypeMatchingType | null;
 }
 
 export type UpdateRuleActionArgs = {

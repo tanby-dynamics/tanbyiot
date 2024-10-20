@@ -21,7 +21,7 @@ public class CheckTelemetryCondition : ICheckCondition
 
     private static bool CheckForTelemetryTypes(RuleCondition condition, ApplicationContext context)
     {
-        if (condition.TelemetryTypeType == RuleConditionTelemetryTypeType.AllTypes)
+        if (condition.TelemetryTypeMatchingType == TelemetryTypeMatchingType.AllTypes)
         {
             return true;
         }

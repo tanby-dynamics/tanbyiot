@@ -9,7 +9,7 @@ public class RuleCondition
     public Guid RuleId { get; init; }
     public RuleConditionType Type { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
-    public RuleConditionTelemetryTypeType? TelemetryTypeType { get; set; }
+    public TelemetryTypeMatchingType? TelemetryTypeMatchingType { get; set; }
     [MaxLength(128)] public string? StateKey { get; set; }
     [MaxLength(128)] public string? ComparisonValue { get; set; }
     public RuleConditionComparisonOperationType? ComparisonOperation { get; set; }

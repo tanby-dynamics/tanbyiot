@@ -28,7 +28,7 @@ export enum RuleConditionConversionType {
     Boolean = "Boolean"
 }
 
-export enum RuleConditionTelemetryTypeType {
+export enum TelemetryTypeMatchingType {
     AllTypes = "AllTypes",
     SpecifiedTypes = "SpecifiedTypes"
 }

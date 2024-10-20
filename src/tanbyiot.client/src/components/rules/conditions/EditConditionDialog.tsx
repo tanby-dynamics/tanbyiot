@@ -83,7 +83,7 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
                 payloadPath: null,
                 conversionType: null,
                 key: formJson.key,
-                telemetryTypeType: formJson.telemetryTypeType
+                telemetryTypeMatchingType: formJson.telemetryTypeMatchingType
             });
             toast.success("Saved rule condition");
             props.onSubmit();

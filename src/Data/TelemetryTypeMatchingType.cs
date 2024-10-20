@@ -3,7 +3,7 @@
 namespace Data;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum RuleConditionTelemetryTypeType
+public enum TelemetryTypeMatchingType
 {
     AllTypes,
     SpecifiedTypes

@@ -7,42 +7,48 @@ public class RuleConditionDto
     public Guid Id { get; init; }
     public RuleConditionType Type { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
-    public string Description { get; init; } = string.Empty;
-    public TelemetryTypeMatchingType? TelemetryTypeMatchingType { get; init; }
-    public string? StateKey { get; init; }
-    public string? ComparisonValue { get; init; }
-    public RuleConditionComparisonOperationType? ComparisonOperation { get; init; }
-    public string? PayloadPath { get; init; }
-    public RuleConditionConversionType? Conversion { get; init; }
     public DateTimeOffset? UpdatedAt { get; init; }
+    public string Description { get; init; } = string.Empty;
 
+    public string? ApplicationStateMatchingKey { get; init; }
+    public ApplicationStateMatchingType? ApplicationStateMatchingType { get; init; }
+    public string? ApplicationStateMatchingValue { get; init; }
+    public string? ApplicationStateMatchingPayloadPath { get; init; }
+    public ComparisonOperationType? ApplicationStateComparisonOperationType { get; init; }
+    
+    public DeviceMatchingType? DeviceMatchingType { get; init; }
+    public Guid? DeviceMatchingId { get; init; }
+    public string? DeviceMatchingGroups { get; init; }
+    
+    public TelemetryTypeMatchingType? TelemetryTypeMatchingType { get; init; }
+    public string? TelemetryTypeMatchingSpecifiedTypes { get; init; }
+
+    public TelemetryValueMatchingType? TelemetryValueMatchingType { get; init; }
+    public string? TelemetryValueMatchingPayloadPath { get; init; }
+    public ComparisonOperationType? TelemetryValueMatchingComparisonOperationType { get; init; }
+    
     public static RuleConditionDto FromEntity(RuleCondition condition)
     {
-        var telemetryTypes = (condition.ComparisonValue ?? string.Empty)
-            .Split(",")
-            .Select(x => x.Trim())
-            .ToArray();
-        var description = condition.Type switch
-        {
-            // TODO make this smarter to describe the telemetry condition
-            RuleConditionType.Telemetry => $"Telemetry (TODO)",
-            RuleConditionType.State => $"Application state key \"{condition.StateKey}\" is equal to \"{condition.ComparisonValue}\"",
-            _ => string.Empty
-        };
-        
         return new RuleConditionDto
         {
             Id = condition.Id,
             Type = condition.Type,
             CreatedAt = condition.CreatedAt,
-            Description = description,
+            UpdatedAt = condition.UpdatedAt,
+            Description = condition.Description,
+            ApplicationStateMatchingKey = condition.ApplicationStateMatchingKey,
+            ApplicationStateMatchingType = condition.ApplicationStateMatchingType,
+            ApplicationStateMatchingValue = condition.ApplicationStateMatchingValue,
+            ApplicationStateMatchingPayloadPath = condition.ApplicationStateMatchingPayloadPath,
+            ApplicationStateComparisonOperationType = condition.ApplicationStateComparisonOperationType,
+            DeviceMatchingType =  condition.DeviceMatchingType,
+            DeviceMatchingId = condition.DeviceMatchingId,
+            DeviceMatchingGroups = condition.DeviceMatchingGroups,
             TelemetryTypeMatchingType = condition.TelemetryTypeMatchingType,
-            StateKey = condition.StateKey,
-            ComparisonValue = condition.ComparisonValue,
-            ComparisonOperation = condition.ComparisonOperation,
-            PayloadPath = condition.PayloadPath,
-            Conversion = condition.Conversion,
-            UpdatedAt = condition.UpdatedAt
+            TelemetryTypeMatchingSpecifiedTypes = condition.TelemetryTypeMatchingSpecifiedTypes,
+            TelemetryValueMatchingType = condition.TelemetryValueMatchingType,
+            TelemetryValueMatchingPayloadPath = condition.TelemetryValueMatchingPayloadPath,
+            TelemetryValueMatchingComparisonOperationType = condition.TelemetryValueMatchingComparisonOperationType
         };
     }
 }

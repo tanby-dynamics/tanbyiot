@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export function TelemetryConditionFields({condition}: { condition: RuleCondition }) {
     const [ telemetryTypeMatchingType, setTelemetryTypeMatchingType ] = useState(condition.telemetryTypeMatchingType);
-    console.log(condition)
+
     return (
         <>
             {/* Device matching */}

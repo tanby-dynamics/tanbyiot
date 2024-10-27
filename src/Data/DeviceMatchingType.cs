@@ -3,9 +3,9 @@
 namespace Data;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum RuleConditionConversionType
+public enum DeviceMatchingType
 {
-    Number,
-    String,
-    Boolean
+    AllDevices,
+    SingleDevice,
+    DeviceGroups
 }

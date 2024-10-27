@@ -20,11 +20,11 @@ public class UpdateRuleCondition(AppDbContext dbContext) : IUpdateRuleCondition
             .SingleAsync(x => x.Id == args.RuleConditionId, cancellationToken);
 
         condition.ComparisonValue = args.ComparisonValue;
-        condition.ComparisonOperation = args.ComparisonOperation;
-        condition.PayloadPath = args.PayloadPath;
+        condition.TelemetryValueMatchingPayloadPath = args.PayloadPath;
         condition.Conversion = args.Conversion;
-        condition.StateKey = args.Key;
-        condition.TelemetryTypeMatchingType = args.TelemetryTypeMatchingType;
+        condition.ApplicationStateMatchingKey = args.Key;
+        condition.TelemetryMatchingType = args.TelemetryTypeMatchingType;
+        condition.ApplicationStateComparisonOperationType = args.ApplicationValueStateComparisonOperationType;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

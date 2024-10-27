@@ -3,9 +3,12 @@
 namespace Data;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum RuleConditionComparisonOperationType
+public enum ComparisonOperationType
 {
     Equals,
     NotEquals,
-    LessThan
+    LessThan,
+    GreaterThan,
+    IsTrue,
+    IsFalse
 }

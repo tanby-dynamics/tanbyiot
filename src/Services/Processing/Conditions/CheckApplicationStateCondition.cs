@@ -10,7 +10,7 @@ public class CheckApplicationStateCondition(AppDbContext dbContext) : ICheckCond
     {
         var log = Log.ForContext<CheckApplicationStateCondition>();
         
-        if (condition.StateKey is null)
+        if (condition.ApplicationStateMatchingKey is null)
         {
             log.Error(
                 "Key is null for application state condition {RuleConditionId}",
@@ -19,9 +19,11 @@ public class CheckApplicationStateCondition(AppDbContext dbContext) : ICheckCond
         }
 
         var state = await dbContext.ApplicationStates.SingleOrDefaultAsync(
-            x => x.Key == condition.StateKey,
+            x => x.Key == condition.ApplicationStateMatchingKey,
             cancellationToken);
 
-        return state?.Value == condition.ComparisonValue;
+        // TODO implement me correctly
+        
+        return state?.Value == condition.ApplicationStateMatchingValue;
     }
 }

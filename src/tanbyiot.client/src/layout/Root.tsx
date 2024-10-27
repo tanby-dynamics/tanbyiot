@@ -11,7 +11,7 @@ export function Root() {
                     <Toolbar>
                         <Typography variant={"h6"} noWrap component={"div"}>
                             <Link color={"inherit"} underline={"none"} href={"/"}>
-                                tanbyiot
+                                Tanby IoT
                             </Link>
                         </Typography>
                     </Toolbar>

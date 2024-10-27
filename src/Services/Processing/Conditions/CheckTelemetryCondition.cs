@@ -11,28 +11,65 @@ public class CheckTelemetryCondition : ICheckCondition
             return Task.FromResult(false);
         }
 
-        if (!CheckForTelemetryTypes(condition, context))
+        if (!CheckForDevice(condition, context.CurrentTelemetry))
         {
             return Task.FromResult(false);
         }
 
+        if (!CheckForTelemetryTypes(condition, context.CurrentTelemetry))
+        {
+            return Task.FromResult(false);
+        }
+        
+        // TODO telemetry value
+        // if (!CheckForTelemetryValue(condition, context.CurrentTelemetry))
+        //{
+        //    return Task.FromResult(false);
+        //}
+
         return Task.FromResult(true);
     }
 
-    private static bool CheckForTelemetryTypes(RuleCondition condition, ApplicationContext context)
+    private static bool CheckForDevice(RuleCondition condition, Telemetry telemetry)
     {
-        if (condition.TelemetryTypeMatchingType == TelemetryTypeMatchingType.AllTypes)
+        return condition.DeviceMatchingType switch
         {
-            return true;
-        }
-        
-        ArgumentNullException.ThrowIfNull(context.CurrentTelemetry);
-        
-        var types = (condition.ComparisonValue ?? string.Empty)
-            .Split(",")
-            .Select(x => x.Trim())
-            .ToList();
+            DeviceMatchingType.AllDevices => true,
+            DeviceMatchingType.SingleDevice => telemetry.DeviceId == condition.DeviceMatchingId,
+            DeviceMatchingType.DeviceGroups => (condition.DeviceMatchingGroups ?? string.Empty)
+                .Split(",")
+                .Select(x => x.Trim())
+                .Any(x => x == telemetry.Device.GroupName),
+            _ => false
+        };
+    }
 
-        return types.Any(x => context.CurrentTelemetry.Type == x);
+    private static bool CheckForTelemetryTypes(RuleCondition condition, Telemetry telemetry)
+    {
+        return condition.TelemetryTypeMatchingType switch
+        {
+            TelemetryTypeMatchingType.AllTypes => true,
+            TelemetryTypeMatchingType.SpecifiedTypes => (condition.TelemetryTypeMatchingSpecifiedTypes ?? string.Empty)
+                .Split(",")
+                .Select(x => x.Trim())
+                .Any(x => telemetry.Type == x),
+            _ => false
+        };
+    }
+
+    private static bool CheckForTelemetryValue(RuleCondition condition, Telemetry telemetry)
+    {
+        /*
+         * string json = "{ 'name': 'John', 'age': 30, 'address': { 'city': 'New York' } }";
+JObject obj = JObject.Parse(json);
+
+// User-specified path
+string path = "$.address.city";
+JToken token = obj.SelectToken(path);
+
+Console.WriteLine(token);  // Output: New York
+         */
+
+        throw new NotImplementedException();
     }
 }

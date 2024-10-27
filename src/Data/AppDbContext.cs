@@ -29,8 +29,11 @@ public class AppDbContext : DbContext
         
         modelBuilder.Entity<RuleCondition>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<RuleCondition>().Property(x => x.Type).HasConversion<string>();
-        modelBuilder.Entity<RuleCondition>().Property(x => x.ComparisonOperation).HasConversion<string>();
-        modelBuilder.Entity<RuleCondition>().Property(x => x.Conversion).HasConversion<string>();
+        modelBuilder.Entity<RuleCondition>().Property(x => x.ApplicationStateComparisonOperationType).HasConversion<string>();
+        modelBuilder.Entity<RuleCondition>().Property(x => x.DeviceMatchingType).HasConversion<string>();
+        modelBuilder.Entity<RuleCondition>().Property(x => x.TelemetryTypeMatchingType).HasConversion<string>();
+        modelBuilder.Entity<RuleCondition>().Property(x => x.TelemetryValueMatchingType).HasConversion<string>();
+        modelBuilder.Entity<RuleCondition>().Property(x => x.TelemetryValueMatchingComparisonOperationType).HasConversion<string>();
         
         modelBuilder.Entity<RuleAction>().HasQueryFilter(x => x.DeletedAt == null);
         modelBuilder.Entity<RuleAction>().Property(x => x.Type).HasConversion<string>();

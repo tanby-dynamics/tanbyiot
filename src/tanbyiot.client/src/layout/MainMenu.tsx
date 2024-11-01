@@ -25,6 +25,14 @@ export function MainMenu() {
         return () => clearInterval(timer);
     }, []);
 
+    function sendTelemetry() {
+        alert("TODO send telemetry");
+    }
+    
+    function sendInstruction() {
+        alert("TODO send instruction");
+    }
+
     return (
         <Drawer variant={"permanent"}
                 anchor={"left"}
@@ -86,6 +94,16 @@ export function MainMenu() {
                 <ListItem disablePadding>
                     <ListItemButton href={"https://tanbydynamics.co"} target={"_blank"}>
                         <small>Tanby Dynamics <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={sendTelemetry}>
+                        <small>Send telemetry</small>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={sendInstruction}>
+                        <small>Send instruction</small>
                     </ListItemButton>
                 </ListItem>
 

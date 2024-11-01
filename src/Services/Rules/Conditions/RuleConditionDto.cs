@@ -8,7 +8,7 @@ public class RuleConditionDto
     public RuleConditionType Type { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? UpdatedAt { get; init; }
-    public string Description { get; init; } = string.Empty;
+    public string? Description { get; init; }
 
     public string? ApplicationStateMatchingKey { get; init; }
     public ApplicationStateMatchingType? ApplicationStateMatchingType { get; init; }
@@ -26,7 +26,8 @@ public class RuleConditionDto
     public TelemetryValueMatchingType? TelemetryValueMatchingType { get; init; }
     public string? TelemetryValueMatchingPayloadPath { get; init; }
     public ComparisonOperationType? TelemetryValueMatchingComparisonOperationType { get; init; }
-    
+    public string? TelemetryValueMatchingValue { get; init; }
+
     public static RuleConditionDto FromEntity(RuleCondition condition)
     {
         return new RuleConditionDto
@@ -48,7 +49,8 @@ public class RuleConditionDto
             TelemetryTypeMatchingSpecifiedTypes = condition.TelemetryTypeMatchingSpecifiedTypes,
             TelemetryValueMatchingType = condition.TelemetryValueMatchingType,
             TelemetryValueMatchingPayloadPath = condition.TelemetryValueMatchingPayloadPath,
-            TelemetryValueMatchingComparisonOperationType = condition.TelemetryValueMatchingComparisonOperationType
+            TelemetryValueMatchingComparisonOperationType = condition.TelemetryValueMatchingComparisonOperationType,
+            TelemetryValueMatchingValue = condition.TelemetryValueMatchingValue
         };
     }
 }

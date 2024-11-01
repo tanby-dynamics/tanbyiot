@@ -19,12 +19,21 @@ public class UpdateRuleCondition(AppDbContext dbContext) : IUpdateRuleCondition
         var condition = await dbContext.RuleConditions
             .SingleAsync(x => x.Id == args.RuleConditionId, cancellationToken);
 
-        condition.ComparisonValue = args.ComparisonValue;
-        condition.TelemetryValueMatchingPayloadPath = args.PayloadPath;
-        condition.Conversion = args.Conversion;
-        condition.ApplicationStateMatchingKey = args.Key;
-        condition.TelemetryMatchingType = args.TelemetryTypeMatchingType;
-        condition.ApplicationStateComparisonOperationType = args.ApplicationValueStateComparisonOperationType;
+        condition.Description = args.Description;
+        condition.ApplicationStateMatchingKey = args.ApplicationStateMatchingKey;
+        condition.ApplicationStateMatchingType = args.ApplicationStateMatchingType;
+        condition.ApplicationStateMatchingValue = args.ApplicationStateMatchingValue;
+        condition.ApplicationStateMatchingPayloadPath = args.ApplicationStateMatchingPayloadPath;
+        condition.ApplicationStateComparisonOperationType = args.ApplicationStateComparisonOperationType;
+        condition.DeviceMatchingType = args.DeviceMatchingType;
+        condition.DeviceMatchingId = args.DeviceMatchingId;
+        condition.DeviceMatchingGroups = args.DeviceMatchingGroups;
+        condition.TelemetryTypeMatchingType = args.TelemetryTypeMatchingType;
+        condition.TelemetryTypeMatchingSpecifiedTypes = args.TelemetryTypeMatchingSpecifiedTypes;
+        condition.TelemetryValueMatchingType = args.TelemetryValueMatchingType;
+        condition.TelemetryValueMatchingPayloadPath  = args.TelemetryValueMatchingPayloadPath;
+        condition.TelemetryValueMatchingComparisonOperationType  = args.TelemetryValueMatchingComparisonOperationType;
+        condition.TelemetryValueMatchingValue  = args.TelemetryValueMatchingValue;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

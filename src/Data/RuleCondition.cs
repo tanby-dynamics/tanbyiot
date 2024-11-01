@@ -12,7 +12,7 @@ public class RuleCondition
     public DateTimeOffset CreatedAt { get; init; }
     public DateTimeOffset? DeletedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
-    [MaxLength(300)] public string Description { get; set; } = default!;
+    [MaxLength(300)] public string? Description { get; set; }
     
     [MaxLength(128)] public string? ApplicationStateMatchingKey { get; set; }
     public ApplicationStateMatchingType? ApplicationStateMatchingType { get; set; }
@@ -31,4 +31,5 @@ public class RuleCondition
     public TelemetryValueMatchingType? TelemetryValueMatchingType { get; set; }
     [MaxLength(128)] public string? TelemetryValueMatchingPayloadPath { get; set; }
     public ComparisonOperationType? TelemetryValueMatchingComparisonOperationType { get; set; }
+    [MaxLength(128)] public string? TelemetryValueMatchingValue { get; set; } 
 }

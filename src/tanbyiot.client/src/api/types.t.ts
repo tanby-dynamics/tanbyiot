@@ -2,9 +2,12 @@
 import {
     RuleActionSendInstructionTargetDeviceType,
     RuleActionType,
-    RuleConditionComparisonOperationType,
-    RuleConditionConversionType, TelemetryTypeMatchingType,
-    RuleConditionType
+    TelemetryTypeMatchingType,
+    RuleConditionType,
+    ApplicationStateMatchingType,
+    ComparisonOperationType,
+    DeviceMatchingType,
+    TelemetryValueMatchingType
 } from "./enums.ts";
 
 export type Device = {
@@ -53,15 +56,28 @@ export type UpdateRuleArgs = {
 
 export type RuleCondition = {
     id: string;
-    createdAt: string | Moment;
-    telemetryTypeMatchingType: TelemetryTypeMatchingType;
     type: RuleConditionType;
-    comparisonValue: string | null;
-    comparisonOperation: RuleConditionComparisonOperationType | null;
-    payloadPath: string | null;
-    conversion: RuleConditionConversionType | null;
+    createdAt: string | Moment;
     updatedAt: string | Moment | null;
-    stateKey: string | null;
+    description: string | null;
+    
+    applicationStateMatchingKey: string | null;
+    applicationStateMatchingType: ApplicationStateMatchingType | null;
+    applicationStateMatchingValue: string | null;
+    applicationStateMatchingPayloadPath: string | null;
+    applicationStateComparisonOperationType: ComparisonOperationType | null;
+
+    deviceMatchingType: DeviceMatchingType | null;
+    deviceMatchingId: string | null;
+    deviceMatchingGroups: string | null;
+    
+    telemetryTypeMatchingType: TelemetryTypeMatchingType | null;
+    telemetryTypeMatchingSpecifiedTypes: string | null;
+    
+    telemetryValueMatchingType: TelemetryValueMatchingType | null;
+    telemetryValueMatchingPayloadPath: string | null;
+    telemetryValueMatchingComparisonOperationType: ComparisonOperationType | null;
+    telemetryValueMatchingValue: string | null;
 }
 
 export type RuleAction = {
@@ -80,12 +96,25 @@ export type RuleAction = {
 
 export type UpdateRuleConditionArgs = {
     ruleConditionId: string;
-    comparisonValue: string;
-    comparisonOperation: RuleConditionComparisonOperationType | null;
-    payloadPath: string | null;
-    conversionType: RuleConditionConversionType | null;
-    key: string | null;
+    description: string | null;
+
+    applicationStateMatchingKey: string | null;
+    applicationStateMatchingType: ApplicationStateMatchingType | null;
+    applicationStateMatchingValue: string | null;
+    applicationStateMatchingPayloadPath: string | null;
+    applicationStateComparisonOperationType: ComparisonOperationType | null;
+
+    deviceMatchingType: DeviceMatchingType | null;
+    deviceMatchingId: string | null;
+    deviceMatchingGroups: string | null;
+
     telemetryTypeMatchingType: TelemetryTypeMatchingType | null;
+    telemetryTypeMatchingSpecifiedTypes: string | null;
+
+    telemetryValueMatchingType: TelemetryValueMatchingType | null;
+    telemetryValueMatchingPayloadPath: string | null;
+    telemetryValueMatchingComparisonOperationType: ComparisonOperationType | null;
+    telemetryValueMatchingValue: string | null;
 }
 
 export type UpdateRuleActionArgs = {

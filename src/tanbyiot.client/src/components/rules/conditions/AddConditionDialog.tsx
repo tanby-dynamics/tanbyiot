@@ -55,7 +55,7 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
                                               <>
                                                   {getLabelForRuleConditionType(RuleConditionType.Telemetry)}
                                                   {" "}
-                                                  <Tooltip title={"Passes when telemetry type matches the specified condition"}>
+                                                  <Tooltip title={"Passes when a telemetry is received that matches the condition"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>
@@ -66,7 +66,7 @@ export function AddConditionDialog(props: AddConditionDialogProps) {
                                               <>
                                                   {getLabelForRuleConditionType(RuleConditionType.State)}
                                                   {" "}
-                                                  <Tooltip title={"Passes when the application state matches the condition"}>
+                                                  <Tooltip title={"Passes when an application state change matches the condition"}>
                                                       <InfoOutlined fontSize={"small"}/>
                                                   </Tooltip>
                                               </>

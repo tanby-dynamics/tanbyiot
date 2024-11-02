@@ -3,14 +3,22 @@ import {FormRow} from "../../shared/FormRow.tsx";
 import {RuleCondition} from "../../../api/types.t.ts";
 import {ApplicationStateMatchingType, ComparisonOperationType} from "../../../api/enums.ts";
 import { useState } from "react";
+import { OpenInNew } from "@mui/icons-material";
 
 export type StateConditionFieldsProps = {
     condition: RuleCondition
 }
 
 export function StateConditionFields(props: StateConditionFieldsProps) {
-    const { condition } = props;
-    const [ applicationStateMatchingType, setApplicationStateMatchingType ] = useState(condition.applicationStateMatchingType);
+    const {condition} = props;
+    const [applicationStateMatchingType, setApplicationStateMatchingType] = useState(condition.applicationStateMatchingType);
+    const [applicationStateComparisonOperationType, setApplicationStateComparisonOperationType] = useState(condition.applicationStateComparisonOperationType);
+
+    const showApplicationStateMatchingValue = 
+        applicationStateComparisonOperationType == ComparisonOperationType.LessThan
+        || applicationStateComparisonOperationType == ComparisonOperationType.Equals
+        || applicationStateComparisonOperationType == ComparisonOperationType.GreaterThan
+        || applicationStateComparisonOperationType == ComparisonOperationType.NotEquals;
     
     return (
         <>
@@ -58,14 +66,15 @@ export function StateConditionFields(props: StateConditionFieldsProps) {
                                type={"text"}
                                name={"applicationStateMatchingPayloadPath"}
                                fullWidth
-                               helperText={<>See <a href={"https://jsonpath.com"} target={"_blank"}>jsonpath.com</a> for an online JSONPath evaluator</>}
+                               helperText={<>See <a href={"https://jsonpath.com"} target={"_blank"}>jsonpath.com <OpenInNew sx={{ width: 12, height: 12 }}/></a> for an online JSONPath evaluator</>}
                                defaultValue={condition.applicationStateMatchingPayloadPath}/>
                 </FormRow>
                 <FormRow>
                     <FormControl>
                         <RadioGroup row
                                     name={"applicationStateComparisonOperationType"}
-                                    defaultValue={props.condition.applicationStateComparisonOperationType}>
+                                    defaultValue={props.condition.applicationStateComparisonOperationType}
+                                    onChange={(e) => setApplicationStateComparisonOperationType(e.target.value as ComparisonOperationType)}>
                             <FormControlLabel value={ComparisonOperationType.Equals}
                                               control={<Radio/>}
                                               label={"Equals (=)"}/>
@@ -87,14 +96,16 @@ export function StateConditionFields(props: StateConditionFieldsProps) {
                         </RadioGroup>
                     </FormControl>
                 </FormRow>
-                <FormRow>
-                    <TextField margin={"dense"}
-                               label={"Comparison value"}
-                               type={"text"}
-                               name={"applicationStateMatchingValue"}
-                               fullWidth
-                               defaultValue={condition.applicationStateMatchingValue}/>
-                </FormRow>                
+                {showApplicationStateMatchingValue && <>
+                    <FormRow>
+                        <TextField margin={"dense"}
+                                   label={"Comparison value"}
+                                   type={"text"}
+                                   name={"applicationStateMatchingValue"}
+                                   fullWidth
+                                   defaultValue={condition.applicationStateMatchingValue}/>
+                    </FormRow>
+                </>}
             </>}
         </>
     );

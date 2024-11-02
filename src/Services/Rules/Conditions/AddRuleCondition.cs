@@ -14,12 +14,24 @@ public class AddRuleCondition(AppDbContext dbContext, ISystemClock clock) : IAdd
     public async Task<RuleConditionDto> ExecuteAsync(Guid ruleId, RuleConditionType type, CancellationToken cancellationToken)
     {
         var log = Log.ForContext<AddRuleCondition>();
-        var result = await dbContext.RuleConditions.AddAsync(new RuleCondition
+
+        var newRuleCondition = new RuleCondition
         {
             RuleId = ruleId,
             Type = type,
             CreatedAt = clock.UtcNow
-        }, cancellationToken);
+        };
+
+        if (type == RuleConditionType.Telemetry)
+        {
+            // Set some defaults for the telemetry type
+            newRuleCondition.DeviceMatchingType = DeviceMatchingType.AllDevices;
+            newRuleCondition.TelemetryTypeMatchingType = TelemetryTypeMatchingType.AllTypes;
+            newRuleCondition.TelemetryValueMatchingType = TelemetryValueMatchingType.AlwaysMatch;
+            newRuleCondition.TelemetryValueMatchingComparisonOperationType = ComparisonOperationType.Equals;
+        }
+        
+        var result = await dbContext.RuleConditions.AddAsync(newRuleCondition, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -5,7 +5,7 @@ export function getLabelForRuleConditionType(type: RuleConditionType) {
         case RuleConditionType.Telemetry:
             return "Telemetry";
         case RuleConditionType.State:
-            return "Tenant state";
+            return "Application state";
         default:
             return `Unknown condition type: ${type}`;
     }
@@ -22,7 +22,7 @@ export function getLabelForRuleActionType(type: RuleActionType) {
         case RuleActionType.SendSMS:
             return "Send SMS";
         case RuleActionType.SetState:
-            return "Set tenant state";
+            return "Set application state";
         default:
             return `Unknown action type: ${type}`;
     }

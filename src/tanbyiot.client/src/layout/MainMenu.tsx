@@ -73,7 +73,50 @@ export function MainMenu() {
                 </ListItem>
             </List>
             
-            {/* Links and dev tools */}
+            <Divider/>
+            <List>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={sendTelemetry}>
+                        <small>Send test telemetry</small>
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={sendInstruction}>
+                        <small>Send test instruction</small>
+                    </ListItemButton>
+                </ListItem>
+            </List>
+
+            {/* Only show dev links if this is a local dev environment */}
+            {import.meta.env.DEV && (
+                <>
+                    <Divider/>
+                    <List>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"https://localhost:7061/swagger"} target={"_blank"}>
+                                <small>Swagger <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"http://localhost:8025"} target={"_blank"}>
+                                <small>Mailhog <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"http://localhost:5341"} target={"_blank"}>
+                                <small>Seq <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton href={"https://mui.com/material-ui/all-components/"} target={"_blank"}>
+                                <small>MUI <OpenInNew sx={{ width: 12, height: 12 }}/></small>
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </>
+            )}
+            
+            {/* Links */}
             <Divider/>
             <List>
                 <ListItem disablePadding>
@@ -96,42 +139,6 @@ export function MainMenu() {
                         <small>Tanby Dynamics <OpenInNew sx={{ width: 12, height: 12 }}/></small>
                     </ListItemButton>
                 </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton onClick={sendTelemetry}>
-                        <small>Send telemetry</small>
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton onClick={sendInstruction}>
-                        <small>Send instruction</small>
-                    </ListItemButton>
-                </ListItem>
-
-                {/* Only show dev links if this is a local dev environment */}
-                {import.meta.env.DEV && (
-                    <>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"https://localhost:7061/swagger"} target={"_blank"}>
-                                <small>Swagger <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"http://localhost:8025"} target={"_blank"}>
-                                <small>Mailhog <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"http://localhost:5341"} target={"_blank"}>
-                                <small>Seq <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton href={"https://mui.com/material-ui/all-components/"} target={"_blank"}>
-                                <small>MUI <OpenInNew sx={{ width: 12, height: 12 }}/></small>
-                            </ListItemButton>
-                        </ListItem>
-                    </>
-                )}
             </List>
         </Drawer>
     );

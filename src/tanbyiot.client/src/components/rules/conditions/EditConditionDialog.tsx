@@ -18,7 +18,9 @@ import {formatTimestamp} from "../../../helpers/formatting.ts";
 import {useState} from "react";
 import {useRulesApi} from "../../../api/RulesApi.ts";
 import {toast} from "react-toastify";
-import {RuleConditionType} from "../../../api/enums.ts";
+import {
+    RuleConditionType
+} from "../../../api/enums.ts";
 import {TelemetryConditionFields} from "./TelemetryConditionFields.tsx";
 import {StateConditionFields} from "./StateConditionFields.tsx";
 
@@ -60,7 +62,9 @@ export type EditConditionDialogProps = {
 }
 
 export function EditConditionDialog(props: EditConditionDialogProps) {
-    if (props.condition === null) {
+    const { condition } = props;
+    
+    if (condition === null) {
         return null;
     }
     
@@ -70,6 +74,10 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         
+        if (condition === null) {
+            return;
+        }
+        
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         
@@ -77,13 +85,22 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
         
         try {
             await rulesApi.updateRuleCondition(props.rule.id, {
-                ruleConditionId: props.condition!.id,
-                comparisonValue: formJson.comparisonValue,
-                comparisonOperation: null,
-                payloadPath: null,
-                conversionType: null,
-                key: formJson.key,
-                telemetryTypeMatchingType: formJson.telemetryTypeMatchingType
+                ruleConditionId: condition.id,
+                description: formJson.description,
+                applicationStateMatchingKey: formJson.applicationStateMatchingKey,
+                applicationStateMatchingType: formJson.applicationStateMatchingType,
+                applicationStateMatchingValue: formJson.applicationStateMatchingValue,
+                applicationStateMatchingPayloadPath: formJson.applicationStateMatchingPayloadPath,
+                applicationStateComparisonOperationType: formJson.applicationStateComparisonOperationType,
+                deviceMatchingType: formJson.deviceMatchingType,
+                deviceMatchingId: formJson.deviceMatchingId,
+                deviceMatchingGroups: formJson.deviceMatchingGroups,
+                telemetryTypeMatchingType: formJson.telemetryTypeMatchingType,
+                telemetryTypeMatchingSpecifiedTypes: formJson.telemetryTypeMatchingSpecifiedTypes,
+                telemetryValueMatchingType: formJson.telemetryValueMatchingType,
+                telemetryValueMatchingPayloadPath: formJson.telemetryValueMatchingPayloadPath,
+                telemetryValueMatchingComparisonOperationType: formJson.telemetryValueMatchingComparisonOperationType,
+                telemetryValueMatchingValue: formJson.telemetryValueMatchingValue
             });
             toast.success("Saved rule condition");
             props.onSubmit();
@@ -107,14 +124,14 @@ export function EditConditionDialog(props: EditConditionDialogProps) {
                     }}>
                 <Container sx={{ p: 2, width: 500 }}>
                     <Typography variant={"h4"}>
-                        <strong>{formatRuleConditionType(props.condition.type)}</strong> condition
+                        <strong>{formatRuleConditionType(condition.type)}</strong> condition
                     </Typography>
                     
-                    <ConditionDetailsTable condition={props.condition}/>
+                    <ConditionDetailsTable condition={condition}/>
 
                     <Box sx={{ marginTop: 2 }}>
-                        {props.condition.type === RuleConditionType.Telemetry && <TelemetryConditionFields condition={props.condition}/>}
-                        {props.condition.type === RuleConditionType.State && <StateConditionFields condition={props.condition}/>}
+                        {condition.type === RuleConditionType.Telemetry && <TelemetryConditionFields condition={condition}/>}
+                        {condition.type === RuleConditionType.State && <StateConditionFields condition={condition}/>}
                     </Box>
                      
                     <Stack spacing={2} direction={"row"} sx={{ paddingTop: 2, float: "right"}}>

@@ -104,7 +104,7 @@ export function RuleActions(props: RuleActionProps) {
             {rule.actions.length == 0 && (
                 <Alert severity={"warning"}
                        style={{marginBottom: "1em"}}>
-                    This rule has no actions. Add an action that will be performed when the rule is executed.
+                    This rule has no actions. Add an action that will be performed when the rule conditions pass.
                 </Alert>
             )}
 

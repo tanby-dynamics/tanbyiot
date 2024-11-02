@@ -6,9 +6,12 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import {QueryKeys} from "../api/constants.ts";
+import {SendTestTelemetryDialog} from "../components/telemetry/SendTestTelemetryDialog.tsx";
 
 export function MainMenu() {
     const [ nowTimestamp, setNowTimestamp ] = useState(moment());
+    const [ showSendTestTelemetryDialog, setShowSendTestTelemetryDialog ] = useState(false);
+    
     const {
         isError: isVersionError,
         error: versionError,
@@ -26,14 +29,14 @@ export function MainMenu() {
     }, []);
 
     function sendTelemetry() {
-        alert("TODO send telemetry");
+        setShowSendTestTelemetryDialog(true);
     }
     
     function sendInstruction() {
         alert("TODO send instruction");
     }
 
-    return (
+    return (<>
         <Drawer variant={"permanent"}
                 anchor={"left"}
                 sx={{
@@ -141,5 +144,7 @@ export function MainMenu() {
                 </ListItem>
             </List>
         </Drawer>
-    );
+        <SendTestTelemetryDialog open={showSendTestTelemetryDialog} 
+                                 onClose={() => setShowSendTestTelemetryDialog(false)}/>
+    </>);
 }

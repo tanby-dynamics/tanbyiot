@@ -4,7 +4,6 @@ namespace Services.Telemetries;
 
 public class AddTelemetryArgsDto
 {
-    public Guid TenantId { get; set; }
     public Guid DeviceId { get; set; }
     [MaxLength(128)]
     public string Type { get; set; } = string.Empty;

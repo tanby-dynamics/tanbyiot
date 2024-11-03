@@ -36,16 +36,25 @@ export function ApplicationStates() {
         {
             field: "key",
             headerName: "Key",
-            flex: 0.5
+            flex: 0.5,
+            renderCell: (params) => <>
+                <a href={""} 
+                   onClick={(e) => { 
+                       e.preventDefault(); 
+                       editState(params.row); 
+                   }}>
+                    {params.row.key}
+                </a>
+            </>
         },
         {
             field: "value",
-            headerName: "Value",
+            headerName: "Value/payload",
             flex: 0.5
         },
         {
             field: "setAt",
-            headerName: "Set at",
+            headerName: "Last updated",
             flex: 1,
             valueGetter: (_, state) => formatRelativeTimestamp(state.setAt)
         },

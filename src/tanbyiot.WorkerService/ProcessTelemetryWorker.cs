@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Serilog;
+using Services.Messaging;
 using Services.Processing;
 using Services.Queueing;
 using StackExchange.Redis;
@@ -19,7 +20,7 @@ public class ProcessTelemetryWorker(
         
         var subscriber = connectionMultiplexer.GetSubscriber();
 
-        subscriber.Subscribe("process-telemetry")
+        subscriber.Subscribe(MessageChannels.ProcessTelemetry)
             .OnMessage(async channelMessage =>
             {
                 log.Information("Received process telemetry message");

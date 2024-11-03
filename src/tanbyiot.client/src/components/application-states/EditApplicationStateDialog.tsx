@@ -2,8 +2,9 @@ import { ApplicationState } from "../../api/types.t";
 import {useApplicationStatesApi} from "../../api/ApplicationStatesApi.ts";
 import { toast } from "react-toastify";
 import {FormRow} from "../shared/FormRow.tsx";
-import {Box, Button, Container, Drawer, FormControl, Stack, TextField, Typography } from "@mui/material";
+import {Box, Button, Container, Drawer, FormControl, FormLabel, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { Editor } from "@monaco-editor/react";
 
 export type EditApplicationStateDialogProps = {
     open: boolean;
@@ -17,12 +18,18 @@ export function EditApplicationStateDialog(props: EditApplicationStateDialogProp
         return null;
     }
     
+    const [ value, setValue ] = useState(props.state?.value ?? "");
     const [ updating, setUpdating ] = useState(false);
     const applicationStatesApi = useApplicationStatesApi();
     
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         
+        if (!value) {
+            alert("Value/payload is required");
+            return;
+        }
+
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries((formData as any).entries());
         
@@ -31,7 +38,7 @@ export function EditApplicationStateDialog(props: EditApplicationStateDialogProp
         try {
             await applicationStatesApi.updateApplicationState(props.state!.id, {
                 key: formJson.key,
-                value: formJson.value
+                value
             });
             toast.success("Saved application state");
             props.onSubmit();
@@ -69,10 +76,11 @@ export function EditApplicationStateDialog(props: EditApplicationStateDialogProp
                     </FormRow>
                     <FormRow>
                         <FormControl fullWidth>
-                            <TextField name={"value"}
-                                       label={"Value"}
-                                       fullWidth
-                                       defaultValue={props.state.value}/>
+                            <FormLabel>Value/payload</FormLabel>
+                            <Editor height={"20vh"}
+                                    defaultLanguage={"json"}
+                                    defaultValue={props.state.value ?? ""}
+                                    onChange={(x) => setValue(x ?? "")}/>
                         </FormControl>
                     </FormRow>
                 </Box>

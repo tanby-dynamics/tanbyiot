@@ -1,5 +1,8 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormLabel, TextField } from "@mui/material";
 import {AddApplicationStateArgs} from "../../api/types.t.ts";
+import {FormRow} from "../shared/FormRow.tsx";
+import { Editor } from "@monaco-editor/react";
+import { useState } from "react";
 
 interface AddApplicationStateDialogProps {
     open: boolean;
@@ -8,12 +11,28 @@ interface AddApplicationStateDialogProps {
 }
 
 export function AddApplicationStateDialog(props: AddApplicationStateDialogProps) {
+    const [ value, setValue ] = useState<string | undefined>("");
+    
     function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        if (!value) {
+            alert("Value/payload is required");
+            return;
+        }
+
         const formData = new FormData(event.currentTarget);
-        const args = Object.fromEntries((formData as any).entries()) as AddApplicationStateArgs;
+        const formJson = Object.fromEntries((formData as any).entries());
+
+        if (!formJson.key) {
+            alert("Key is required");
+            return;
+        }
         
-        props.onSubmit(args);
+        props.onSubmit({
+            key: formJson.key,
+            value
+        });
         props.onClose();
     }
     
@@ -26,21 +45,25 @@ export function AddApplicationStateDialog(props: AddApplicationStateDialogProps)
                 }}>
             <DialogTitle>Add application state</DialogTitle>
             <DialogContent>
-                <DialogContentText>Give the state a unique key and value</DialogContentText>
-                <TextField autoFocus
-                           required
-                           margin={"dense"}
-                           name={"key"}
-                           label={"Key"}
-                           type={"text"}
-                           fullWidth
-                           variant={"standard"}/>
-                <TextField margin={"dense"}
-                           name={"value"}
-                           label={"Value"}
-                           type={"text"}
-                           fullWidth
-                           variant={"standard"}/>
+                <DialogContentText>Give the state a unique key and value/payload</DialogContentText>
+                <FormRow>
+                    <TextField autoFocus
+                               required
+                               margin={"dense"}
+                               name={"key"}
+                               label={"Key"}
+                               type={"text"}
+                               fullWidth
+                               variant={"standard"}/>
+                </FormRow>
+                <FormRow>
+                    <FormControl fullWidth>
+                        <FormLabel>Value/payload</FormLabel>
+                        <Editor height={"20vh"}
+                                defaultLanguage={"json"}
+                                onChange={(x) => setValue(x)}/>
+                    </FormControl>
+                </FormRow>
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose}>Cancel</Button>

@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using Serilog;
 
 namespace Services.Processing.Conditions;
@@ -22,8 +23,20 @@ public class CheckApplicationStateCondition(AppDbContext dbContext) : ICheckCond
             x => x.Key == condition.ApplicationStateMatchingKey,
             cancellationToken);
 
-        // TODO implement me correctly
-        
-        return state?.Value == condition.ApplicationStateMatchingValue;
+        if (state is null)
+        {
+            log.Error(
+                "Application state {Key} not found for application state condition {RuleConditionId}",
+                condition.ApplicationStateMatchingKey,
+                condition.Id);
+            return false;
+        }
+
+        if (!CheckConditionForApplicationStateValue.Execute(condition, state))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

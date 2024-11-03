@@ -15,7 +15,7 @@ public class ProcessRule(IServiceProvider serviceProvider) : IProcessRule
 {
     public async Task ExecuteAsync(Rule rule, ApplicationContext context, CancellationToken cancellationToken)
     {
-        if (rule.Conditions.Count == 0 || rule.Actions.Count == 0)
+        if (rule.Actions.Count == 0)
         {
             return;
         }
@@ -43,6 +43,10 @@ public class ProcessRule(IServiceProvider serviceProvider) : IProcessRule
             }
         }
 
+        log.Information(
+            "Rule {RuleId} conditions pass",
+            rule.Id);
+        
         foreach (var action in rule.Actions)
         {
             var processAction = serviceProvider.GetKeyedService<IProcessAction>(action.Type);

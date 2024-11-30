@@ -1,6 +1,9 @@
-# tanbyiot
+# Tanby IoT
 
-IoT intelligence platform
+An expressive, open-source, commercial-scale, self-hosted IoT device management platform.
+
+Developed by [Tanby Dynamics](https://tanbydynamics.co) and [Rebecca Scott](https://becdetat.com).
+
 
 ## Developing
 

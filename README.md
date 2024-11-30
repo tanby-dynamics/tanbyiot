@@ -4,6 +4,8 @@ An expressive, open-source, commercial-scale, self-hosted IoT device management 
 
 Developed by [Tanby Dynamics](https://tanbydynamics.co) and [Rebecca Scott](https://becdetat.com).
 
+[Commercial support available](https://tanbyiot.app/support).
+
 
 ## Developing
 

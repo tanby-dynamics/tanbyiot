@@ -1,5 +1,6 @@
 ﻿using Data;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace Services.Processing.Conditions;
 
@@ -20,13 +21,21 @@ public static class CheckConditionForTelemetryValue
         }
 
         if (condition is { TelemetryValueMatchingType: TelemetryValueMatchingType.ParsePayload, TelemetryValueMatchingPayloadPath: not null }
-            && telemetry.Payload != null)
+            && !string.IsNullOrEmpty(telemetry.Payload))
         {
-            var payload = JObject.Parse(telemetry.Payload);
-            var token = payload.SelectToken(condition.TelemetryValueMatchingPayloadPath);
-            if (token != null)
+            try
             {
-                value = token.ToString();
+                var payload = JObject.Parse(telemetry.Payload);
+                var token = payload.SelectToken(condition.TelemetryValueMatchingPayloadPath);
+                if (token != null)
+                {
+                    value = token.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error parsing JSON payload in telemetry {TelemetryId}", telemetry.Id);
+                return false;
             }
         }
 

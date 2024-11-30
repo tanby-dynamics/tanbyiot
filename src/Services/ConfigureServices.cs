@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System.Net.Mail;
+using Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
@@ -22,6 +23,7 @@ public static class ConfigureServices
     {
         services.AddKeyedScoped<IProcessAction, ProcessSendInstructionAction>(RuleActionType.SendInstruction);
         services.AddKeyedScoped<IProcessAction, ProcessSetStateAction>(RuleActionType.SetState);
+        services.AddKeyedScoped<IProcessAction, ProcessSendEmailAction>(RuleActionType.SendEmail);
         services.AddKeyedScoped<ICheckCondition, CheckTelemetryCondition>(RuleConditionType.Telemetry);
         services.AddKeyedScoped<ICheckCondition, CheckApplicationStateCondition>(RuleConditionType.State);
         services.AddScoped<IMessageManager, MessageManager>();
@@ -53,5 +55,14 @@ public static class ConfigureServices
         services.AddScoped<IUpdateApplicationState, UpdateApplicationState>();
         services.AddScoped<IDeleteApplicationState, DeleteApplicationState>();
         services.AddScoped<IAddApplicationState, AddApplicationState>();
+
+        var smtpHost = configuration["Smtp:Host"] ?? throw new Exception("Smtp:Host setting not found");
+        var smtpPortString = configuration["Smtp:Port"] ?? throw new Exception("Smtp:Port setting not found");
+        var smtpPort = int.Parse(smtpPortString);
+        var smtpUsername = configuration["Smtp:Username"] ?? throw new Exception("Smtp:Username setting not found");
+        var smtpPassword = configuration["Smtp:Password"] ?? throw new Exception("Smtp:Password setting not found");
+        services
+            .AddFluentEmail("no-reply@tanbyiot.app")
+            .AddSmtpSender(new SmtpClient(smtpHost, smtpPort));
     }
 }

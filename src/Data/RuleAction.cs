@@ -19,4 +19,9 @@ public class RuleAction
     [MaxLength(256)] public string? SendInstructionDeviceGroups { get; set; }
     public RuleActionSendInstructionTargetDeviceType? SendInstructionTargetDeviceType { get; set; }
     public virtual Rule Rule { get; init; } = default!;
+    [MaxLength(256)] public string? SendEmailSenderEmail { get; set; }
+    [MaxLength(256)] public string? SendEmailSenderName { get; set; }
+    [MaxLength(256)] public string? SendEmailToEmail { get; set; }
+    [MaxLength(256)] public string? SendEmailSubject { get; set; }
+    [MaxLength(4000)] public string? SendEmailBody { get; set; }
 }

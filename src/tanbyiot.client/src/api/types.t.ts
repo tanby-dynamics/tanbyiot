@@ -92,6 +92,11 @@ export type RuleAction = {
     sendInstructionDeviceGroups: string | null;
     sendInstructionTargetDeviceType: RuleActionSendInstructionTargetDeviceType | null;
     key: string | null;
+    sendEmailSenderEmail: string | null;
+    sendEmailSenderName: string | null;
+    sendEmailToEmail: string | null;
+    sendEmailSubject: string | null;
+    sendEmailBody: string | null;
 }
 
 export type UpdateRuleConditionArgs = {
@@ -125,6 +130,11 @@ export type UpdateRuleActionArgs = {
     sendInstructionDeviceGroups: string | null;
     sendInstructionTargetDeviceType: string | null;
     key: string | null;
+    sendEmailSenderEmail: string | null;
+    sendEmailSenderName: string | null;
+    sendEmailToEmail: string | null;
+    sendEmailSubject: string | null;
+    sendEmailBody: string | null;
 }
 
 export type ApplicationState = {

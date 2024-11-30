@@ -21,6 +21,7 @@ import {toast} from "react-toastify";
 import {RuleActionType} from "../../../api/enums.ts";
 import {SendInstructionFields} from "./SendInstructionFields.tsx";
 import {SetStateActionFields} from "./SetStateActionFields.tsx";
+import {SendEmailActionFields} from "./SendEmailActionFields.tsx";
 
 function ActionDetailsTable({ action }: { action: RuleAction }) {
     return (
@@ -67,6 +68,7 @@ export function EditActionDialog(props: EditActionDialogProps) {
     const [ updating, setUpdating ] = useState(false);
     const rulesApi = useRulesApi();
     const [ payload, setPayload ] = useState(props.action?.payload ?? '');
+    const [ sendEmailBody, setSendEmailBody ] = useState(props.action?.sendEmailBody ?? "");
     
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -84,7 +86,12 @@ export function EditActionDialog(props: EditActionDialogProps) {
                 sendInstructionType: formJson.sendInstructionType,
                 sendInstructionValue: formJson.sendInstructionValue,
                 sendInstructionTargetDeviceType: formJson.sendInstructionTargetDeviceType,
-                key: formJson.key
+                key: formJson.key,
+                sendEmailSenderEmail: formJson.sendEmailSenderEmail,
+                sendEmailSenderName: formJson.sendEmailSenderName,
+                sendEmailToEmail: formJson.sendEmailToEmail,
+                sendEmailBody: sendEmailBody,
+                sendEmailSubject: formJson.sendEmailSubject
             });
             toast.success("Saved rule action");
             props.onSubmit();
@@ -121,6 +128,10 @@ export function EditActionDialog(props: EditActionDialogProps) {
                         {props.action.type === RuleActionType.SetState && (
                             <SetStateActionFields action={props.action}
                                                   onPayloadChange={(value) => setPayload(value)}/>
+                        )}
+                        {props.action.type === RuleActionType.SendEmail && (
+                            <SendEmailActionFields action={props.action}
+                                                   onSendEmailBodyChange={(value) => setSendEmailBody(value)}/>
                         )}
                     </Box>
 

@@ -11,4 +11,9 @@ public class UpdateRuleActionArgs
     public Guid? SendInstructionDeviceId { get; init; }
     public string? SendInstructionDeviceGroups { get; init; }
     public RuleActionSendInstructionTargetDeviceType? SendInstructionTargetDeviceType { get; init; }
+    public string? SendEmailSenderEmail { get; init; }
+    public string? SendEmailSenderName { get; init; }
+    public string? SendEmailToEmail { get; init; }
+    public string? SendEmailBody { get; init; }
+    public string? SendEmailSubject { get; init; }
 }

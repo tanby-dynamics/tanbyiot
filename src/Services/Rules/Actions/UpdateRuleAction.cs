@@ -24,6 +24,11 @@ public class UpdateRuleAction(AppDbContext dbContext) : IUpdateRuleAction
         action.SendInstructionDeviceGroups = args.SendInstructionDeviceGroups;
         action.SendInstructionTargetDeviceType = args.SendInstructionTargetDeviceType;
         action.Key = args.Key;
+        action.SendEmailSenderEmail = args.SendEmailSenderEmail;
+        action.SendEmailSenderName = args.SendEmailSenderName;
+        action.SendEmailToEmail = args.SendEmailToEmail;
+        action.SendEmailBody = args.SendEmailBody;
+        action.SendEmailSubject = args.SendEmailSubject;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

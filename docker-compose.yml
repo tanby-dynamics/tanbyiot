@@ -12,7 +12,7 @@ services:
     image: mailhog/mailhog
     platform: linux/amd64
     ports:
-      - 25:1025
+      - 9025:1025
       - 8025:8025
     networks:
       - tanbyiot

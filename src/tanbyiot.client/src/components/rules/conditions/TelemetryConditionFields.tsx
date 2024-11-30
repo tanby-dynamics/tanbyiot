@@ -11,6 +11,7 @@ import {useDevicesApi} from "../../../api/DevicesApi.ts";
 import {QueryKeys} from "../../../api/constants.ts";
 import { useQuery } from "@tanstack/react-query";
 import { OpenInNew } from "@mui/icons-material";
+import {FormRow} from "../../shared/FormRow.tsx";
 
 export function TelemetryConditionFields({condition}: { condition: RuleCondition }) {
     const devicesApi = useDevicesApi();
@@ -35,6 +36,15 @@ export function TelemetryConditionFields({condition}: { condition: RuleCondition
     
     return (
         <>
+            <FormRow>
+                <FormControl fullWidth>
+                    <TextField name={"description"}
+                               label={"Description"}
+                               required
+                               fullWidth
+                               defaultValue={condition.description}/>
+                </FormControl>
+            </FormRow>
             <Typography variant={"subtitle1"} sx={{ paddingTop: 1 }}>Device</Typography>
             <FormControl sx={{ paddingTop: 0 }}>
                 <RadioGroup row
